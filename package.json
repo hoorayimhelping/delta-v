@@ -1,0 +1,22 @@
+{
+  "name": "graph",
+  "version": "0.0.1",
+  "description": "A simple graph library",
+  "main": "gulpfile.js",
+  "repository": "",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "author": "Bucky Schwarz",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "git-guppy": "^1.0.0",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-shell": "^0.4.3",
+    "gulp-tape": "0.0.3",
+    "guppy-pre-commit": "^0.2.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
