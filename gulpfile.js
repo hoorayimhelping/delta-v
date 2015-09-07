@@ -34,6 +34,8 @@ gulp.task('test-debug', function() {
 });
 
 gulp.task('build', function() {
+if (true) return;
+
     return browserify(paths.js_source + 'main.js')
         .bundle()
         .pipe(source('bundle.js'))
@@ -41,3 +43,4 @@ gulp.task('build', function() {
 });
 
 gulp.task('default', ['lint', 'test', 'build']);
+gulp.task('pre-commit', ['default']);
