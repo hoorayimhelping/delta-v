@@ -1,13 +1,13 @@
 var test = require('tape');
 var Graph = require('../src/graph');
-var Node = require('../src/node')
+var Node = require('../src/node');
 
 var newNode = function(id) {
     var node = new Node();
     node.id = id;
 
     return node;
-}
+};
 
 test("adding a node to another node's adjacency graph", function(t) {
     var graph = new Graph();
