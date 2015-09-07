@@ -28,6 +28,11 @@ gulp.task('test', shell.task([
     'tape ' + paths.js_test + '* | faucet',
 ]));
 
+gulp.task('test-debug', function() {
+    return gulp.src(paths.js_test + '/*.js')
+        .pipe(tape());
+});
+
 gulp.task('build', function() {
     return browserify(paths.js_source + 'main.js')
         .bundle()

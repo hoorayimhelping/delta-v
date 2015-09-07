@@ -20,11 +20,11 @@ test("node adjacency", function(t) {
     other_node.id = 1;
 
     node.add(other_node);
-    t.true(node.contains(other_node), "returns true when the node is adjacent with this node");
+    t.true(node.isAdjacentWith(other_node), "returns true when the node is adjacent with this node");
 
     var yet_another_node = new Node();
 
-    t.false(node.contains(yet_another_node), "returns false when the node is not adjacent with this node");
+    t.false(node.isAdjacentWith(yet_another_node), "returns false when the node is not adjacent with this node");
 
     t.end();
 });

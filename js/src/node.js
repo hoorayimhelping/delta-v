@@ -8,7 +8,7 @@ Node.prototype = {
         this.neighbors.push(node);
     },
 
-    contains: function(node) {
+    isAdjacentWith: function(node) {
         return this.neighbors.some(function(current_node) {
             return current_node.id === node.id;
         });
