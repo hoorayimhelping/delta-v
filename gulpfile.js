@@ -5,6 +5,8 @@ var jshint = require('gulp-jshint');
 var browserify = require('browserify');
 var tape = require('gulp-tape');
 
+var shell = require('gulp-shell');
+
 var paths = {
     'js_source': 'js/src/',
     'js_test': 'js/test/',
@@ -22,10 +24,9 @@ gulp.task('lint', function() {
         .pipe(jshint.reporter('fail'));
 });
 
-gulp.task('test', function() {
-    return gulp.src(paths.js_test + '/*.js')
-        .pipe(tape());
-});
+gulp.task('test', shell.task([
+    'tape ' + paths.js_test + '* | faucet',
+]));
 
 gulp.task('build', function() {
     return browserify(paths.js_source + 'main.js')

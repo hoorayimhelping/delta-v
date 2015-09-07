@@ -1,6 +1,8 @@
-var tape = require('tape');
+var test = require('tape');
+var Graph = require('../src/graph');
 
-tape("yeah", function(t) {
+test("adjacency of nodes", function(t) {
+    var graph = new Graph();
     t.plan(1);
     console.log('leo dicaprio');
 
