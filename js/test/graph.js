@@ -1,6 +1,7 @@
 var test = require('tape');
 var Graph = require('../src/graph');
 var Node = require('../src/node');
+var Edge = require('../src/edge');
 
 var newNode = function(id) {
     var node = new Node();
@@ -9,25 +10,40 @@ var newNode = function(id) {
     return node;
 };
 
-test("adding a node to another node's adjacency graph", function(t) {
+var newEdge = function(value) {
+    return new Edge(value);
+};
+
+test("creating a simple delta-v graph of the delta-v graph around kerbin", function(t) {
+    // http://i.imgur.com/duY2S.png
     var graph = new Graph();
 
-    var node1 = newNode(1);
-    var node2 = newNode(2);
-    var node3 = newNode(3);
-    var node4 = newNode(4);
+    var kerbin = newNode('Kerbin');
+    var low_kerbin_orbit = newNode('Low Kerbin Orbit');
+    var geostationary_transfer_orbit = newNode('GTO');
+    var mun_transfer = newNode('Mun Transfer');
 
-    t.plan(4);
+    var kerbin_lko = newEdge(3800);
+    var lko_gto = newEdge(670);
+    var lko_mun_transfer = newEdge(190);
 
-    graph.add(node1, node2);
-    graph.add(node1, node3);
-    graph.add(node3, node4);
+    t.plan(5);
 
-    t.true(graph.isAdjacent(node1, node2), "nodes that have been connected are adjacent");
-    t.true(graph.isAdjacent(node3, node4), "nodes that have been connected are adjacent");
+    graph.addNode(kerbin);
+    graph.addNode(low_kerbin_orbit);
+    graph.addNode(geostationary_transfer_orbit);
+    graph.addNode(mun_transfer);
 
-    t.false(graph.isAdjacent(node2, node3), "nodes that haven't been connected aren't adjacent");
-    t.false(graph.isAdjacent(node1, node4), "adjacency isn't transitive");
+    graph.addEdge(kerbin_lko, kerbin, low_kerbin_orbit);
+    graph.addEdge(lko_gto, low_kerbin_orbit, geostationary_transfer_orbit);
+    graph.addEdge(lko_mun_transfer, low_kerbin_orbit, mun_transfer);
+
+    t.true(graph.areAdjacent(kerbin, low_kerbin_orbit));
+    t.true(graph.areAdjacent(low_kerbin_orbit, geostationary_transfer_orbit));
+    t.true(graph.areAdjacent(low_kerbin_orbit, mun_transfer));
+
+    t.false(graph.areAdjacent(kerbin, geostationary_transfer_orbit));
+    t.false(graph.areAdjacent(kerbin, mun_transfer));
 
     t.end();
 });
