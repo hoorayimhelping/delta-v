@@ -10,8 +10,8 @@ var newNode = function(id) {
     return node;
 };
 
-var newEdge = function(value) {
-    return new Edge(value);
+var newEdge = function(options) {
+    return new Edge(options);
 };
 
 test("creating a simple delta-v graph of the delta-v graph around kerbin", function(t) {
@@ -23,9 +23,9 @@ test("creating a simple delta-v graph of the delta-v graph around kerbin", funct
     var geostationary_transfer_orbit = newNode('GTO');
     var mun_transfer = newNode('Mun Transfer');
 
-    var kerbin_lko = newEdge(3800);
-    var lko_gto = newEdge(670);
-    var lko_mun_transfer = newEdge(190);
+    var kerbin_lko = newEdge({ deltav: 3800, name: 'kerbin-lko' });
+    var lko_gto = newEdge({ deltav: 670, name: 'lko-gto' });
+    var lko_mun_transfer = newEdge({ deltav: 190, name: 'lko-mun_transfer' });
 
     t.plan(5);
 

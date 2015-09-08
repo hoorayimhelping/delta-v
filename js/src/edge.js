@@ -1,8 +1,8 @@
-var Edge = function(value) {
-    this.id = value || new Date().getTime();
+var Edge = function(options) {
+    this.name = options.name;
 
     this.nodes = {};
-    this.value = value || 0;
+    this.deltav = options.deltav;
 };
 
 Edge.prototype = {
