@@ -23,19 +23,18 @@ Graph.prototype = {
     },
 
     // depth first search
-    walk: function(head_node, final_node) {
-        var current_node = head_node;
+    walk: function(start_node, destination_node) {
         var total_value = 0;
 
-        current_node.visited = true;
+        start_node.visited = true;
 
-        current_node.edges.forEach(function(edge) {
+        start_node.edges.forEach(function(edge) {
             var node = edge.nodes.tail;
 
             if (!node.visited) {
                 total_value = edge.props.deltav;
 
-                total_value += this.walk(node, final_node);
+                total_value += this.walk(node, destination_node);
             }
         }, this);
 
