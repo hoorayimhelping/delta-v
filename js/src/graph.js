@@ -2,25 +2,44 @@ var Node = require('./node');
 var Edge = require('./edge');
 
 var Graph = function() {
-    this.nodes = [];
     this.edges = [];
 };
 
 // https://en.wikipedia.org/wiki/Graph_(abstract_data_type)
 Graph.prototype = {
-    addNode: function(node) {
-        this.nodes.push(node);
-    },
+    addEdge: function(edge, head_node, tail_node) {
+        edge.add(head_node, tail_node);
 
-    addEdge: function(edge, node1, node2) {
-        edge.add(node1, node2);
+        head_node.addEdge(edge);
+        tail_node.addEdge(edge);
+
         this.edges.push(edge);
     },
 
-    areAdjacent: function(node1, node2) {
+    areAdjacent: function(head_node, tail_node) {
         return this.edges.some(function(edge) {
-            return edge.areAdjacent(node1, node2);
+            return edge.areAdjacent(head_node, tail_node);
         });
+    },
+
+    // depth first search
+    walk: function(head_node, final_node) {
+        var current_node = head_node;
+        var total_value = 0;
+
+        current_node.visited = true;
+
+        current_node.edges.forEach(function(edge) {
+            var node = edge.nodes.tail;
+
+            if (!node.visited) {
+                total_value = edge.props.deltav;
+
+                total_value += this.walk(node, final_node);
+            }
+        }, this);
+
+        return total_value;
     }
 
     // delete(G, x, y): removes the edge from x to y, if it is there.

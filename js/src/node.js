@@ -1,10 +1,14 @@
-var Node = function() {
+var Node = function(options) {
+    this.props = options || {};
+
     this.id = new Date().getTime();
+    this.edges = [];
+    this.visited = false;
 };
 
 Node.prototype = {
-    toString: function() {
-        return this.id;
+    addEdge: function(edge) {
+        this.edges.push(edge);
     }
 };
 
