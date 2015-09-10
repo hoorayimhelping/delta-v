@@ -13,6 +13,14 @@ var paths = {
     'js_dist': 'dist/'
 };
 
+gulp.task('env-dev', function() {
+    process.env.NODE_ENV = 'development';
+});
+
+gulp.task('env-prod', function() {
+    process.env.NODE_ENV = 'production';
+});
+
 gulp.task('lint', function() {
     return gulp.src([
             paths.js_source + '*.js',
@@ -42,5 +50,6 @@ if (true) return;
         .pipe(gulp.dest(paths.js_dist));
 });
 
-gulp.task('default', ['lint', 'test', 'build']);
-gulp.task('pre-commit', ['default']);
+gulp.task('default', ['env-dev', 'lint', 'test', 'build']);
+gulp.task('production', ['env-prod', 'lint', 'test', 'build']);
+gulp.task('pre-commit', ['production']);
