@@ -10,41 +10,45 @@ describe("checking a graph for adjacency", function(t) {
     t.plan(5);
 
     var graph = new Graph();
+    var edges = kerbol_system.edges;
+    var nodes = kerbol_system.nodes;
 
-    graph.addEdge(kerbol_system.edges.kerbin_lko, kerbol_system.nodes.kerbin, kerbol_system.nodes.low_kerbin_orbit);
-    graph.addEdge(kerbol_system.edges.lko_gto, kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.geostationary_transfer_orbit);
-    graph.addEdge(kerbol_system.edges.lko_mun_transfer, kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.mun_transfer);
+    graph.addEdge(edges.kerbin_lko, nodes.kerbin, nodes.low_kerbin_orbit);
+    graph.addEdge(edges.lko_gto, nodes.low_kerbin_orbit, nodes.geostationary_transfer_orbit);
+    graph.addEdge(edges.lko_mun_transfer, nodes.low_kerbin_orbit, nodes.mun_transfer);
 
-    t.true(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.low_kerbin_orbit));
-    t.true(graph.areAdjacent(kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.geostationary_transfer_orbit));
-    t.true(graph.areAdjacent(kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.mun_transfer));
+    t.true(graph.areAdjacent(nodes.kerbin, nodes.low_kerbin_orbit));
+    t.true(graph.areAdjacent(nodes.low_kerbin_orbit, nodes.geostationary_transfer_orbit));
+    t.true(graph.areAdjacent(nodes.low_kerbin_orbit, nodes.mun_transfer));
 
-    t.false(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.geostationary_transfer_orbit));
-    t.false(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.mun_transfer));
+    t.false(graph.areAdjacent(nodes.kerbin, nodes.geostationary_transfer_orbit));
+    t.false(graph.areAdjacent(nodes.kerbin, nodes.mun_transfer));
 
     t.end();
 });
 
 describe("walking the graph", function(t) {
     var graph = new Graph();
+    var edges = solar_system.edges;
+    var nodes = solar_system.nodes;
 
     describe("walking a graph with three branches", function(t) {
         t.plan(1);
 
-        graph.addEdge(solar_system.edges.low_earth_orbit, solar_system.nodes.earth, solar_system.nodes.leo);
+        graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.leo);
 
-        graph.addEdge(solar_system.edges.leo_geo_transfer, solar_system.nodes.leo, solar_system.nodes.geo_transfer);
-        graph.addEdge(solar_system.edges.geo_transfer_geo_orbit, solar_system.nodes.geo_transfer, solar_system.nodes.geostationary);
+        graph.addEdge(edges.leo_geo_transfer, nodes.leo, nodes.geo_transfer);
+        graph.addEdge(edges.geo_transfer_geo_orbit, nodes.geo_transfer, nodes.geostationary);
 
-        graph.addEdge(solar_system.edges.leo_moon_transfer, solar_system.nodes.leo, solar_system.nodes.moon_transfer);
-        graph.addEdge(solar_system.edges.moon_transfer_lmo, solar_system.nodes.moon_transfer, solar_system.nodes.low_moon_orbit);
+        graph.addEdge(edges.leo_moon_transfer, nodes.leo, nodes.moon_transfer);
+        graph.addEdge(edges.moon_transfer_lmo, nodes.moon_transfer, nodes.low_moon_orbit);
 
-        graph.addEdge(solar_system.edges.leo_earth_escape, solar_system.nodes.leo, solar_system.nodes.earth_escape);
-        graph.addEdge(solar_system.edges.earth_escape_mars_transfer, solar_system.nodes.earth_escape, solar_system.nodes.mars_transfer);
+        graph.addEdge(edges.leo_earth_transfer, nodes.leo, nodes.earth_transfer);
+        graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
 
-        var total_value = graph.walk(solar_system.nodes.earth, solar_system.nodes.mars_transfer);
+        var total_value = graph.walk(nodes.earth, nodes.mars_transfer);
 
-        t.equals(total_value, solar_system.edges.low_earth_orbit.value + solar_system.edges.leo_earth_escape.value + solar_system.edges.earth_escape_mars_transfer.value);
+        t.equals(total_value, edges.low_earth_orbit.value + edges.leo_earth_transfer.value + edges.earth_transfer_mars_transfer.value);
         t.end();
     });
 

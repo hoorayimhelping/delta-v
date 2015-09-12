@@ -21,7 +21,7 @@ var nodes = {
     geostationary: newNode('Geostationary Orbit'),
     moon_transfer: newNode('Moon Transfer'),
     low_moon_orbit: newNode('Low Moon Orbit'),
-    earth_escape: newNode('Earth Escape'),
+    earth_transfer: newNode('Earth Escape'),
     mars_transfer: newNode('Mars Transfer')
 };
 
@@ -31,8 +31,8 @@ var edges = {
     geo_transfer_geo_orbit: newEdge({ deltav: 1470, name: 'geostationary_transfer-geostationary_orbit' }),
     leo_moon_transfer: newEdge({ deltav: 3260, name: 'leo-moon_transfer' }),
     moon_transfer_lmo: newEdge({ deltav: 680, name: 'moon_transfer-low_moon_orbit' }),
-    leo_earth_escape: newEdge({ deltav: 3210, name: 'leo-earth_escape' }),
-    earth_escape_mars_transfer: newEdge({ deltav: 390, name: 'earth_escape-mars_transfer' })
+    leo_earth_transfer: newEdge({ deltav: 3210, name: 'leo-earth_transfer' }),
+    earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' })
 };
 
 // es6 !!
