@@ -3,7 +3,7 @@ var Graph = require('../src/graph');
 var Node = require('../src/node');
 var Edge = require('../src/edge');
 
-var EarthDeltav = require('../data/earth');
+var solar_system = require('../data/solar_system');
 
 var newNode = function(id) {
     var node = new Node();
@@ -49,42 +49,20 @@ describe("walking the graph", function(t) {
     describe("walking a graph with three branches", function(t) {
         t.plan(1);
 
-        // values taken from http://i.imgur.com/SqdzxzF.png
-        var earth = newNode('Earth');
-        var leo = newNode('Low Earth Orbit');
-        var geo_transfer = newNode('Geostationary Transfer');
-        var geostationary = newNode('Geostationary Orbit');
-        var moon_transfer = newNode('Moon Transfer');
-        var low_moon_orbit = newNode('Low Moon Orbit');
-        var earth_escape = newNode('Earth Escape');
-        var mars_transfer = newNode('Mars Transfer');
+        graph.addEdge(solar_system.edges.low_earth_orbit, solar_system.nodes.earth, solar_system.nodes.leo);
 
-        var low_earth_orbit = newEdge({ deltav: 9400, name: 'low_earth_orbit' });
+        graph.addEdge(solar_system.edges.leo_geo_transfer, solar_system.nodes.leo, solar_system.nodes.geo_transfer);
+        graph.addEdge(solar_system.edges.geo_transfer_geo_orbit, solar_system.nodes.geo_transfer, solar_system.nodes.geostationary);
 
-        var leo_geo_transfer = newEdge({ deltav: 2440, name: 'leo-geo_transfer' });
-        var geo_transfer_geo_orbit = newEdge({ deltav: 1470, name: 'geostationary_transfer-geostationary_orbit' });
+        graph.addEdge(solar_system.edges.leo_moon_transfer, solar_system.nodes.leo, solar_system.nodes.moon_transfer);
+        graph.addEdge(solar_system.edges.moon_transfer_lmo, solar_system.nodes.moon_transfer, solar_system.nodes.low_moon_orbit);
 
-        var leo_moon_transfer = newEdge({ deltav: 3260, name: 'leo-moon_transfer' });
-        var moon_transfer_lmo = newEdge({ deltav: 680, name: 'moon_transfer-low_moon_orbit' });
+        graph.addEdge(solar_system.edges.leo_earth_escape, solar_system.nodes.leo, solar_system.nodes.earth_escape);
+        graph.addEdge(solar_system.edges.earth_escape_mars_transfer, solar_system.nodes.earth_escape, solar_system.nodes.mars_transfer);
 
-        var leo_earth_escape = newEdge({ deltav: 3210, name: 'leo-earth_escape' });
+        var total_value = graph.walk(solar_system.nodes.earth, solar_system.nodes.mars_transfer);
 
-        var earth_escape_mars_transfer = newEdge({ deltav: 390, name: 'earth_escape-mars_transfer' });
-
-        graph.addEdge(low_earth_orbit, earth, leo);
-
-        graph.addEdge(leo_geo_transfer, leo, geo_transfer);
-        graph.addEdge(geo_transfer_geo_orbit, geo_transfer, geostationary);
-
-        graph.addEdge(leo_moon_transfer, leo, moon_transfer);
-        graph.addEdge(moon_transfer_lmo, moon_transfer, low_moon_orbit);
-
-        graph.addEdge(leo_earth_escape, leo, earth_escape);
-        graph.addEdge(earth_escape_mars_transfer, earth_escape, mars_transfer);
-
-        var total_value = graph.walk(earth, mars_transfer);
-
-        t.equals(total_value, low_earth_orbit.value + leo_earth_escape.value + earth_escape_mars_transfer.value);
+        t.equals(total_value, solar_system.edges.low_earth_orbit.value + solar_system.edges.leo_earth_escape.value + solar_system.edges.earth_escape_mars_transfer.value);
         t.end();
     });
 
