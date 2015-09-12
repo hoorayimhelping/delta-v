@@ -6,17 +6,6 @@ var Edge = require('../src/edge');
 var solar_system = require('../data/solar_system');
 var kerbol_system = require('../data/kerbol_system');
 
-var newNode = function(id) {
-    var node = new Node();
-    node.id = id;
-
-    return node;
-};
-
-var newEdge = function(options) {
-    return new Edge(options.deltav, options.name);
-};
-
 describe("checking a graph for adjacency", function(t) {
     t.plan(5);
 
