@@ -3,6 +3,8 @@ var Graph = require('../src/graph');
 var Node = require('../src/node');
 var Edge = require('../src/edge');
 
+var EarthDeltav = require('../data/earth');
+
 var newNode = function(id) {
     var node = new Node();
     node.id = id;
@@ -11,7 +13,7 @@ var newNode = function(id) {
 };
 
 var newEdge = function(options) {
-    return new Edge(options);
+    return new Edge(options.deltav, options.name);
 };
 
 describe("walking the graph", function(t) {
@@ -82,7 +84,7 @@ describe("walking the graph", function(t) {
 
         var total_value = graph.walk(earth, mars_transfer);
 
-        t.equals(total_value, low_earth_orbit.props.deltav + leo_earth_escape.props.deltav + earth_escape_mars_transfer.props.deltav);
+        t.equals(total_value, low_earth_orbit.value + leo_earth_escape.value + earth_escape_mars_transfer.value);
         t.end();
     });
 

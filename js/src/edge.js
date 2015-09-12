@@ -1,7 +1,8 @@
-var Edge = function(options) {
-    this.props = options || {};
+var Edge = function(value, name) {
+    this.value = value;
+    this.name = name;
 
-    this.id = new Date().getTime();
+    this.id = name + '-' + value;
     this.nodes = {};
 };
 
