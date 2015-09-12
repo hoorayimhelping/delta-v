@@ -17,25 +17,27 @@ var newEdge = function(options) {
     return new Edge(options.deltav, options.name);
 };
 
-describe("walking the graph", function(t) {
+describe("checking a graph for adjacency", function(t) {
+    t.plan(5);
+
     var graph = new Graph();
 
-    describe("walking a simple linear graph", function(t) {
-        t.plan(5);
+    graph.addEdge(kerbol_system.edges.kerbin_lko, kerbol_system.nodes.kerbin, kerbol_system.nodes.low_kerbin_orbit);
+    graph.addEdge(kerbol_system.edges.lko_gto, kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.geostationary_transfer_orbit);
+    graph.addEdge(kerbol_system.edges.lko_mun_transfer, kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.mun_transfer);
 
-        graph.addEdge(kerbol_system.edges.kerbin_lko, kerbol_system.nodes.kerbin, kerbol_system.nodes.low_kerbin_orbit);
-        graph.addEdge(kerbol_system.edges.lko_gto, kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.geostationary_transfer_orbit);
-        graph.addEdge(kerbol_system.edges.lko_mun_transfer, kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.mun_transfer);
+    t.true(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.low_kerbin_orbit));
+    t.true(graph.areAdjacent(kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.geostationary_transfer_orbit));
+    t.true(graph.areAdjacent(kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.mun_transfer));
 
-        t.true(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.low_kerbin_orbit));
-        t.true(graph.areAdjacent(kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.geostationary_transfer_orbit));
-        t.true(graph.areAdjacent(kerbol_system.nodes.low_kerbin_orbit, kerbol_system.nodes.mun_transfer));
+    t.false(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.geostationary_transfer_orbit));
+    t.false(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.mun_transfer));
 
-        t.false(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.geostationary_transfer_orbit));
-        t.false(graph.areAdjacent(kerbol_system.nodes.kerbin, kerbol_system.nodes.mun_transfer));
+    t.end();
+});
 
-        t.end();
-    });
+describe("walking the graph", function(t) {
+    var graph = new Graph();
 
     describe("walking a graph with three branches", function(t) {
         t.plan(1);
