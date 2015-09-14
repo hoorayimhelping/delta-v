@@ -1,7 +1,5 @@
-var Node = function(options) {
-    this.props = options || {};
-
-    this.id = new Date().getTime();
+var Node = function(id) {
+    this.id = id;
     this.edges = [];
     this.visited = false;
 };

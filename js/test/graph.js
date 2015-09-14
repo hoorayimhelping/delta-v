@@ -54,6 +54,7 @@ describe("walking the graph", function(t) {
     describe("walking the solar system delta v graph from earth to mars transfer orbit", function(t) {
         t.plan(1);
 
+        solar_system.unwalkNodes();
         var total_value = graph.walk(nodes.earth, nodes.mars_transfer);
         var expected_value = edges.low_earth_orbit.value +
                 edges.leo_earth_transfer.value +
@@ -63,14 +64,13 @@ describe("walking the graph", function(t) {
             total_value,
             expected_value
         );
-
-        graph.resetNodes();
         t.end();
     });
 
     describe("walking the solar system delta v graph from earth to deimos", function(t) {
         t.plan(1);
 
+        solar_system.unwalkNodes();
         var total_value = graph.walk(nodes.earth, nodes.deimos);
 
         var expected_value = edges.low_earth_orbit.value +
@@ -84,8 +84,7 @@ describe("walking the graph", function(t) {
             total_value,
             expected_value
         );
-
-        graph.resetNodes();
+        
         t.end();
     });
 
