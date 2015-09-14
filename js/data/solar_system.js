@@ -21,8 +21,11 @@ var nodes = {
     geostationary: newNode('Geostationary Orbit'),
     moon_transfer: newNode('Moon Transfer'),
     low_moon_orbit: newNode('Low Moon Orbit'),
-    earth_transfer: newNode('Earth Escape'),
-    mars_transfer: newNode('Mars Transfer')
+    earth_transfer: newNode('Earth Transfer'),
+    mars_transfer: newNode('Mars Transfer'),
+    deimos_transfer: newNode('Deimos Transfer'),
+    low_deimos_orbit: newNode('Low Deimos Orbit'),
+    deimos: newNode('Deimos')
 };
 
 var edges = {
@@ -32,10 +35,19 @@ var edges = {
     leo_moon_transfer: newEdge({ deltav: 3260, name: 'leo-moon_transfer' }),
     moon_transfer_lmo: newEdge({ deltav: 680, name: 'moon_transfer-low_moon_orbit' }),
     leo_earth_transfer: newEdge({ deltav: 3210, name: 'leo-earth_transfer' }),
-    earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' })
+    earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' }),
+    mars_transfer_deimos_transfer: newEdge({ deltav: 340, name: 'mars_transfer_deimos_transfer' }),
+    deimos_transfer_low_deimos_orbit: newEdge({ deltav: 652, name: 'deimos_transfer_low_deimos_orbit' }),
+    low_deimos_orbit_deimos: newEdge({ deltav: 4, name: 'low_deimos_orbit_deimos' })
+};
+var reset = function() {
+    return {
+        nodes,
+        edges
+    }
 };
 
 // es6 !!
 module.exports = {
-    nodes, edges
+    nodes, edges, reset
 };

@@ -3,11 +3,14 @@ var Edge = require('./edge');
 
 var Graph = function() {
     this.edges = [];
+    this.nodes = [];
 };
 
 Graph.prototype = {
     addEdge: function(edge, head_node, tail_node) {
         edge.add(head_node, tail_node);
+
+        this.nodes.push(head_node, tail_node);
 
         head_node.addEdge(edge);
         tail_node.addEdge(edge);
@@ -30,6 +33,11 @@ Graph.prototype = {
         start_node.edges.forEach(function(edge) {
             var node = edge.nodes.tail;
 
+            if (node.id === destination_node.id) {
+                total_value += edge.value;
+                return;
+            }
+
             if (!node.visited) {
                 total_value = edge.value;
 
@@ -38,6 +46,12 @@ Graph.prototype = {
         }, this);
 
         return total_value;
+    },
+
+    resetNodes: function() {
+        this.nodes.forEach(function(node) {
+            node.visited = false;
+        });
     }
 };
 
