@@ -51,14 +51,6 @@ gulp.task('transform', function() {
 });
 
 gulp.task('build', function() {
-    return browserify(paths.js_source + 'main.jsx')
-        
-        .bundle()
-        .pipe(source('app.js'))
-        .pipe(gulp.dest(paths.js_dist));
-});
-
-gulp.task('build', function() {
 if (true) return;
 
     return browserify(paths.js_source + 'main.js')
