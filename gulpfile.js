@@ -3,9 +3,12 @@ var source = require('vinyl-source-stream');
 
 var jshint = require('gulp-jshint');
 var browserify = require('browserify');
+var reactify = require('reactify');
+
 var tape = require('gulp-tape');
 
 var shell = require('gulp-shell');
+var react = require('gulp-react');
 
 var paths = {
     'js_source': 'js/graph/',
@@ -41,10 +44,25 @@ gulp.task('test-debug', function() {
         .pipe(tape());
 });
 
+gulp.task('transform', function() {
+    return gulp.src(paths.react_source + '*.jsx')
+        .pipe(react())
+        .pipe(gulp.dest(paths.react_dist));
+});
+
+gulp.task('build', function() {
+    return browserify(paths.js_source + 'main.jsx')
+        
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest(paths.js_dist));
+});
+
 gulp.task('build', function() {
 if (true) return;
 
     return browserify(paths.js_source + 'main.js')
+        .transform(reactify)
         .bundle()
         .pipe(source('bundle.js'))
         .pipe(gulp.dest(paths.js_dist));
