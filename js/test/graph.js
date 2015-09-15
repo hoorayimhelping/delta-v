@@ -3,8 +3,8 @@ var Graph = require('../src/graph');
 var Node = require('../src/node');
 var Edge = require('../src/edge');
 
-var solar_system = require('../data/solar_system');
-var kerbol_system = require('../data/kerbol_system');
+var solar_system = require('../maps/solar_system');
+var kerbol_system = require('../maps/kerbol_system');
 
 var buildSolarSystemGraph = function(graph, edges, nodes) {
     graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.leo);
