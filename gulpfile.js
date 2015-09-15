@@ -13,7 +13,9 @@ var react = require('gulp-react');
 var paths = {
     'js_source': 'js/graph/',
     'js_test': 'js/test/',
-    'js_dist': 'dist/'
+    'js_dist': 'js/',
+    'react_source': 'js/views/',
+    'react_dist': 'js/views/'
 };
 
 gulp.task('env-dev', function() {
@@ -29,10 +31,10 @@ gulp.task('lint', function() {
             paths.js_source + '*.js',
             paths.js_test + '*.js',
             'gulpfile.js'
-        ])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default', { verbose: true }))
-        .pipe(jshint.reporter('fail'));
+    ])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default', { verbose: true }))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('test', shell.task([
@@ -51,12 +53,10 @@ gulp.task('transform', function() {
 });
 
 gulp.task('build', function() {
-if (true) return;
-
-    return browserify(paths.js_source + 'main.js')
+    return browserify(paths.react_dist + 'main.js')
         .transform(reactify)
         .bundle()
-        .pipe(source('bundle.js'))
+        .pipe(source('app.js'))
         .pipe(gulp.dest(paths.js_dist));
 });
 
