@@ -1,7 +1,7 @@
 var describe = require('tape');
-var Graph = require('../src/graph');
-var Node = require('../src/node');
-var Edge = require('../src/edge');
+var Graph = require('../graph/graph');
+var Node = require('../graph/node');
+var Edge = require('../graph/edge');
 
 var solar_system = require('../maps/solar_system');
 var kerbol_system = require('../maps/kerbol_system');

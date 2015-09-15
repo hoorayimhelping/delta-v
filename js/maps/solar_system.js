@@ -1,5 +1,5 @@
-var Node = require('../src/node');
-var Edge = require('../src/edge');
+var Node = require('../graph/node');
+var Edge = require('../graph/edge');
 
 var newEdge = function(options) {
     return new Edge(options.deltav, options.name);

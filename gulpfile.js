@@ -8,7 +8,7 @@ var tape = require('gulp-tape');
 var shell = require('gulp-shell');
 
 var paths = {
-    'js_source': 'js/src/',
+    'js_source': 'js/graph/',
     'js_test': 'js/test/',
     'js_dist': 'dist/'
 };
