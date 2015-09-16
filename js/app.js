@@ -3,6 +3,15 @@ var react = require('react');
 
 console.log('sup');
 
+var canvas = document.getElementById('canvas');
+canvas.width = 1200;
+canvas.height = 1200;
+
+var context = canvas.getContext('2d');
+context.scale(2, 2);
+context.fillStyle = "#000";
+context.fillText('Hello!', 300, 300);
+
 },{"react":156}],2:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
