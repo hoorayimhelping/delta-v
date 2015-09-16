@@ -53,6 +53,7 @@ SolarSystem.prototype = {
 
         graph.addEdge(edges.leo_moon_transfer, nodes.leo, nodes.moon_transfer);
         graph.addEdge(edges.moon_transfer_lmo, nodes.moon_transfer, nodes.low_moon_orbit);
+        graph.addEdge(edges.moon_landing, nodes.low_moon_orbit, nodes.moon);
 
         graph.addEdge(edges.leo_earth_transfer, nodes.leo, nodes.earth_transfer);
         graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
