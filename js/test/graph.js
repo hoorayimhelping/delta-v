@@ -6,23 +6,6 @@ var Edge = require('../graph/edge');
 var solar_system = require('../maps/solar_system');
 var kerbol_system = require('../maps/kerbol_system');
 
-var buildSolarSystemGraph = function(graph, edges, nodes) {
-    graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.leo);
-
-    graph.addEdge(edges.leo_geo_transfer, nodes.leo, nodes.geo_transfer);
-    graph.addEdge(edges.geo_transfer_geo_orbit, nodes.geo_transfer, nodes.geostationary);
-
-    graph.addEdge(edges.leo_moon_transfer, nodes.leo, nodes.moon_transfer);
-    graph.addEdge(edges.moon_transfer_lmo, nodes.moon_transfer, nodes.low_moon_orbit);
-
-    graph.addEdge(edges.leo_earth_transfer, nodes.leo, nodes.earth_transfer);
-    graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
-
-    graph.addEdge(edges.mars_transfer_deimos_transfer, nodes.mars_transfer, nodes.deimos_transfer);
-    graph.addEdge(edges.deimos_transfer_low_deimos_orbit, nodes.deimos_transfer, nodes.low_deimos_orbit);
-    graph.addEdge(edges.low_deimos_orbit_deimos, nodes.low_deimos_orbit, nodes.deimos);
-};
-
 describe("checking a graph for adjacency", function(t) {
     t.plan(5);
 
@@ -49,7 +32,7 @@ describe("walking the graph", function(t) {
     var nodes = solar_system.nodes;
 
     var graph = new Graph();
-    buildSolarSystemGraph(graph, edges, nodes);
+    solar_system.buildGraph(graph, edges, nodes);
 
     describe("walking the solar system delta v graph from earth to mars transfer orbit", function(t) {
         t.plan(1);
@@ -78,7 +61,7 @@ describe("walking the graph", function(t) {
                 edges.earth_transfer_mars_transfer.value +
                 edges.mars_transfer_deimos_transfer.value + 
                 edges.deimos_transfer_low_deimos_orbit.value +
-                edges.low_deimos_orbit_deimos.value;
+                edges.deimos_landing.value;
 
         t.equals(
             total_value,
