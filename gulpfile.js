@@ -32,7 +32,7 @@ gulp.task('lint', function() {
             paths.js_test + '*.js',
             'gulpfile.js'
     ])
-    .pipe(jshint())
+    .pipe(jshint({ esnext: true }))
     .pipe(jshint.reporter('default', { verbose: true }))
     .pipe(jshint.reporter('fail'));
 });
@@ -63,3 +63,6 @@ gulp.task('build', function() {
 gulp.task('default', ['env-dev', 'lint', 'test', 'transform', 'build']);
 gulp.task('production', ['env-prod', 'lint', 'test', 'transform', 'build']);
 gulp.task('pre-commit', ['production']);
+
+gulp.task('dev', ['development']);
+gulp.task('prod', ['production']);

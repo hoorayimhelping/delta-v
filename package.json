@@ -18,7 +18,9 @@
     "gulp-shell": "^0.4.3",
     "gulp-tape": "0.0.3",
     "guppy-pre-commit": "^0.2.1",
+    "react": "^0.13.3",
     "reactify": "^1.1.1",
+    "tape": "^4.2.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }
