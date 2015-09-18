@@ -1,12 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Renderer = function(context) {
-    this.context = context;
+var Renderer = function(canvas) {
+    this.$canvas = canvas;
+    this.$canvas.width = 1200;
+    this.$canvas.height = 1200;
+    this.$canvas.style.width = "100%";
+    this.$canvas.style.height = "100%";
 };
 
 Renderer.prototype = {
     init: function(pixel_ratio) {
+        this.context = this.$canvas.getContext('2d');
+        this.context.scale(2, 2);
+
         this.defaults();
-        // this.context.setTransform(pixel_ratio, 0, 0, pixel_ratio, 0, 0);
+        this.context.setTransform(pixel_ratio, 0, 0, pixel_ratio, 0, 0);
     },
 
     render: function() {
@@ -51,6 +58,21 @@ Renderer.prototype = {
 
         this.context.stroke();
         this.context.closePath();
+    },
+
+    scaleCanvas: function($container) {
+        var border_width = parseInt(getComputedStyle($container)['border-left-width'], 10) + parseInt(getComputedStyle($container)['border-right-width'], 10);
+
+        var pixel_ratio = 2;
+
+        this.$canvas.width = ($container.offsetWidth - border_width) * pixel_ratio;
+        this.$canvas.height = ($container.offsetHeight - border_width) * pixel_ratio;
+
+        this.$canvas.style.width = $container.offsetWidth;
+        this.$canvas.style.height = $container.offsetHeight;
+
+        // changing the canvas width or height re-initializes the canvas' state, including transforms and fill colors
+        this.init(pixel_ratio);
     }
 };
 
@@ -60,19 +82,17 @@ module.exports = Renderer;
 var react = require('react');
 var CanvasRenderer = require('../rendering/canvas');
 
-console.log('sup');
+var $canvas = document.getElementById('canvas');
+var renderer = new CanvasRenderer($canvas);
+var $container = document.getElementById('container')
 
-var canvas = document.getElementById('canvas');
-canvas.width = 1200;
-canvas.height = 1200;
-
-var context = canvas.getContext('2d');
-context.scale(2, 2);
-
-var renderer = new CanvasRenderer(context);
 renderer.init();
 renderer.context.fillStyle = "#F00";
 renderer.context.fillText('Hello!', 300, 300);
+
+window.addEventListener('resize', function(event) {
+    renderer.scaleCanvas($container);
+ }, false);
 
 },{"../rendering/canvas":1,"react":157}],3:[function(require,module,exports){
 /**

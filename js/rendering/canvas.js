@@ -1,11 +1,18 @@
-var Renderer = function(context) {
-    this.context = context;
+var Renderer = function(canvas) {
+    this.$canvas = canvas;
+    this.$canvas.width = 1200;
+    this.$canvas.height = 1200;
+    this.$canvas.style.width = "100%";
+    this.$canvas.style.height = "100%";
 };
 
 Renderer.prototype = {
     init: function(pixel_ratio) {
+        this.context = this.$canvas.getContext('2d');
+        this.context.scale(2, 2);
+
         this.defaults();
-        // this.context.setTransform(pixel_ratio, 0, 0, pixel_ratio, 0, 0);
+        this.context.setTransform(pixel_ratio, 0, 0, pixel_ratio, 0, 0);
     },
 
     render: function() {
@@ -50,6 +57,21 @@ Renderer.prototype = {
 
         this.context.stroke();
         this.context.closePath();
+    },
+
+    scaleCanvas: function($container) {
+        var border_width = parseInt(getComputedStyle($container)['border-left-width'], 10) + parseInt(getComputedStyle($container)['border-right-width'], 10);
+
+        var pixel_ratio = 2;
+
+        this.$canvas.width = ($container.offsetWidth - border_width) * pixel_ratio;
+        this.$canvas.height = ($container.offsetHeight - border_width) * pixel_ratio;
+
+        this.$canvas.style.width = $container.offsetWidth;
+        this.$canvas.style.height = $container.offsetHeight;
+
+        // changing the canvas width or height re-initializes the canvas' state, including transforms and fill colors
+        this.init(pixel_ratio);
     }
 };
 
