@@ -44,16 +44,16 @@ Renderer.prototype = {
         this.context.closePath();
     },
 
-    scaleCanvas: function($container) {
+    scaleCanvas: function($container, width, height) {
         var border_width = parseInt(getComputedStyle($container)['border-left-width'], 10) + parseInt(getComputedStyle($container)['border-right-width'], 10);
 
         var pixel_ratio = 2;
 
-        this.$canvas.width = ($container.offsetWidth - border_width) * pixel_ratio;
-        this.$canvas.height = ($container.offsetHeight - border_width) * pixel_ratio;
+        this.$canvas.width = (width - border_width) * pixel_ratio;
+        this.$canvas.height = (height - border_width) * pixel_ratio;
 
-        this.$canvas.style.width = $container.offsetWidth;
-        this.$canvas.style.height = $container.offsetHeight;
+        this.$canvas.style.width = width;
+        this.$canvas.style.height = height;
 
         // changing the canvas width or height re-initializes the canvas' state, including transforms and fill colors
         this.init(pixel_ratio);
