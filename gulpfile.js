@@ -60,7 +60,7 @@ gulp.task('build', function() {
         .pipe(gulp.dest(paths.js_dist));
 });
 
-gulp.task('default', ['env-dev', 'lint', 'test', 'transform', 'build']);
+gulp.task('development', ['env-dev', 'lint', 'test', 'transform', 'build']);
 gulp.task('production', ['env-prod', 'lint', 'test', 'transform', 'build']);
 gulp.task('pre-commit', ['production']);
 
