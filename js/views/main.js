@@ -26,3 +26,5 @@ window.addEventListener('resize', function(event) {
     renderer.scaleCanvas($container, getWidth(), getHeight());
     draw();
  }, false);
+
+window.react = react;

@@ -93,6 +93,8 @@ window.addEventListener('resize', function(event) {
     draw();
  }, false);
 
+window.react = react;
+
 },{"../rendering/canvas":1,"react":157}],3:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
