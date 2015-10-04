@@ -52,6 +52,10 @@ gulp.task('transform', function() {
         .pipe(gulp.dest(paths.react_dist));
 });
 
+gulp.task('watch', function() {
+    gulp.watch(paths.react_source + '/*.jsx', ['build']);
+});
+
 gulp.task('build', function() {
     return browserify(paths.react_dist + 'main.js')
         .transform(reactify)
