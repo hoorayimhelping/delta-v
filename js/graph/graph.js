@@ -52,6 +52,25 @@ Graph.prototype = {
         this.nodes.forEach(function(node) {
             node.visited = false;
         });
+    },
+
+    render: function(start_node, destination_node, renderer) {
+        start_node.visited = true;
+
+        start_node.edges.forEach(function(edge, i) {
+            renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
+
+            var node = edge.nodes.tail;
+
+            if (node.id === destination_node.id) {
+                return;
+            }
+
+            if (!node.visited) {
+                renderer.circle(i, i, 5);
+                this.render(node, destination_node, renderer);
+            }
+        }, this);
     }
 };
 

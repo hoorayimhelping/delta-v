@@ -1,5 +1,7 @@
 var react = require('react');
 var CanvasRenderer = require('../canvas/renderer');
+var solar_system = require('../maps/solar_system');
+var Graph = require('../graph/graph');
 
 var $canvas = document.getElementById('canvas');
 var renderer = new CanvasRenderer($canvas);
@@ -28,21 +30,26 @@ var getCanvasWidthAndHeight = function($container) {
     return { width: getWidth() - total_width, height: getHeight() - total_height };
 };
 
-var draw = function() {
-    renderer.context.fillStyle = "#F00";
-    renderer.context.fillText('Hello!', getWidth() / 2, getHeight() / 2);
+var draw = function(graph, nodes, renderer) {
+    graph.render(nodes.earth, nodes.mars_transfer, renderer);
 };
+
+window.addEventListener('resize', function(event) {
+    var content_size = getCanvasWidthAndHeight($container);
+    renderer.setDimensions(content_size.width, content_size.height);
+    draw(graph, nodes, renderer);
+ }, false);
+
+window.react = react;
+
+var edges = solar_system.edges;
+var nodes = solar_system.nodes;
+
+var graph = new Graph();
+solar_system.buildGraph(graph, edges, nodes);
 
 var content_size = getCanvasWidthAndHeight($container);
 
 renderer.init();
 renderer.setDimensions(content_size.width, content_size.height);
-draw();
-
-window.addEventListener('resize', function(event) {
-    var content_size = getCanvasWidthAndHeight($container);
-    renderer.setDimensions(content_size.width, content_size.height);
-    draw();
- }, false);
-
-window.react = react;
+draw(graph, nodes, renderer);
