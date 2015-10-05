@@ -64,5 +64,4 @@ SolarSystem.prototype = {
     }
 };
 
-// es6 !!
 module.exports = new SolarSystem();
