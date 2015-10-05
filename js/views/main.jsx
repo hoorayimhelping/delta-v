@@ -1,5 +1,5 @@
 var react = require('react');
-var CanvasRenderer = require('../rendering/canvas');
+var CanvasRenderer = require('../canvas/renderer');
 
 var $canvas = document.getElementById('canvas');
 var renderer = new CanvasRenderer($canvas);

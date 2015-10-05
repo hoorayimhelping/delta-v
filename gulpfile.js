@@ -14,7 +14,7 @@ var paths = {
     'js_source': {
         graph: 'js/graph/',
         maps: 'js/maps',
-        rendering: '/js/rendering'
+        canvas: '/js/canvas'
     },
     'js_test': 'js/test/',
     'js_dist': 'js/',
@@ -34,7 +34,7 @@ gulp.task('lint', function() {
     return gulp.src([
             paths.js_source.graph + '*.js',
             paths.js_source.maps + '*.js',
-            paths.js_source.rendering + '*.js',
+            paths.js_source.canvas + '*.js',
             paths.js_test + '*.js',
             'gulpfile.js'
     ])
@@ -72,7 +72,7 @@ gulp.task('default', function() {
             paths.react_source + '/*.jsx',
             paths.js_source.graph + '*.js',
             paths.js_source.maps + '*.js',
-            paths.js_source.rendering + '*.js'
+            paths.js_source.canvas + '*.js'
         ],
         ['env-dev', 'transform', 'build']
     );
