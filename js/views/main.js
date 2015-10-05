@@ -3,7 +3,7 @@ var CanvasRenderer = require('../rendering/canvas');
 
 var $canvas = document.getElementById('canvas');
 var renderer = new CanvasRenderer($canvas);
-var $container = document.getElementById('container')
+var $container = document.getElementById('container');
 
 var getWidth = function() {
     return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
