@@ -11,7 +11,11 @@ var shell = require('gulp-shell');
 var react = require('gulp-react');
 
 var paths = {
-    'js_source': 'js/graph/',
+    'js_source': {
+        graph: 'js/graph/',
+        maps: 'js/maps',
+        rendering: '/js/rendering'
+    },
     'js_test': 'js/test/',
     'js_dist': 'js/',
     'react_source': 'js/views/',
@@ -28,7 +32,9 @@ gulp.task('env-prod', function() {
 
 gulp.task('lint', function() {
     return gulp.src([
-            paths.js_source + '*.js',
+            paths.js_source.graph + '*.js',
+            paths.js_source.maps + '*.js',
+            paths.js_source.rendering + '*.js',
             paths.js_test + '*.js',
             'gulpfile.js'
     ])
@@ -52,16 +58,24 @@ gulp.task('transform', function() {
         .pipe(gulp.dest(paths.react_dist));
 });
 
-gulp.task('watch', function() {
-    gulp.watch(paths.react_source + '/*.jsx', ['build']);
-});
-
 gulp.task('build', function() {
     return browserify(paths.react_dist + 'main.js')
         .transform(reactify)
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest(paths.js_dist));
+});
+
+gulp.task('default', function() {
+    gulp.watch(
+        [
+            paths.react_source + '/*.jsx',
+            paths.js_source.graph + '*.js',
+            paths.js_source.maps + '*.js',
+            paths.js_source.rendering + '*.js'
+        ],
+        ['env-dev', 'transform', 'build']
+    );
 });
 
 gulp.task('development', ['env-dev', 'lint', 'test', 'transform', 'build']);
