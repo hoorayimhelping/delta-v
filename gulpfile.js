@@ -75,7 +75,9 @@ gulp.task('default', function() {
             paths.js_source.canvas + '*.js'
         ],
         ['env-dev', 'transform', 'build']
-    );
+    ).on('error', function(error) {
+        console.log(error.toString());
+    });
 });
 
 gulp.task('development', ['env-dev', 'lint', 'test', 'transform', 'build']);
