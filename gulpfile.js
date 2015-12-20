@@ -5,8 +5,6 @@ var jshint = require('gulp-jshint');
 var browserify = require('browserify');
 var reactify = require('reactify');
 
-var tape = require('gulp-tape');
-
 var shell = require('gulp-shell');
 var react = require('gulp-react');
 
@@ -44,13 +42,8 @@ gulp.task('lint', function() {
 });
 
 gulp.task('test', shell.task([
-  'tape ' + paths.js_test + '* | faucet',
+  'npm test'
 ]));
-
-gulp.task('test-debug', function() {
-  return gulp.src(paths.js_test + '/*.js')
-    .pipe(tape());
-});
 
 gulp.task('transform', function() {
    return gulp.src(paths.react_source + '*.jsx')

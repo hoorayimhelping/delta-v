@@ -5,23 +5,23 @@
   "main": "gulpfile.js",
   "repository": "https://github.com/hoorayimhelping/delta-v",
   "scripts": {
-    "test": "gulp test",
+    "test": "mocha",
     "build": "gulp build"
   },
   "author": "Bucky Schwarz",
   "license": "MIT",
   "devDependencies": {
     "browserify": "^11.0.1",
+    "chai": "^3.4.1",
     "git-guppy": "^1.0.0",
     "gulp": "^3.9.0",
     "gulp-jshint": "^1.11.2",
     "gulp-react": "^3.0.1",
     "gulp-shell": "^0.4.3",
-    "gulp-tape": "0.0.3",
     "guppy-pre-commit": "^0.2.1",
+    "mocha": "^2.3.4",
     "react": "^0.13.3",
     "reactify": "^1.1.1",
-    "tape": "^4.2.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }
