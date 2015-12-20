@@ -16,18 +16,18 @@ describe("one-way trips from earth", function() {
   });
 
   it("calculates the delta-v to geostationary orbit", function() {
-    var total_value = graph.walk(nodes.earth, nodes.geostationary);
+    var total_value = graph.walk(nodes.earth, nodes.geostationary_orbit);
     var expected_value = edges.low_earth_orbit.value +
-      edges.leo_geo_transfer.value +
-      edges.geo_transfer_geo_orbit.value;
+      edges.low_earth_orbit_geostationary_transfer.value +
+      edges.geostationary_transfer_geo_orbit.value;
 
     expect(total_value).to.equal(expected_value);
   });
 
   describe("to lunar space", function() {
     var earth_to_low_lunar_orbit_delta_v = edges.low_earth_orbit.value +
-      edges.leo_moon_transfer.value +
-      edges.moon_transfer_lmo.value;
+      edges.low_earth_orbit_moon_transfer.value +
+      edges.moon_transfer_low_moon_orbit.value;
 
     it("calulates the delta-v to lunar orbit", function() {
       var total_value = graph.walk(nodes.earth, nodes.low_moon_orbit);
@@ -38,7 +38,7 @@ describe("one-way trips from earth", function() {
     it("calculates the delta-v to a lunar surface landing", function() {
       var total_value = graph.walk(nodes.earth, nodes.moon);
 
-      expect(total_value).to.equal(earth_to_low_lunar_orbit_delta_v + edges.moon_landing.value);
+      expect(total_value).to.equal(earth_to_low_lunar_orbit_delta_v + edges.low_moon_orbit_moon_landing.value);
     });
   });
 
@@ -46,8 +46,29 @@ describe("one-way trips from earth", function() {
     it("calculates the delta-v to mars transfer orbit", function() {
       var total_value = graph.walk(nodes.earth, nodes.mars_transfer);
       var expected_value = edges.low_earth_orbit.value +
-        edges.leo_earth_transfer.value +
+        edges.low_earth_orbit_earth_transfer.value +
         edges.earth_transfer_mars_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low mars orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_mars_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_mars_transfer.value +
+        edges.mars_transfer_low_mars_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to a mars landing", function() {
+      var total_value = graph.walk(nodes.earth, nodes.mars);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_mars_transfer.value +
+        edges.mars_transfer_low_mars_orbit.value +
+        edges.low_mars_orbit_mars_landing.value;
 
       expect(total_value).to.equal(expected_value);
     });
@@ -57,7 +78,7 @@ describe("one-way trips from earth", function() {
         var total_value = graph.walk(nodes.earth, nodes.low_deimos_orbit);
 
         var expected_value = edges.low_earth_orbit.value +
-          edges.leo_earth_transfer.value +
+          edges.low_earth_orbit_earth_transfer.value +
           edges.earth_transfer_mars_transfer.value +
           edges.mars_transfer_deimos_transfer.value +
           edges.deimos_transfer_low_deimos_orbit.value;
@@ -69,11 +90,11 @@ describe("one-way trips from earth", function() {
         var total_value = graph.walk(nodes.earth, nodes.deimos);
 
         var expected_value = edges.low_earth_orbit.value +
-          edges.leo_earth_transfer.value +
+          edges.low_earth_orbit_earth_transfer.value +
           edges.earth_transfer_mars_transfer.value +
           edges.mars_transfer_deimos_transfer.value +
           edges.deimos_transfer_low_deimos_orbit.value +
-          edges.deimos_landing.value;
+          edges.low_deimos_orbit_deimos_landing.value;
 
         expect(total_value).to.equal(expected_value);
       });
@@ -83,7 +104,7 @@ describe("one-way trips from earth", function() {
           var total_value = graph.walk(nodes.earth, nodes.low_phobos_orbit);
 
           var expected_value = edges.low_earth_orbit.value +
-            edges.leo_earth_transfer.value +
+            edges.low_earth_orbit_earth_transfer.value +
             edges.earth_transfer_mars_transfer.value +
             edges.mars_transfer_phobos_transfer.value +
             edges.phobos_transfer_low_phobos_orbit.value;
@@ -95,11 +116,11 @@ describe("one-way trips from earth", function() {
           var total_value = graph.walk(nodes.earth, nodes.phobos);
 
           var expected_value = edges.low_earth_orbit.value +
-            edges.leo_earth_transfer.value +
+            edges.low_earth_orbit_earth_transfer.value +
             edges.earth_transfer_mars_transfer.value +
             edges.mars_transfer_phobos_transfer.value +
             edges.phobos_transfer_low_phobos_orbit.value +
-            edges.phobos_landing.value;
+            edges.low_phobos_orbit_phobos_landing.value;
 
           expect(total_value).to.equal(expected_value);
         });
