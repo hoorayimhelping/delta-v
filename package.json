@@ -5,7 +5,8 @@
   "main": "gulpfile.js",
   "repository": "https://github.com/hoorayimhelping/delta-v",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "build": "gulp build"
   },
   "author": "Bucky Schwarz",
   "license": "MIT",
