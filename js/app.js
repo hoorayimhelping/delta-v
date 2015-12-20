@@ -62,27 +62,27 @@ module.exports = Renderer;
 
 },{}],2:[function(require,module,exports){
 var Edge = function(value, name) {
-    this.value = value;
-    this.name = name;
+  this.value = value;
+  this.name = name;
 
-    this.id = name + '-' + value;
-    this.nodes = {};
+  this.id = name + '-' + value;
+  this.nodes = {};
 };
 
 Edge.prototype = {
-    add: function(node1, node2) {
-        this.nodes = {};
+  add: function(node1, node2) {
+    this.nodes = {};
 
-        this.nodes = {
-            head: node1,
-            tail: node2
-        };
-    },
+    this.nodes = {
+      head: node1,
+      tail: node2
+    };
+  },
 
-    areAdjacent: function(node1, node2) {
-        return this.nodes.head.id === node1.id &&
-            this.nodes.tail.id === node2.id;
-    }
+  areAdjacent: function(node1, node2) {
+    return this.nodes.head.id === node1.id &&
+      this.nodes.tail.id === node2.id;
+  }
 };
 
 module.exports = Edge;
@@ -98,69 +98,82 @@ var Graph = function() {
 
 Graph.prototype = {
     addEdge: function(edge, head_node, tail_node) {
-        edge.add(head_node, tail_node);
+      edge.add(head_node, tail_node);
 
-        this.nodes.push(head_node, tail_node);
+      this.nodes.push(head_node, tail_node);
 
-        head_node.addEdge(edge);
-        tail_node.addEdge(edge);
+      head_node.addEdge(edge);
+      tail_node.addEdge(edge);
 
-        this.edges.push(edge);
+      this.edges.push(edge);
     },
 
     areAdjacent: function(head_node, tail_node) {
-        return this.edges.some(function(edge) {
-            return edge.areAdjacent(head_node, tail_node);
-        });
+      return this.edges.some(function(edge) {
+        return edge.areAdjacent(head_node, tail_node);
+      });
     },
 
     // depth first search
     walk: function(start_node, destination_node) {
-        var total_value = 0;
+      var total_value = 0;
+      var edges = start_node.edges;
 
-        start_node.visited = true;
+      start_node.visited = true;
 
-        start_node.edges.forEach(function(edge) {
-            var node = edge.nodes.tail;
+      for (var i = 0, l = start_node.edges.length; i < l; i++) {
+        var edge = edges[i];
+        var node = edge.nodes.tail;
 
-            if (node.id === destination_node.id) {
-                total_value += edge.value;
-                return;
-            }
+        if (node.id === destination_node.id) {
+          total_value += edge.value;
 
-            if (!node.visited) {
-                total_value = edge.value;
+          // stop walking the graph when a match is found
+          // TODO: work out a better solution
+          this.visitNodes();
 
-                total_value += this.walk(node, destination_node);
-            }
-        }, this);
+          return total_value;
+        }
 
-        return total_value;
+        if (!node.visited) {
+          total_value = edge.value;
+
+          total_value += this.walk(node, destination_node);
+        }
+      }
+
+      return total_value;
     },
 
     resetNodes: function() {
-        this.nodes.forEach(function(node) {
-            node.visited = false;
-        });
+      this.nodes.forEach(function(node) {
+        node.visited = false;
+      });
+    },
+
+    visitNodes: function() {
+      this.nodes.forEach(function(node) {
+        node.visited = true;
+      });
     },
 
     render: function(start_node, destination_node, renderer) {
-        start_node.visited = true;
+      start_node.visited = true;
 
-        start_node.edges.forEach(function(edge, i) {
-            renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
+      start_node.edges.forEach(function(edge, i) {
+        renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
 
-            var node = edge.nodes.tail;
+        var node = edge.nodes.tail;
 
-            if (node.id === destination_node.id) {
-                return;
-            }
+        if (node.id === destination_node.id) {
+          return;
+        }
 
-            if (!node.visited) {
-                renderer.circle(i, i, 5);
-                this.render(node, destination_node, renderer);
-            }
-        }, this);
+        if (!node.visited) {
+          renderer.circle(i, i, 5);
+          this.render(node, destination_node, renderer);
+        }
+      }, this);
     }
 };
 
@@ -192,60 +205,70 @@ var newEdge = function(options) {
 // values taken from http://i.imgur.com/SqdzxzF.png
 
 var SolarSystem = function() {
-    this.nodes = {
-        earth: new Node('Earth'),
-        leo: new Node('Low Earth Orbit'),
-        geo_transfer: new Node('Geostationary Transfer'),
-        geostationary: new Node('Geostationary Orbit'),
-        moon_transfer: new Node('Moon Transfer'),
-        low_moon_orbit: new Node('Low Moon Orbit'),
-        moon: new Node('Moon'),
-        earth_transfer: new Node('Earth Transfer'),
-        mars_transfer: new Node('Mars Transfer'),
-        deimos_transfer: new Node('Deimos Transfer'),
-        low_deimos_orbit: new Node('Low Deimos Orbit'),
-        deimos: new Node('Deimos')
-    };
+  this.nodes = {
+    earth: new Node('Earth'),
+    leo: new Node('Low Earth Orbit'),
+    geo_transfer: new Node('Geostationary Transfer'),
+    geostationary: new Node('Geostationary Orbit'),
+    moon_transfer: new Node('Moon Transfer'),
+    low_moon_orbit: new Node('Low Moon Orbit'),
+    moon: new Node('Moon'),
+    earth_transfer: new Node('Earth Transfer'),
+    mars_transfer: new Node('Mars Transfer'),
+    deimos_transfer: new Node('Deimos Transfer'),
+    low_deimos_orbit: new Node('Low Deimos Orbit'),
+    deimos: new Node('Deimos'),
+    phobos_transfer: new Node('Phobos Transfer'),
+    low_phobos_orbit: new Node('Low Phobos Orbit'),
+    phobos: new Node('Phobos'),
+  };
 
-    this.edges = {
-        low_earth_orbit: newEdge({ deltav: 9400, name: 'low_earth_orbit' }),
-        leo_geo_transfer: newEdge({ deltav: 2440, name: 'leo-geo_transfer' }),
-        geo_transfer_geo_orbit: newEdge({ deltav: 1470, name: 'geostationary_transfer-geostationary_orbit' }),
-        leo_moon_transfer: newEdge({ deltav: 3260, name: 'leo-moon_transfer' }),
-        moon_transfer_lmo: newEdge({ deltav: 680, name: 'moon_transfer-low_moon_orbit' }),
-        moon_landing: newEdge({ deltav: 1730, name: 'moon-landing' }),
-        leo_earth_transfer: newEdge({ deltav: 3210, name: 'leo-earth_transfer' }),
-        earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' }),
-        mars_transfer_deimos_transfer: newEdge({ deltav: 340, name: 'mars_transfer_deimos_transfer' }),
-        deimos_transfer_low_deimos_orbit: newEdge({ deltav: 652, name: 'deimos_transfer_low_deimos_orbit' }),
-        deimos_landing: newEdge({ deltav: 4, name: 'deimos_landing' })
-    };
+  this.edges = {
+    low_earth_orbit: newEdge({ deltav: 9400, name: 'low_earth_orbit' }),
+    leo_geo_transfer: newEdge({ deltav: 2440, name: 'leo-geo_transfer' }),
+    geo_transfer_geo_orbit: newEdge({ deltav: 1470, name: 'geostationary_transfer-geostationary_orbit' }),
+    leo_moon_transfer: newEdge({ deltav: 3260, name: 'leo-moon_transfer' }),
+    moon_transfer_lmo: newEdge({ deltav: 680, name: 'moon_transfer-low_moon_orbit' }),
+    moon_landing: newEdge({ deltav: 1730, name: 'moon-landing' }),
+    leo_earth_transfer: newEdge({ deltav: 3210, name: 'leo-earth_transfer' }),
+    earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' }),
+    mars_transfer_deimos_transfer: newEdge({ deltav: 340, name: 'mars_transfer-deimos_transfer' }),
+    deimos_transfer_low_deimos_orbit: newEdge({ deltav: 652, name: 'deimos_transfer-low_deimos_orbit' }),
+    deimos_landing: newEdge({ deltav: 4, name: 'deimos_landing' }),
+    mars_transfer_phobos_transfer: newEdge({ deltav: 740, name: 'mars_transfer-phobos_transfer'}),
+    phobos_transfer_low_phobos_orbit: newEdge({ deltav: 543, name: 'mars_transfer-phobos_transfer'}),
+    phobos_landing: newEdge({ deltav: 8, name: 'phobos_landing'})
+  };
 };
 
 SolarSystem.prototype = {
-    unwalkNodes: function() {
-        for (var node in this.nodes) {
-            this.nodes[node].visited = false;
-        }
-    },
-
-    buildGraph: function(graph, edges, nodes) {
-        graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.leo);
-
-        graph.addEdge(edges.leo_geo_transfer, nodes.leo, nodes.geo_transfer);
-        graph.addEdge(edges.geo_transfer_geo_orbit, nodes.geo_transfer, nodes.geostationary);
-
-        graph.addEdge(edges.leo_moon_transfer, nodes.leo, nodes.moon_transfer);
-        graph.addEdge(edges.moon_transfer_lmo, nodes.moon_transfer, nodes.low_moon_orbit);
-        graph.addEdge(edges.moon_landing, nodes.low_moon_orbit, nodes.moon);
-
-        graph.addEdge(edges.leo_earth_transfer, nodes.leo, nodes.earth_transfer);
-        graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
-
-        graph.addEdge(edges.mars_transfer_deimos_transfer, nodes.mars_transfer, nodes.deimos_transfer);
-        graph.addEdge(edges.deimos_transfer_low_deimos_orbit, nodes.deimos_transfer, nodes.low_deimos_orbit);
-        graph.addEdge(edges.deimos_landing, nodes.low_deimos_orbit, nodes.deimos);
+  unwalkNodes: function() {
+    for (var node in this.nodes) {
+      this.nodes[node].visited = false;
     }
+  },
+
+  buildGraph: function(graph, edges, nodes) {
+    graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.leo);
+
+    graph.addEdge(edges.leo_geo_transfer, nodes.leo, nodes.geo_transfer);
+    graph.addEdge(edges.geo_transfer_geo_orbit, nodes.geo_transfer, nodes.geostationary);
+
+    graph.addEdge(edges.leo_moon_transfer, nodes.leo, nodes.moon_transfer);
+    graph.addEdge(edges.moon_transfer_lmo, nodes.moon_transfer, nodes.low_moon_orbit);
+    graph.addEdge(edges.moon_landing, nodes.low_moon_orbit, nodes.moon);
+
+    graph.addEdge(edges.leo_earth_transfer, nodes.leo, nodes.earth_transfer);
+    graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
+
+    graph.addEdge(edges.mars_transfer_deimos_transfer, nodes.mars_transfer, nodes.deimos_transfer);
+    graph.addEdge(edges.deimos_transfer_low_deimos_orbit, nodes.deimos_transfer, nodes.low_deimos_orbit);
+    graph.addEdge(edges.deimos_landing, nodes.low_deimos_orbit, nodes.deimos);
+
+    graph.addEdge(edges.mars_transfer_phobos_transfer, nodes.mars_transfer, nodes.phobos_transfer);
+    graph.addEdge(edges.phobos_transfer_low_phobos_orbit, nodes.phobos_transfer, nodes.low_phobos_orbit);
+    graph.addEdge(edges.phobos_landing, nodes.low_phobos_orbit, nodes.phobos);
+  }
 };
 
 module.exports = new SolarSystem();
