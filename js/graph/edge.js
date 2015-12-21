@@ -7,12 +7,12 @@ var Edge = function(value, name) {
 };
 
 Edge.prototype = {
-  add: function(node1, node2) {
+  add: function(source, destination) {
     this.nodes = {};
 
     this.nodes = {
-      head: node1,
-      tail: node2
+      head: source,
+      tail: destination
     };
   },
 

@@ -2,8 +2,8 @@ var Node = require('./node');
 var Edge = require('./edge');
 
 var Graph = function() {
-    this.edges = [];
-    this.nodes = [];
+  this.edges = [];
+  this.nodes = [];
 };
 
 Graph.prototype = {
@@ -36,13 +36,11 @@ Graph.prototype = {
         var node = edge.nodes.tail;
 
         if (node.id === destination_node.id) {
-          total_value += edge.value;
-
           // stop walking the graph when a match is found
           // TODO: work out a better solution
           this.visitNodes();
 
-          return total_value;
+          return edge.value;
         }
 
         if (!node.visited) {

@@ -42,6 +42,38 @@ describe("one-way trips from earth", function() {
     });
   });
 
+  describe("to venutian space", function() {
+    it("calculates the delta-v to venus transfer orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.venus_transfer);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_venus_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low venus orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_venus_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_venus_transfer.value +
+        edges.venus_transfer_low_venus_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to a venus landing", function() {
+      var total_value = graph.walk(nodes.earth, nodes.venus);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_venus_transfer.value +
+        edges.venus_transfer_low_venus_orbit.value +
+        edges.low_venus_orbit_venus_landing.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+  });
+
   describe("to martian space", function() {
     it("calculates the delta-v to mars transfer orbit", function() {
       var total_value = graph.walk(nodes.earth, nodes.mars_transfer);
