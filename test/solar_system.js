@@ -191,4 +191,25 @@ describe("one-way trips from earth", function() {
       });
     });
   });
+
+  describe("to jovian space", function() {
+    it("calculates the delta-v to jupiter transfer orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.jupiter_transfer);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_jupiter_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low jupiter orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_jupiter_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_jupiter_transfer.value +
+        edges.jupiter_transfer_low_jupiter_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+  });
 });

@@ -24,9 +24,9 @@ var SolarSystem = function() {
     low_venus_orbit: new Node('Low Venus Orbit'),
     venus: new Node('Venus'),
 
-    mercury_transfer: new Node('Mercuryr Transfer'),
-    low_mercury_orbit: new Node('Low Mercuryr Orbit'),
-    mercury: new Node('Mercuryr'),
+    mercury_transfer: new Node('Mercury Transfer'),
+    low_mercury_orbit: new Node('Low Mercury Orbit'),
+    mercury: new Node('Mercury'),
 
     mars_transfer: new Node('Mars Transfer'),
     low_mars_orbit: new Node('Low Mars Orbit'),
@@ -38,7 +38,11 @@ var SolarSystem = function() {
 
     phobos_transfer: new Node('Phobos Transfer'),
     low_phobos_orbit: new Node('Low Phobos Orbit'),
-    phobos: new Node('Phobos')
+    phobos: new Node('Phobos'),
+
+    jupiter_transfer: new Node('Jupiter Transfer'),
+    low_jupiter_orbit: new Node('Low Jupiter Orbit'),
+    jupiter: new Node('Jupiter')
   };
 
   this.edges = {
@@ -71,7 +75,10 @@ var SolarSystem = function() {
 
     mars_transfer_phobos_transfer: newEdge({ deltav: 740, name: 'mars_transfer-phobos_transfer'}),
     phobos_transfer_low_phobos_orbit: newEdge({ deltav: 543, name: 'mars_transfer-phobos_transfer'}),
-    low_phobos_orbit_phobos_landing: newEdge({ deltav: 8, name: 'low_phobos_orbit-phobos_landing'})
+    low_phobos_orbit_phobos_landing: newEdge({ deltav: 8, name: 'low_phobos_orbit-phobos_landing'}),
+
+    earth_transfer_jupiter_transfer: newEdge({ deltav: 3360, name: 'earth_transfer-jupiter_transfer' }),
+    jupiter_transfer_low_jupiter_orbit: newEdge({ deltav: 17200, name: 'jupiter_transfer-low_jupiter_orbit' })
   };
 };
 
@@ -117,6 +124,10 @@ SolarSystem.prototype = {
     graph.addEdge(edges.mars_transfer_phobos_transfer, nodes.mars_transfer, nodes.phobos_transfer);
     graph.addEdge(edges.phobos_transfer_low_phobos_orbit, nodes.phobos_transfer, nodes.low_phobos_orbit);
     graph.addEdge(edges.low_phobos_orbit_phobos_landing, nodes.low_phobos_orbit, nodes.phobos);
+
+    // jupiter
+    graph.addEdge(edges.earth_transfer_jupiter_transfer, nodes.earth_transfer, nodes.jupiter_transfer);
+    graph.addEdge(edges.jupiter_transfer_low_jupiter_orbit, nodes.jupiter_transfer, nodes.low_jupiter_orbit);
   }
 };
 
