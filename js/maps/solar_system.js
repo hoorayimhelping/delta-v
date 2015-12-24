@@ -51,6 +51,14 @@ var SolarSystem = function() {
     ganymede_transfer: new Node('Ganymede Transfer'),
     low_ganymede_orbit: new Node('Low Ganymede Orbit'),
     ganymede: new Node('Ganymede'),
+
+    europa_transfer: new Node('Europa Transfer'),
+    low_europa_orbit: new Node('Low Europa Orbit'),
+    europa: new Node('Europa'),
+
+    io_transfer: new Node('Io Transfer'),
+    low_io_orbit: new Node('Low Io Orbit'),
+    io: new Node('Io')
   };
 
   this.edges = {
@@ -94,7 +102,15 @@ var SolarSystem = function() {
 
     jupiter_transfer_ganymede_transfer: newEdge({ deltav: 6700, name: 'jupiter_transfer-ganymede_transfer' }),
     ganymede_transfer_low_ganymede_orbit: newEdge({ deltav: 790, name: 'ganymede_transfer-low_ganymede_orbit' }),
-    low_ganymede_orbit_ganymede_landing: newEdge({ deltav: 1970, name: 'low_ganymede_orbit-ganymede_landing' })
+    low_ganymede_orbit_ganymede_landing: newEdge({ deltav: 1970, name: 'low_ganymede_orbit-ganymede_landing' }),
+
+    jupiter_transfer_europa_transfer: newEdge({ deltav: 8890, name: 'jupiter_transfer-europa_transfer' }),
+    europa_transfer_low_europa_orbit: newEdge({ deltav: 580, name: 'europa_transfer-low_europa_orbit' }),
+    low_europa_orbit_europa_landing: newEdge({ deltav: 1480, name: 'low_europa_orbit-europa_landing' }),
+
+    jupiter_transfer_io_transfer: newEdge({ deltav: 10320, name: 'jupiter_transfer-io_transfer' }),
+    io_transfer_low_io_orbit: newEdge({ deltav: 730, name: 'io_transfer-low_io_orbit' }),
+    low_io_orbit_io_landing: newEdge({ deltav: 1850, name: 'low_io_orbit-io_landing' })
   };
 };
 
@@ -152,6 +168,14 @@ SolarSystem.prototype = {
     graph.addEdge(edges.jupiter_transfer_ganymede_transfer, nodes.jupiter_transfer, nodes.ganymede_transfer);
     graph.addEdge(edges.ganymede_transfer_low_ganymede_orbit, nodes.ganymede_transfer, nodes.low_ganymede_orbit);
     graph.addEdge(edges.low_ganymede_orbit_ganymede_landing, nodes.low_ganymede_orbit, nodes.ganymede);
+
+    graph.addEdge(edges.jupiter_transfer_europa_transfer, nodes.jupiter_transfer, nodes.europa_transfer);
+    graph.addEdge(edges.europa_transfer_low_europa_orbit, nodes.europa_transfer, nodes.low_europa_orbit);
+    graph.addEdge(edges.low_europa_orbit_europa_landing, nodes.low_europa_orbit, nodes.europa);
+
+    graph.addEdge(edges.jupiter_transfer_io_transfer, nodes.jupiter_transfer, nodes.io_transfer);
+    graph.addEdge(edges.io_transfer_low_io_orbit, nodes.io_transfer, nodes.low_io_orbit);
+    graph.addEdge(edges.low_io_orbit_io_landing, nodes.low_io_orbit, nodes.io);
   }
 };
 

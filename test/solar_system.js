@@ -265,5 +265,59 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
     });
+
+    describe("to europa space", function() {
+      it("calculates the delta-v to low europa orbit", function() {
+        var total_value = graph.walk(nodes.earth, nodes.low_europa_orbit);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_europa_transfer.value +
+          edges.europa_transfer_low_europa_orbit.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+
+      it("calculates the delta-v to a europa landing", function() {
+        var total_value = graph.walk(nodes.earth, nodes.europa);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_europa_transfer.value +
+          edges.europa_transfer_low_europa_orbit.value +
+          edges.low_europa_orbit_europa_landing.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+    });
+
+    describe("to io space", function() {
+      it("calculates the delta-v to low io orbit", function() {
+        var total_value = graph.walk(nodes.earth, nodes.low_io_orbit);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_io_transfer.value +
+          edges.io_transfer_low_io_orbit.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+
+      it("calculates the delta-v to a io landing", function() {
+        var total_value = graph.walk(nodes.earth, nodes.io);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_io_transfer.value +
+          edges.io_transfer_low_io_orbit.value +
+          edges.low_io_orbit_io_landing.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+    });
   });
 });

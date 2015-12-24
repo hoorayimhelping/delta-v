@@ -239,9 +239,13 @@ var SolarSystem = function() {
     low_jupiter_orbit: new Node('Low Jupiter Orbit'),
     jupiter: new Node('Jupiter'),
 
-    callisto_transfer: new Node('callisto Transfer'),
-    low_callisto_orbit: new Node('Low callisto Orbit'),
-    callisto: new Node('callisto'),
+    callisto_transfer: new Node('Callisto Transfer'),
+    low_callisto_orbit: new Node('Low Callisto Orbit'),
+    callisto: new Node('Callisto'),
+
+    ganymede_transfer: new Node('Ganymede Transfer'),
+    low_ganymede_orbit: new Node('Low Ganymede Orbit'),
+    ganymede: new Node('Ganymede'),
   };
 
   this.edges = {
@@ -281,7 +285,11 @@ var SolarSystem = function() {
 
     jupiter_transfer_callisto_transfer: newEdge({ deltav: 5140, name: 'jupiter_transfer-callisto_transfer' }),
     callisto_transfer_low_callisto_orbit: newEdge({ deltav: 700, name: 'callisto_transfer-low_callisto_orbit' }),
-    low_callisto_orbit_callisto_landing: newEdge({ deltav: 1760, name: 'low_callisto_orbit-callisto_landing' })
+    low_callisto_orbit_callisto_landing: newEdge({ deltav: 1760, name: 'low_callisto_orbit-callisto_landing' }),
+
+    jupiter_transfer_ganymede_transfer: newEdge({ deltav: 6700, name: 'jupiter_transfer-ganymede_transfer' }),
+    ganymede_transfer_low_ganymede_orbit: newEdge({ deltav: 790, name: 'ganymede_transfer-low_ganymede_orbit' }),
+    low_ganymede_orbit_ganymede_landing: newEdge({ deltav: 1970, name: 'low_ganymede_orbit-ganymede_landing' })
   };
 };
 
@@ -335,6 +343,10 @@ SolarSystem.prototype = {
     graph.addEdge(edges.jupiter_transfer_callisto_transfer, nodes.jupiter_transfer, nodes.callisto_transfer);
     graph.addEdge(edges.callisto_transfer_low_callisto_orbit, nodes.callisto_transfer, nodes.low_callisto_orbit);
     graph.addEdge(edges.low_callisto_orbit_callisto_landing, nodes.low_callisto_orbit, nodes.callisto);
+
+    graph.addEdge(edges.jupiter_transfer_ganymede_transfer, nodes.jupiter_transfer, nodes.ganymede_transfer);
+    graph.addEdge(edges.ganymede_transfer_low_ganymede_orbit, nodes.ganymede_transfer, nodes.low_ganymede_orbit);
+    graph.addEdge(edges.low_ganymede_orbit_ganymede_landing, nodes.low_ganymede_orbit, nodes.ganymede);
   }
 };
 
