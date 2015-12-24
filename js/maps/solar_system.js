@@ -24,6 +24,10 @@ var SolarSystem = function() {
     low_venus_orbit: new Node('Low Venus Orbit'),
     venus: new Node('Venus'),
 
+    mercury_transfer: new Node('Mercuryr Transfer'),
+    low_mercury_orbit: new Node('Low Mercuryr Orbit'),
+    mercury: new Node('Mercuryr'),
+
     mars_transfer: new Node('Mars Transfer'),
     low_mars_orbit: new Node('Low Mars Orbit'),
     mars: new Node('Mars'),
@@ -52,6 +56,10 @@ var SolarSystem = function() {
     earth_transfer_venus_transfer: newEdge({ deltav: 640, name: 'earth_transfer-venus_transfer' }),
     venus_transfer_low_venus_orbit: newEdge({ deltav: 2940, name: 'venus_transfer-low_venus_orbit' }),
     low_venus_orbit_venus_landing: newEdge({ deltav: 2000, name: 'low_venus_orbit-venus_landing' }),
+
+    earth_transfer_mercury_transfer: newEdge({ deltav: 2340, name: 'earth_transfer-mercury_transfer' }),
+    mercury_transfer_low_mercury_orbit: newEdge({ deltav: 7530, name: 'mercury_transfer-low_mercury_orbit' }),
+    low_mercury_orbit_mercury_landing: newEdge({ deltav: 3060, name: 'low_mercury_orbit-mercury_landing' }),
 
     earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' }),
     mars_transfer_low_mars_orbit: newEdge({ deltav: 1440, name: 'mars_transfer-low_mars_orbit' }),
@@ -91,6 +99,11 @@ SolarSystem.prototype = {
     graph.addEdge(edges.earth_transfer_venus_transfer, nodes.earth_transfer, nodes.venus_transfer);
     graph.addEdge(edges.venus_transfer_low_venus_orbit, nodes.venus_transfer, nodes.low_venus_orbit);
     graph.addEdge(edges.low_venus_orbit_venus_landing, nodes.low_venus_orbit, nodes.venus);
+
+    // mercury
+    graph.addEdge(edges.earth_transfer_mercury_transfer, nodes.earth_transfer, nodes.mercury_transfer);
+    graph.addEdge(edges.mercury_transfer_low_mercury_orbit, nodes.mercury_transfer, nodes.low_mercury_orbit);
+    graph.addEdge(edges.low_mercury_orbit_mercury_landing, nodes.low_mercury_orbit, nodes.mercury);
 
     // mars
     graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
