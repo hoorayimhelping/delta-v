@@ -211,5 +211,32 @@ describe("one-way trips from earth", function() {
 
       expect(total_value).to.equal(expected_value);
     });
+
+    describe("to callisto space", function() {
+      it("calculates the delta-v to low callisto orbit", function() {
+        var total_value = graph.walk(nodes.earth, nodes.low_callisto_orbit);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_callisto_transfer.value +
+          edges.callisto_transfer_low_callisto_orbit.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+
+      it("calculates the delta-v to a callisto landing", function() {
+        var total_value = graph.walk(nodes.earth, nodes.callisto);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_callisto_transfer.value +
+          edges.callisto_transfer_low_callisto_orbit.value +
+          edges.low_callisto_orbit_callisto_landing.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+    });
   });
 });

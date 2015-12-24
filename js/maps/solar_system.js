@@ -42,7 +42,11 @@ var SolarSystem = function() {
 
     jupiter_transfer: new Node('Jupiter Transfer'),
     low_jupiter_orbit: new Node('Low Jupiter Orbit'),
-    jupiter: new Node('Jupiter')
+    jupiter: new Node('Jupiter'),
+
+    callisto_transfer: new Node('callisto Transfer'),
+    low_callisto_orbit: new Node('Low callisto Orbit'),
+    callisto: new Node('callisto'),
   };
 
   this.edges = {
@@ -78,7 +82,11 @@ var SolarSystem = function() {
     low_phobos_orbit_phobos_landing: newEdge({ deltav: 8, name: 'low_phobos_orbit-phobos_landing'}),
 
     earth_transfer_jupiter_transfer: newEdge({ deltav: 3360, name: 'earth_transfer-jupiter_transfer' }),
-    jupiter_transfer_low_jupiter_orbit: newEdge({ deltav: 17200, name: 'jupiter_transfer-low_jupiter_orbit' })
+    jupiter_transfer_low_jupiter_orbit: newEdge({ deltav: 17200, name: 'jupiter_transfer-low_jupiter_orbit' }),
+
+    jupiter_transfer_callisto_transfer: newEdge({ deltav: 5140, name: 'jupiter_transfer-callisto_transfer' }),
+    callisto_transfer_low_callisto_orbit: newEdge({ deltav: 700, name: 'callisto_transfer-low_callisto_orbit' }),
+    low_callisto_orbit_callisto_landing: newEdge({ deltav: 1760, name: 'low_callisto_orbit-callisto_landing' })
   };
 };
 
@@ -128,6 +136,10 @@ SolarSystem.prototype = {
     // jupiter
     graph.addEdge(edges.earth_transfer_jupiter_transfer, nodes.earth_transfer, nodes.jupiter_transfer);
     graph.addEdge(edges.jupiter_transfer_low_jupiter_orbit, nodes.jupiter_transfer, nodes.low_jupiter_orbit);
+
+    graph.addEdge(edges.jupiter_transfer_callisto_transfer, nodes.jupiter_transfer, nodes.callisto_transfer);
+    graph.addEdge(edges.callisto_transfer_low_callisto_orbit, nodes.callisto_transfer, nodes.low_callisto_orbit);
+    graph.addEdge(edges.low_callisto_orbit_callisto_landing, nodes.low_callisto_orbit, nodes.callisto);
   }
 };
 
