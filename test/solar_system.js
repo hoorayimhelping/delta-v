@@ -238,5 +238,32 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
     });
+
+    describe("to ganymede space", function() {
+      it("calculates the delta-v to low ganymede orbit", function() {
+        var total_value = graph.walk(nodes.earth, nodes.low_ganymede_orbit);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_ganymede_transfer.value +
+          edges.ganymede_transfer_low_ganymede_orbit.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+
+      it("calculates the delta-v to a ganymede landing", function() {
+        var total_value = graph.walk(nodes.earth, nodes.ganymede);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_jupiter_transfer.value +
+          edges.jupiter_transfer_ganymede_transfer.value +
+          edges.ganymede_transfer_low_ganymede_orbit.value +
+          edges.low_ganymede_orbit_ganymede_landing.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+    });
   });
 });
