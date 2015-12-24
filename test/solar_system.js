@@ -320,4 +320,73 @@ describe("one-way trips from earth", function() {
       });
     });
   });
+
+  describe("to saturn space", function() {
+    it("calculates the delta-v to saturn transfer orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.saturn_transfer);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_saturn_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low saturn orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_saturn_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_saturn_transfer.value +
+        edges.saturn_transfer_low_saturn_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    describe("to titan space", function() {
+      it("calculates the delta-v to low titan orbit", function() {
+        var total_value = graph.walk(nodes.earth, nodes.low_titan_orbit);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_saturn_transfer.value +
+          edges.saturn_transfer_titan_transfer.value +
+          edges.titan_transfer_low_titan_orbit.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+
+      it("calculates the delta-v to a titan landing", function() {
+        var total_value = graph.walk(nodes.earth, nodes.titan);
+
+        var expected_value = edges.low_earth_orbit.value +
+          edges.low_earth_orbit_earth_transfer.value +
+          edges.earth_transfer_saturn_transfer.value +
+          edges.saturn_transfer_titan_transfer.value +
+          edges.titan_transfer_low_titan_orbit.value +
+          edges.low_titan_orbit_titan_landing.value;
+
+        expect(total_value).to.equal(expected_value);
+      });
+    });
+  });
+
+  describe("to uranus space", function() {
+    it("calculates the delta-v to uranus transfer orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.uranus_transfer);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_uranus_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low uranus orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_uranus_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_uranus_transfer.value +
+        edges.uranus_transfer_low_uranus_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+  });
 });

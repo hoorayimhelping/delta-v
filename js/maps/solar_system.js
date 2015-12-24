@@ -58,7 +58,19 @@ var SolarSystem = function() {
 
     io_transfer: new Node('Io Transfer'),
     low_io_orbit: new Node('Low Io Orbit'),
-    io: new Node('Io')
+    io: new Node('Io'),
+
+    saturn_transfer: new Node('Saturn Transfer'),
+    low_saturn_orbit: new Node('Low Saturn Orbit'),
+    saturn: new Node('Saturn'),
+
+    titan_transfer: new Node('Titan Transfer'),
+    low_titan_orbit: new Node('Low Titan Orbit'),
+    titan: new Node('Titan'),
+
+    uranus_transfer: new Node('Uranus Transfer'),
+    low_uranus_orbit: new Node('Low Uranus Orbit'),
+    uranus: new Node('Uranus'),
   };
 
   this.edges = {
@@ -110,7 +122,17 @@ var SolarSystem = function() {
 
     jupiter_transfer_io_transfer: newEdge({ deltav: 10320, name: 'jupiter_transfer-io_transfer' }),
     io_transfer_low_io_orbit: newEdge({ deltav: 730, name: 'io_transfer-low_io_orbit' }),
-    low_io_orbit_io_landing: newEdge({ deltav: 1850, name: 'low_io_orbit-io_landing' })
+    low_io_orbit_io_landing: newEdge({ deltav: 1850, name: 'low_io_orbit-io_landing' }),
+
+    earth_transfer_saturn_transfer: newEdge({ deltav: 4500, name: 'earth_transfer-saturn_transfer' }),
+    saturn_transfer_low_saturn_orbit: newEdge({ deltav: 10230, name: 'saturn_transfer-low_saturn_orbit' }),
+
+    saturn_transfer_titan_transfer: newEdge({ deltav: 3060, name: 'saturn_transfer-titan_transfer' }),
+    titan_transfer_low_titan_orbit: newEdge({ deltav: 660, name: 'titan_transfer-low_titan_orbit' }),
+    low_titan_orbit_titan_landing: newEdge({ deltav: 7600, name: 'low_titan_orbit-titan_landing' }),
+
+    earth_transfer_uranus_transfer: newEdge({ deltav: 5280, name: 'earth_transfer-uranus_transfer' }),
+    uranus_transfer_low_uranus_orbit: newEdge({ deltav: 6120, name: 'uranus_transfer-low_uranus_orbit' })
   };
 };
 
@@ -176,6 +198,18 @@ SolarSystem.prototype = {
     graph.addEdge(edges.jupiter_transfer_io_transfer, nodes.jupiter_transfer, nodes.io_transfer);
     graph.addEdge(edges.io_transfer_low_io_orbit, nodes.io_transfer, nodes.low_io_orbit);
     graph.addEdge(edges.low_io_orbit_io_landing, nodes.low_io_orbit, nodes.io);
+
+    // saturn
+    graph.addEdge(edges.earth_transfer_saturn_transfer, nodes.earth_transfer, nodes.saturn_transfer);
+    graph.addEdge(edges.saturn_transfer_low_saturn_orbit, nodes.saturn_transfer, nodes.low_saturn_orbit);
+
+    graph.addEdge(edges.saturn_transfer_titan_transfer, nodes.saturn_transfer, nodes.titan_transfer);
+    graph.addEdge(edges.titan_transfer_low_titan_orbit, nodes.titan_transfer, nodes.low_titan_orbit);
+    graph.addEdge(edges.low_titan_orbit_titan_landing, nodes.low_titan_orbit, nodes.titan);
+
+    // uranus
+    graph.addEdge(edges.earth_transfer_uranus_transfer, nodes.earth_transfer, nodes.uranus_transfer);
+    graph.addEdge(edges.uranus_transfer_low_uranus_orbit, nodes.uranus_transfer, nodes.low_uranus_orbit);
   }
 };
 
