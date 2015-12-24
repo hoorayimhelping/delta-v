@@ -71,6 +71,14 @@ var SolarSystem = function() {
     uranus_transfer: new Node('Uranus Transfer'),
     low_uranus_orbit: new Node('Low Uranus Orbit'),
     uranus: new Node('Uranus'),
+
+    neptune_transfer: new Node('Neptune Transfer'),
+    low_neptune_orbit: new Node('Low Neptune Orbit'),
+    neptune: new Node('Neptune'),
+
+    sun_transfer: new Node('Sun Transfer'),
+    low_sun_orbit: new Node('Low Sun Orbit'),
+    sun: new Node('Sun')
   };
 
   this.edges = {
@@ -132,7 +140,13 @@ var SolarSystem = function() {
     low_titan_orbit_titan_landing: newEdge({ deltav: 7600, name: 'low_titan_orbit-titan_landing' }),
 
     earth_transfer_uranus_transfer: newEdge({ deltav: 5280, name: 'earth_transfer-uranus_transfer' }),
-    uranus_transfer_low_uranus_orbit: newEdge({ deltav: 6120, name: 'uranus_transfer-low_uranus_orbit' })
+    uranus_transfer_low_uranus_orbit: newEdge({ deltav: 6120, name: 'uranus_transfer-low_uranus_orbit' }),
+
+    earth_transfer_neptune_transfer: newEdge({ deltav: 5390, name: 'earth_transfer-neptune_transfer' }),
+    neptune_transfer_low_neptune_orbit: newEdge({ deltav: 6750, name: 'neptune_transfer-low_neptune_orbit' }),
+
+    earth_transfer_sun_transfer: newEdge({ deltav: 196080, name: 'earth_transfer-sun_transfer' }),
+    sun_transfer_low_sun_orbit: newEdge({ deltav: 636080, name: 'sun_transfer-low_sun_orbit' })
   };
 };
 
@@ -210,6 +224,14 @@ SolarSystem.prototype = {
     // uranus
     graph.addEdge(edges.earth_transfer_uranus_transfer, nodes.earth_transfer, nodes.uranus_transfer);
     graph.addEdge(edges.uranus_transfer_low_uranus_orbit, nodes.uranus_transfer, nodes.low_uranus_orbit);
+
+    // neptune
+    graph.addEdge(edges.earth_transfer_neptune_transfer, nodes.earth_transfer, nodes.neptune_transfer);
+    graph.addEdge(edges.neptune_transfer_low_neptune_orbit, nodes.neptune_transfer, nodes.low_neptune_orbit);
+
+    // sun
+    graph.addEdge(edges.earth_transfer_sun_transfer, nodes.earth_transfer, nodes.sun_transfer);
+    graph.addEdge(edges.sun_transfer_low_sun_orbit, nodes.sun_transfer, nodes.low_sun_orbit);
   }
 };
 

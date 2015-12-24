@@ -389,4 +389,46 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
   });
+
+  describe("to neptonian space", function() {
+    it("calculates the delta-v to neptune transfer orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.neptune_transfer);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_neptune_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low neptune orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_neptune_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_neptune_transfer.value +
+        edges.neptune_transfer_low_neptune_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+  });
+
+  describe("to solar space", function() {
+    it("calculates the delta-v to sun transfer orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.sun_transfer);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_sun_transfer.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+
+    it("calculates the delta-v to low sun orbit", function() {
+      var total_value = graph.walk(nodes.earth, nodes.low_sun_orbit);
+      var expected_value = edges.low_earth_orbit.value +
+        edges.low_earth_orbit_earth_transfer.value +
+        edges.earth_transfer_sun_transfer.value +
+        edges.sun_transfer_low_sun_orbit.value;
+
+      expect(total_value).to.equal(expected_value);
+    });
+  });
 });
