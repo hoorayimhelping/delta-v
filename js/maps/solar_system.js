@@ -2,7 +2,7 @@ var Node = require('../graph/node');
 var Edge = require('../graph/edge');
 
 var newEdge = function(options) {
-    return new Edge(options.deltav, options.name);
+  return new Edge(options.deltav, options.name);
 };
 
 // values taken from http://i.imgur.com/SqdzxzF.png
