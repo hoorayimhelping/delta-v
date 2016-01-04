@@ -1,5 +1,4 @@
-var react = require('react');
-var CanvasRenderer = require('../canvas/renderer');
+var CanvasRenderer = require('.renderer');
 var solar_system = require('../maps/solar_system');
 var Graph = require('../graph/graph');
 
@@ -40,7 +39,6 @@ window.addEventListener('resize', function(event) {
     draw(graph, nodes, renderer);
  }, false);
 
-window.react = react;
 
 var edges = solar_system.edges;
 var nodes = solar_system.nodes;

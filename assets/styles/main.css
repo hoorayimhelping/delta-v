@@ -1,0 +1,14 @@
+html, body, div, canvas {
+	margin: 0;
+	padding: 0;
+}
+
+canvas {
+  border: 1px red solid;
+}
+
+.container {
+  display: block;
+  margin: 0 auto;
+  padding: 25px;
+}

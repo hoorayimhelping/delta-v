@@ -1,8 +1,8 @@
-var Graph = require('../js/graph/graph');
-var Node = require('../js/graph/node');
-var Edge = require('../js/graph/edge');
+var Graph = require('../src/js/graph/graph');
+var Node = require('../src/js/graph/node');
+var Edge = require('../src/js/graph/edge');
 
-var solar_system = require('../js/maps/solar_system');
+var solar_system = require('../src/js/maps/solar_system');
 
 describe("one-way trips from earth", function() {
   var edges = solar_system.edges;

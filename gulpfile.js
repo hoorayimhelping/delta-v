@@ -10,14 +10,14 @@ var react = require('gulp-react');
 
 var paths = {
   'js_source': {
-    graph: 'js/graph/',
-    maps: 'js/maps',
-    canvas: '/js/canvas'
+    graph: 'src/js/graph/',
+    maps: 'src/js/maps/',
+    canvas: 'src/js/canvas/',
+    react: 'src/js/views/'
   },
-  'js_test': 'js/test/',
-  'js_dist': 'js/',
-  'react_source': 'js/views/',
-  'react_dist': 'js/views/'
+  'js_test': 'test/',
+  'js_build': 'build/',
+  'js_dist': 'assets/js/'
 };
 
 gulp.task('env-dev', function() {
@@ -33,7 +33,6 @@ gulp.task('lint', function() {
     paths.js_source.graph + '*.js',
     paths.js_source.maps + '*.js',
     paths.js_source.canvas + '*.js',
-    paths.js_test + '*.js',
     'gulpfile.js'
   ])
   .pipe(jshint({ esnext: true }))
@@ -46,13 +45,13 @@ gulp.task('test', shell.task([
 ]));
 
 gulp.task('transform', function() {
-   return gulp.src(paths.react_source + '*.jsx')
+   return gulp.src(paths.js_source.react + '*.jsx')
     .pipe(react())
-    .pipe(gulp.dest(paths.react_dist));
+    .pipe(gulp.dest(paths.js_build));
 });
 
 gulp.task('build', function() {
-  return browserify(paths.react_dist + 'main.js')
+  return browserify(paths.js_build + 'main.js')
     .transform(reactify)
     .bundle()
     .pipe(source('app.js'))
@@ -61,7 +60,7 @@ gulp.task('build', function() {
 
 gulp.task('default', function() {
   gulp.watch([
-      paths.react_source + '/*.jsx',
+      paths.js_source.react + '*.jsx',
       paths.js_source.graph + '*.js',
       paths.js_source.maps + '*.js',
       paths.js_source.canvas + '*.js'
