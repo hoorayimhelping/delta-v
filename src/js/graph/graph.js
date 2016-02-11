@@ -1,7 +1,7 @@
-var Node = require('./node');
-var Edge = require('./edge');
+import Node from './node';
+import Edge from './edge';
 
-var Graph = function() {
+let Graph = function() {
   this.edges = [];
   this.nodes = [];
 };
@@ -26,14 +26,14 @@ Graph.prototype = {
 
   // depth first search
   walk: function(start_node, destination_node) {
-    var total_value = 0;
-    var edges = start_node.edges;
+    let total_value = 0;
+    let edges = start_node.edges;
 
     start_node.visited = true;
 
-    for (var i = 0, l = start_node.edges.length; i < l; i++) {
-      var edge = edges[i];
-      var node = edge.nodes.tail;
+    for (let i = 0, l = start_node.edges.length; i < l; i++) {
+      let edge = edges[i];
+      let node = edge.nodes.tail;
 
       if (node.id === destination_node.id) {
         // stop walking the graph when a match is found
@@ -71,7 +71,7 @@ Graph.prototype = {
     start_node.edges.forEach(function(edge, i) {
       renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
 
-      var node = edge.nodes.tail;
+      let node = edge.nodes.tail;
 
       if (node.id === destination_node.id) {
         return;

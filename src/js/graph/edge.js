@@ -1,4 +1,4 @@
-var Edge = function(value, name) {
+let Edge = function(value, name) {
   this.value = value;
   this.name = name;
 

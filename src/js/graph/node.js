@@ -1,4 +1,4 @@
-var Node = function(id) {
+let Node = function(id) {
     this.id = id;
     this.edges = [];
     this.visited = false;

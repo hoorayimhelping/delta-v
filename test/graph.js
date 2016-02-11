@@ -1,14 +1,14 @@
-var Graph = require('../src/js/graph/graph');
-var Node = require('../src/js/graph/node');
-var Edge = require('../src/js/graph/edge');
+import Graph from '../src/js/graph/graph';
+import Node from '../src/js/graph/node';
+import Edge from '../src/js/graph/edge';
 
-var solar_system = require('../src/js/maps/solar_system');
-var kerbol_system = require('../src/js/maps/kerbol_system');
+import solar_system from '../src/js/maps/solar_system';
+import kerbol_system from '../src/js/maps/kerbol_system';
 
 describe("checking a graph for adjacency", function() {
-  var graph = new Graph();
-  var edges = kerbol_system.edges;
-  var nodes = kerbol_system.nodes;
+  let graph = new Graph();
+  let edges = kerbol_system.edges;
+  let nodes = kerbol_system.nodes;
 
   graph.addEdge(edges.kerbin_lko, nodes.kerbin, nodes.low_kerbin_orbit);
   graph.addEdge(edges.lko_gto, nodes.low_kerbin_orbit, nodes.geostationary_transfer_orbit);

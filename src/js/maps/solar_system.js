@@ -1,13 +1,13 @@
-var Node = require('../graph/node');
-var Edge = require('../graph/edge');
+import Node from '../graph/node';
+import Edge from '../graph/edge';
 
-var newEdge = function(options) {
+let newEdge = function(options) {
   return new Edge(options.deltav, options.name);
 };
 
 // values taken from http://i.imgur.com/SqdzxzF.png
 
-var SolarSystem = function() {
+let SolarSystem = function() {
   this.nodes = {
     earth: new Node('Earth'),
     low_earth_orbit: new Node('Low Earth Orbit'),
@@ -152,7 +152,7 @@ var SolarSystem = function() {
 
 SolarSystem.prototype = {
   unwalkNodes: function() {
-    for (var node in this.nodes) {
+    for (let node in this.nodes) {
       this.nodes[node].visited = false;
     }
   },
