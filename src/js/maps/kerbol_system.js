@@ -2,8 +2,7 @@ import Node from '../graph/node';
 import Edge from '../graph/edge';
 
 let newNode = function(id) {
-  let node = new Node();
-  node.id = id;
+  let node = new Node(id);
 
   return node;
 };
@@ -88,7 +87,7 @@ export default class KerbolSystem {
 
       kerbol_transfer: new Node('Kerbol Transfer'),
       low_kerbol_orbit: new Node('Low Kerbol Orbit'),
-      kerbol: new Node('Kerbol'),
+      kerbol: new Node('Kerbol')
     };
 
     this.edges = {
@@ -106,7 +105,7 @@ export default class KerbolSystem {
       minmus_transfer_low_minmus_orbit: newEdge({ deltav: 160, name: 'minmus_transfer-low_minmus_orbit' }),
       low_minmus_orbit_minmus_landing: newEdge({ deltav: 180, name: 'low_minmus_orbit-minmus_landing' }),
 
-      low_kerbin_orbit_earth_transfer: newEdge({ deltav: 950, name: 'low_earth_orbit-earth_transfer' }),
+      low_kerbin_orbit_kerbin_transfer: newEdge({ deltav: 950, name: 'low_kerbin_orbit-kerbin_transfer' })
 
 
 
@@ -166,24 +165,24 @@ export default class KerbolSystem {
       // sun_transfer_low_sun_orbit: newEdge({ deltav: 636080, name: 'sun_transfer-low_sun_orbit' })
     };
   }
-}
 
+  buildGraph = (graph, edges, nodes) => {
+    // earth
+    graph.addEdge(edges.low_kerbin_orbit, nodes.kerbin, nodes.low_kerbin_orbit);
 
+    graph.addEdge(edges.low_kerbin_orbit_keostationary_transfer, nodes.low_kerbin_orbit, nodes.keostationary_transfer);
+    graph.addEdge(edges.keostationary_transfer_keo_orbit, nodes.keostationary_transfer, nodes.keostationary_orbit);
 
-// values taken from http://i.imgur.com/V4FHldK.png
-// let nodes = {
-//   kerbin: newNode('Kerbin'),
-//   low_kerbin_orbit: newNode('Low Kerbin Orbit'),
-//   keostationary_transfer_orbit: newNode('GTO'),
-//   mun_transfer: newNode('Mun Transfer')
-// };
+    graph.addEdge(edges.low_kerbin_orbit_mun_transfer, nodes.low_kerbin_orbit, nodes.mun_transfer);
+    graph.addEdge(edges.mun_transfer_low_mun_orbit, nodes.mun_transfer, nodes.low_mun_orbit);
+    graph.addEdge(edges.low_mun_orbit_mun_landing, nodes.low_mun_orbit, nodes.mun);
 
-// let edges = {
-//   kerbin_lko: newEdge({ deltav: 3800, name: 'kerbin-lko' }),
-//   lko_gto: newEdge({ deltav: 670, name: 'lko-gto' }),
-//   lko_mun_transfer: newEdge({ deltav: 190, name: 'lko-mun_transfer' })
-// };
+    graph.addEdge(edges.low_kerbin_orbit_kerbin_transfer, nodes.low_kerbin_orbit, nodes.kerbin_transfer);
+  };
 
-// module.exports = {
-//   nodes, edges
-// };
+  unwalkNodes = () => {
+    for (let node in this.nodes) {
+      this.nodes[node].visited = false;
+    }
+  };
+};

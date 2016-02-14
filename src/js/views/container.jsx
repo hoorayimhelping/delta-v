@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import SolarSystem from '../maps/solar_system';
 import KerbolSystem from '../maps/kerbol_system';
 
-module.exports = React.createClass({
-  render: function() {
+export default class Container extends React.Component {
+  render() {
     return (
       <div>
         <h1>Hello, world!</h1>
@@ -13,4 +12,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+};

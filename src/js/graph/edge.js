@@ -14,11 +14,6 @@ Edge.prototype = {
       head: source,
       tail: destination
     };
-  },
-
-  areAdjacent: function(node1, node2) {
-    return this.nodes.head.id === node1.id &&
-      this.nodes.tail.id === node2.id;
   }
 };
 

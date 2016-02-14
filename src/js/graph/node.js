@@ -1,13 +1,11 @@
-let Node = function(id) {
+export default class Node {
+  constructor(id) {
     this.id = id;
     this.edges = [];
     this.visited = false;
-};
+  }
 
-Node.prototype = {
-    addEdge: function(edge) {
-        this.edges.push(edge);
-    }
-};
-
-module.exports = Node;
+  addEdge = (edge) => {
+    this.edges.push(edge);
+  };
+}

@@ -19659,13 +19659,25 @@
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	}();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
 
 	var _solar_system = __webpack_require__(160);
 
@@ -19679,13 +19691,45 @@
 	  return obj && obj.__esModule ? obj : { default: obj };
 	}
 
-	module.exports = _react2.default.createClass({
-	  displayName: 'exports',
-
-	  render: function render() {
-	    return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('h2', null, 'Yeah!'));
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
 	  }
-	});
+	}
+
+	function _possibleConstructorReturn(self, call) {
+	  if (!self) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	}
+
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
+
+	var Container = function (_React$Component) {
+	  _inherits(Container, _React$Component);
+
+	  function Container() {
+	    _classCallCheck(this, Container);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Container).apply(this, arguments));
+	  }
+
+	  _createClass(Container, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('h2', null, 'Yeah!'));
+	    }
+	  }]);
+
+	  return Container;
+	}(_react2.default.Component);
+
+	exports.default = Container;
+	;
 
 /***/ },
 /* 160 */
@@ -19693,87 +19737,94 @@
 
 	'use strict';
 
-	var Node = __webpack_require__(161);
-	var Edge = __webpack_require__(162);
+	var _node = __webpack_require__(161);
+
+	var _node2 = _interopRequireDefault(_node);
+
+	var _edge = __webpack_require__(162);
+
+	var _edge2 = _interopRequireDefault(_edge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var newEdge = function newEdge(options) {
-	  return new Edge(options.deltav, options.name);
+	  return new _edge2.default(options.deltav, options.name);
 	};
 
 	// values taken from http://i.imgur.com/SqdzxzF.png
 
 	var SolarSystem = function SolarSystem() {
 	  this.nodes = {
-	    earth: new Node('Earth'),
-	    low_earth_orbit: new Node('Low Earth Orbit'),
-	    geostationary_transfer: new Node('Geostationary Transfer'),
-	    geostationary_orbit: new Node('Geostationary Orbit'),
+	    earth: new _node2.default('Earth'),
+	    low_earth_orbit: new _node2.default('Low Earth Orbit'),
+	    geostationary_transfer: new _node2.default('Geostationary Transfer'),
+	    geostationary_orbit: new _node2.default('Geostationary Orbit'),
 
-	    moon_transfer: new Node('Moon Transfer'),
-	    low_moon_orbit: new Node('Low Moon Orbit'),
-	    moon: new Node('Moon'),
+	    moon_transfer: new _node2.default('Moon Transfer'),
+	    low_moon_orbit: new _node2.default('Low Moon Orbit'),
+	    moon: new _node2.default('Moon'),
 
-	    earth_transfer: new Node('Earth Transfer'),
+	    earth_transfer: new _node2.default('Earth Transfer'),
 
-	    venus_transfer: new Node('Venus Transfer'),
-	    low_venus_orbit: new Node('Low Venus Orbit'),
-	    venus: new Node('Venus'),
+	    venus_transfer: new _node2.default('Venus Transfer'),
+	    low_venus_orbit: new _node2.default('Low Venus Orbit'),
+	    venus: new _node2.default('Venus'),
 
-	    mercury_transfer: new Node('Mercury Transfer'),
-	    low_mercury_orbit: new Node('Low Mercury Orbit'),
-	    mercury: new Node('Mercury'),
+	    mercury_transfer: new _node2.default('Mercury Transfer'),
+	    low_mercury_orbit: new _node2.default('Low Mercury Orbit'),
+	    mercury: new _node2.default('Mercury'),
 
-	    mars_transfer: new Node('Mars Transfer'),
-	    low_mars_orbit: new Node('Low Mars Orbit'),
-	    mars: new Node('Mars'),
+	    mars_transfer: new _node2.default('Mars Transfer'),
+	    low_mars_orbit: new _node2.default('Low Mars Orbit'),
+	    mars: new _node2.default('Mars'),
 
-	    deimos_transfer: new Node('Deimos Transfer'),
-	    low_deimos_orbit: new Node('Low Deimos Orbit'),
-	    deimos: new Node('Deimos'),
+	    deimos_transfer: new _node2.default('Deimos Transfer'),
+	    low_deimos_orbit: new _node2.default('Low Deimos Orbit'),
+	    deimos: new _node2.default('Deimos'),
 
-	    phobos_transfer: new Node('Phobos Transfer'),
-	    low_phobos_orbit: new Node('Low Phobos Orbit'),
-	    phobos: new Node('Phobos'),
+	    phobos_transfer: new _node2.default('Phobos Transfer'),
+	    low_phobos_orbit: new _node2.default('Low Phobos Orbit'),
+	    phobos: new _node2.default('Phobos'),
 
-	    jupiter_transfer: new Node('Jupiter Transfer'),
-	    low_jupiter_orbit: new Node('Low Jupiter Orbit'),
-	    jupiter: new Node('Jupiter'),
+	    jupiter_transfer: new _node2.default('Jupiter Transfer'),
+	    low_jupiter_orbit: new _node2.default('Low Jupiter Orbit'),
+	    jupiter: new _node2.default('Jupiter'),
 
-	    callisto_transfer: new Node('Callisto Transfer'),
-	    low_callisto_orbit: new Node('Low Callisto Orbit'),
-	    callisto: new Node('Callisto'),
+	    callisto_transfer: new _node2.default('Callisto Transfer'),
+	    low_callisto_orbit: new _node2.default('Low Callisto Orbit'),
+	    callisto: new _node2.default('Callisto'),
 
-	    ganymede_transfer: new Node('Ganymede Transfer'),
-	    low_ganymede_orbit: new Node('Low Ganymede Orbit'),
-	    ganymede: new Node('Ganymede'),
+	    ganymede_transfer: new _node2.default('Ganymede Transfer'),
+	    low_ganymede_orbit: new _node2.default('Low Ganymede Orbit'),
+	    ganymede: new _node2.default('Ganymede'),
 
-	    europa_transfer: new Node('Europa Transfer'),
-	    low_europa_orbit: new Node('Low Europa Orbit'),
-	    europa: new Node('Europa'),
+	    europa_transfer: new _node2.default('Europa Transfer'),
+	    low_europa_orbit: new _node2.default('Low Europa Orbit'),
+	    europa: new _node2.default('Europa'),
 
-	    io_transfer: new Node('Io Transfer'),
-	    low_io_orbit: new Node('Low Io Orbit'),
-	    io: new Node('Io'),
+	    io_transfer: new _node2.default('Io Transfer'),
+	    low_io_orbit: new _node2.default('Low Io Orbit'),
+	    io: new _node2.default('Io'),
 
-	    saturn_transfer: new Node('Saturn Transfer'),
-	    low_saturn_orbit: new Node('Low Saturn Orbit'),
-	    saturn: new Node('Saturn'),
+	    saturn_transfer: new _node2.default('Saturn Transfer'),
+	    low_saturn_orbit: new _node2.default('Low Saturn Orbit'),
+	    saturn: new _node2.default('Saturn'),
 
-	    titan_transfer: new Node('Titan Transfer'),
-	    low_titan_orbit: new Node('Low Titan Orbit'),
-	    titan: new Node('Titan'),
+	    titan_transfer: new _node2.default('Titan Transfer'),
+	    low_titan_orbit: new _node2.default('Low Titan Orbit'),
+	    titan: new _node2.default('Titan'),
 
-	    uranus_transfer: new Node('Uranus Transfer'),
-	    low_uranus_orbit: new Node('Low Uranus Orbit'),
-	    uranus: new Node('Uranus'),
+	    uranus_transfer: new _node2.default('Uranus Transfer'),
+	    low_uranus_orbit: new _node2.default('Low Uranus Orbit'),
+	    uranus: new _node2.default('Uranus'),
 
-	    neptune_transfer: new Node('Neptune Transfer'),
-	    low_neptune_orbit: new Node('Low Neptune Orbit'),
-	    neptune: new Node('Neptune'),
+	    neptune_transfer: new _node2.default('Neptune Transfer'),
+	    low_neptune_orbit: new _node2.default('Low Neptune Orbit'),
+	    neptune: new _node2.default('Neptune'),
 
-	    sun_transfer: new Node('Sun Transfer'),
-	    low_sun_orbit: new Node('Low Sun Orbit'),
-	    sun: new Node('Sun')
+	    sun_transfer: new _node2.default('Sun Transfer'),
+	    low_sun_orbit: new _node2.default('Low Sun Orbit'),
+	    sun: new _node2.default('Sun')
 	  };
 
 	  this.edges = {
@@ -19938,19 +19989,27 @@
 
 	"use strict";
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var Node = function Node(id) {
-	    this.id = id;
-	    this.edges = [];
-	    this.visited = false;
+	  var _this = this;
+
+	  _classCallCheck(this, Node);
+
+	  this.addEdge = function (edge) {
+	    _this.edges.push(edge);
+	  };
+
+	  this.id = id;
+	  this.edges = [];
+	  this.visited = false;
 	};
 
-	Node.prototype = {
-	    addEdge: function addEdge(edge) {
-	        this.edges.push(edge);
-	    }
-	};
-
-	module.exports = Node;
+	exports.default = Node;
 
 /***/ },
 /* 162 */
@@ -19989,37 +20048,152 @@
 
 	'use strict';
 
-	var Node = __webpack_require__(161);
-	var Edge = __webpack_require__(162);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _node = __webpack_require__(161);
+
+	var _node2 = _interopRequireDefault(_node);
+
+	var _edge = __webpack_require__(162);
+
+	var _edge2 = _interopRequireDefault(_edge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var newNode = function newNode(id) {
-	  var node = new Node();
-	  node.id = id;
+	  var node = new _node2.default(id);
 
 	  return node;
 	};
 
 	var newEdge = function newEdge(options) {
-	  return new Edge(options.deltav, options.name);
+	  return new _edge2.default(options.deltav, options.name);
 	};
 
-	// values taken from http://i.imgur.com/duY2S.png
-	var nodes = {
-	  kerbin: newNode('Kerbin'),
-	  low_kerbin_orbit: newNode('Low Kerbin Orbit'),
-	  geostationary_transfer_orbit: newNode('GTO'),
-	  mun_transfer: newNode('Mun Transfer')
+	var KerbolSystem = function KerbolSystem() {
+	  _classCallCheck(this, KerbolSystem);
+
+	  this.nodes = {
+	    kerbin: new _node2.default('Kerbin'),
+	    low_kerbin_orbit: new _node2.default('Low Kerbin Orbit'),
+	    keostationary_transfer: new _node2.default('Keostationary Transfer'),
+	    keostationary_orbit: new _node2.default('Keostationary Orbit'),
+
+	    mun_transfer: new _node2.default('Mun Transfer'),
+	    low_mun_orbit: new _node2.default('Low Mun Orbit'),
+	    mun: new _node2.default('Mun'),
+
+	    minmus_transfer: new _node2.default('Minmus Transfer'),
+	    low_minmus_orbit: new _node2.default('Low Minmus Orbit'),
+	    minmus: new _node2.default('Minmus'),
+
+	    kerbin_transfer: new _node2.default('Kerbin Transfer'),
+
+	    moho_transfer: new _node2.default('Moho Transfer'),
+	    low_moho_orbit: new _node2.default('Low Moho Orbit'),
+	    moho: new _node2.default('Moho'),
+
+	    eve_transfer: new _node2.default('Eve Transfer'),
+	    low_eve_orbit: new _node2.default('Low Eve Orbit'),
+	    eve: new _node2.default('Eve'),
+
+	    gilly_transfer: new _node2.default('Gilly Transfer'),
+	    low_gilly_orbit: new _node2.default('Low Gilly Orbit'),
+	    gilly: new _node2.default('Gilly'),
+
+	    duna_transfer: new _node2.default('Duna Transfer'),
+	    low_duna_orbit: new _node2.default('Low Duna Orbit'),
+	    duna: new _node2.default('Duna'),
+
+	    ike_transfer: new _node2.default('Ike Transfer'),
+	    low_ike_orbit: new _node2.default('Low Ike Orbit'),
+	    ike: new _node2.default('Ike'),
+
+	    dres_transfer: new _node2.default('Dres Transfer'),
+	    low_dres_orbit: new _node2.default('Low Dres Orbit'),
+	    dres: new _node2.default('Dres'),
+
+	    jool_transfer: new _node2.default('Jool Transfer'),
+	    low_jool_orbit: new _node2.default('Low Jool Orbit'),
+	    jool: new _node2.default('Jool'),
+
+	    pol_transfer: new _node2.default('Pol Transfer'),
+	    low_pol_orbit: new _node2.default('Low Pol Orbit'),
+	    pol: new _node2.default('Pol'),
+
+	    bop_transfer: new _node2.default('Bop Transfer'),
+	    low_bop_orbit: new _node2.default('Low Bop Orbit'),
+	    bop: new _node2.default('Bop'),
+
+	    tylo_transfer: new _node2.default('Tylo Transfer'),
+	    low_tylo_orbit: new _node2.default('Low Tylo Orbit'),
+	    tylo: new _node2.default('Tylo'),
+
+	    vall_transfer: new _node2.default('Vall Transfer'),
+	    low_vall_orbit: new _node2.default('Low Vall Orbit'),
+	    vall: new _node2.default('Vall'),
+
+	    laythe_transfer: new _node2.default('Laythe Transfer'),
+	    low_laythe_orbit: new _node2.default('Low Laythe Orbit'),
+	    laythe: new _node2.default('Laythe'),
+
+	    jool_transfer: new _node2.default('Jool Transfer'),
+	    low_jool_orbit: new _node2.default('Low Jool Orbit'),
+	    jool: new _node2.default('Jool'),
+
+	    eeloo_transfer: new _node2.default('Eeloo Transfer'),
+	    low_eeloo_orbit: new _node2.default('Low Eeloo Orbit'),
+	    eeloo: new _node2.default('Eeloo'),
+
+	    kerbol_transfer: new _node2.default('Kerbol Transfer'),
+	    low_kerbol_orbit: new _node2.default('Low Kerbol Orbit'),
+	    kerbol: new _node2.default('Kerbol')
+	  };
+
+	  this.edges = {
+	    low_kerbin_orbit: newEdge({ deltav: 3800, name: 'low_kerbin_orbit' }),
+
+	    low_kerbin_orbit_keostationary_transfer: newEdge({ deltav: 680, name: 'low_kerbin_orbit-keostationary_transfer' }),
+	    keostationary_transfer_keo_orbit: newEdge({ deltav: 435, name: 'keostationary_transfer-keostationary_orbit' }),
+
+	    low_kerbin_orbit_mun_transfer: newEdge({ deltav: 860, name: 'low_kerbin_orbit-mun_transfer' }),
+	    mun_transfer_low_mun_orbit: newEdge({ deltav: 310, name: 'mun_transfer-low_mun_orbit' }),
+	    low_mun_orbit_mun_landing: newEdge({ deltav: 580, name: 'low_mun_orbit-mun_landing' }),
+
+	    low_kerbin_orbit_minmus_transfer: newEdge({ deltav: 930, name: 'low_kerbin_orbit-minmus_transfer' }),
+	    low_kerbin_orbit_minmus_transfer_plane_change: newEdge({ deltav: 340, name: 'low_kerbin_orbit-minmus_transfer' }),
+	    minmus_transfer_low_minmus_orbit: newEdge({ deltav: 160, name: 'minmus_transfer-low_minmus_orbit' }),
+	    low_minmus_orbit_minmus_landing: newEdge({ deltav: 180, name: 'low_minmus_orbit-minmus_landing' }),
+
+	    low_kerbin_orbit_earth_transfer: newEdge({ deltav: 950, name: 'low_earth_orbit-earth_transfer' })
+
+	  };
 	};
 
-	var edges = {
-	  kerbin_lko: newEdge({ deltav: 3800, name: 'kerbin-lko' }),
-	  lko_gto: newEdge({ deltav: 670, name: 'lko-gto' }),
-	  lko_mun_transfer: newEdge({ deltav: 190, name: 'lko-mun_transfer' })
-	};
+	// values taken from http://i.imgur.com/V4FHldK.png
+	// let nodes = {
+	//   kerbin: newNode('Kerbin'),
+	//   low_kerbin_orbit: newNode('Low Kerbin Orbit'),
+	//   keostationary_transfer_orbit: newNode('GTO'),
+	//   mun_transfer: newNode('Mun Transfer')
+	// };
 
-	module.exports = {
-	  nodes: nodes, edges: edges
-	};
+	// let edges = {
+	//   kerbin_lko: newEdge({ deltav: 3800, name: 'kerbin-lko' }),
+	//   lko_gto: newEdge({ deltav: 670, name: 'lko-gto' }),
+	//   lko_mun_transfer: newEdge({ deltav: 190, name: 'lko-mun_transfer' })
+	// };
+
+	// module.exports = {
+	//   nodes, edges
+	// };
+
+
+	exports.default = KerbolSystem;
 
 /***/ }
 /******/ ]);

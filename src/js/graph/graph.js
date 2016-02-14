@@ -18,12 +18,6 @@ Graph.prototype = {
     this.edges.push(edge);
   },
 
-  areAdjacent: function(head_node, tail_node) {
-    return this.edges.some(function(edge) {
-      return edge.areAdjacent(head_node, tail_node);
-    });
-  },
-
   // depth first search
   walk: function(start_node, destination_node) {
     let total_value = 0;
