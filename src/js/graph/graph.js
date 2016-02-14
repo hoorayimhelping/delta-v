@@ -29,7 +29,7 @@ Graph.prototype = {
       let edge = edges[i];
       let node = edge.nodes.tail;
 
-      if (node.id === destination_node.id) {
+      if (node.name === destination_node.name) {
         // stop walking the graph when a match is found
         // TODO: work out a better solution
         this.visitNodes();
@@ -67,7 +67,7 @@ Graph.prototype = {
 
       let node = edge.nodes.tail;
 
-      if (node.id === destination_node.id) {
+      if (node.name === destination_node.name) {
         return;
       }
 

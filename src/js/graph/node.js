@@ -1,6 +1,6 @@
 export default class Node {
-  constructor(id) {
-    this.id = id;
+  constructor(name) {
+    this.name = name;
     this.edges = [];
     this.visited = false;
   }
