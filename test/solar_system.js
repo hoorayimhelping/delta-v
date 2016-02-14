@@ -1,6 +1,4 @@
 import Graph from '../src/js/graph/graph';
-import Node from '../src/js/graph/node';
-import Edge from '../src/js/graph/edge';
 
 import solar_system from '../src/js/maps/solar_system';
 
