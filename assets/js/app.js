@@ -19679,11 +19679,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _solar_system = __webpack_require__(160);
+	var _node_selector = __webpack_require__(160);
+
+	var _node_selector2 = _interopRequireDefault(_node_selector);
+
+	var _solar_system = __webpack_require__(161);
 
 	var _solar_system2 = _interopRequireDefault(_solar_system);
 
-	var _kerbol_system = __webpack_require__(163);
+	var _graph = __webpack_require__(165);
+
+	var _graph2 = _interopRequireDefault(_graph);
+
+	var _kerbol_system = __webpack_require__(164);
 
 	var _kerbol_system2 = _interopRequireDefault(_kerbol_system);
 
@@ -19709,19 +19717,57 @@
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
+	var START_NODE_ID = 'start-node';
+	var END_NODE_ID = 'end-node';
+
 	var Container = function (_React$Component) {
 	  _inherits(Container, _React$Component);
 
 	  function Container() {
 	    _classCallCheck(this, Container);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Container).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Container).call(this));
+
+	    _this.handleChange = function (event) {
+	      var target = event.target;
+
+	      var objectKey = target.id === START_NODE_ID ? 'startNodeCurrentValue' : 'endNodeCurrentValue';
+	      var newState = {};
+
+	      newState[objectKey] = target.value;
+
+	      _this.setState(newState);
+	      console.log('set state:', newState);
+	    };
+
+	    var graph = new _graph2.default();
+	    _solar_system2.default.buildGraph(graph, _solar_system2.default.edges, _solar_system2.default.nodes);
+
+	    _this.state = {
+	      startNodeCurrentValue: "Low Earth Orbit",
+	      endNodeCurrentValue: "Moon",
+	      graph: graph,
+	      solarSystem: _solar_system2.default
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Container, [{
+	    key: 'calculateDeltaV',
+	    value: function calculateDeltaV() {
+	      var underscoredStartNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
+	      var underscoredEndNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
+	      var solarSystem = this.state.solarSystem;
+
+	      console.log('walking:', underscoredStartNode, underscoredEndNode, solarSystem.nodes[underscoredStartNode]);
+
+	      return this.state.graph.walk(solarSystem.nodes[underscoredStartNode], solarSystem.nodes[underscoredEndNode]);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('h2', null, 'Yeah!'));
+	      var totalDeltaV = this.calculateDeltaV();
+	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('form', { onSubmit: this.handleSubmit }, _react2.default.createElement(_node_selector2.default, { id: START_NODE_ID, onChange: this.handleChange, nodes: _solar_system2.default.nodes, defaultValue: this.state.startNodeCurrentValue }), _react2.default.createElement(_node_selector2.default, { id: END_NODE_ID, onChange: this.handleChange, nodes: _solar_system2.default.nodes, defaultValue: this.state.endNodeCurrentValue })), _react2.default.createElement('div', null, _react2.default.createElement('h3', null, 'Total Delta V Cost'), totalDeltaV));
 	    }
 	  }]);
 
@@ -19737,11 +19783,72 @@
 
 	'use strict';
 
-	var _node = __webpack_require__(161);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var NodeSelector = function (_React$Component) {
+	  _inherits(NodeSelector, _React$Component);
+
+	  function NodeSelector() {
+	    _classCallCheck(this, NodeSelector);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(NodeSelector).apply(this, arguments));
+	  }
+
+	  _createClass(NodeSelector, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var options = Object.keys(this.props.nodes).map(function (key) {
+	        var node = _this2.props.nodes[key];
+	        return _react2.default.createElement(
+	          'option',
+	          { value: node.name, key: node.name },
+	          node.name
+	        );
+	      });
+
+	      return _react2.default.createElement(
+	        'select',
+	        { id: this.props.id, onChange: this.props.onChange, value: this.props.defaultValue },
+	        options
+	      );
+	    }
+	  }]);
+
+	  return NodeSelector;
+	}(_react2.default.Component);
+
+	exports.default = NodeSelector;
+	;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _node = __webpack_require__(162);
 
 	var _node2 = _interopRequireDefault(_node);
 
-	var _edge = __webpack_require__(162);
+	var _edge = __webpack_require__(163);
 
 	var _edge2 = _interopRequireDefault(_edge);
 
@@ -19984,7 +20091,7 @@
 	module.exports = new SolarSystem();
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -19995,7 +20102,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Node = function Node(id) {
+	var Node = function Node(name) {
 	  var _this = this;
 
 	  _classCallCheck(this, Node);
@@ -20004,7 +20111,7 @@
 	    _this.edges.push(edge);
 	  };
 
-	  this.id = id;
+	  this.name = name;
 	  this.edges = [];
 	  this.visited = false;
 	};
@@ -20012,7 +20119,7 @@
 	exports.default = Node;
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -20033,17 +20140,13 @@
 	      head: source,
 	      tail: destination
 	    };
-	  },
-
-	  areAdjacent: function areAdjacent(node1, node2) {
-	    return this.nodes.head.id === node1.id && this.nodes.tail.id === node2.id;
 	  }
 	};
 
 	module.exports = Edge;
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20052,11 +20155,11 @@
 	  value: true
 	});
 
-	var _node = __webpack_require__(161);
+	var _node = __webpack_require__(162);
 
 	var _node2 = _interopRequireDefault(_node);
 
-	var _edge = __webpack_require__(162);
+	var _edge = __webpack_require__(163);
 
 	var _edge2 = _interopRequireDefault(_edge);
 
@@ -20075,7 +20178,29 @@
 	};
 
 	var KerbolSystem = function KerbolSystem() {
+	  var _this = this;
+
 	  _classCallCheck(this, KerbolSystem);
+
+	  this.buildGraph = function (graph, edges, nodes) {
+	    // earth
+	    graph.addEdge(edges.low_kerbin_orbit, nodes.kerbin, nodes.low_kerbin_orbit);
+
+	    graph.addEdge(edges.low_kerbin_orbit_keostationary_transfer, nodes.low_kerbin_orbit, nodes.keostationary_transfer);
+	    graph.addEdge(edges.keostationary_transfer_keo_orbit, nodes.keostationary_transfer, nodes.keostationary_orbit);
+
+	    graph.addEdge(edges.low_kerbin_orbit_mun_transfer, nodes.low_kerbin_orbit, nodes.mun_transfer);
+	    graph.addEdge(edges.mun_transfer_low_mun_orbit, nodes.mun_transfer, nodes.low_mun_orbit);
+	    graph.addEdge(edges.low_mun_orbit_mun_landing, nodes.low_mun_orbit, nodes.mun);
+
+	    graph.addEdge(edges.low_kerbin_orbit_kerbin_transfer, nodes.low_kerbin_orbit, nodes.kerbin_transfer);
+	  };
+
+	  this.unwalkNodes = function () {
+	    for (var node in _this.nodes) {
+	      _this.nodes[node].visited = false;
+	    }
+	  };
 
 	  this.nodes = {
 	    kerbin: new _node2.default('Kerbin'),
@@ -20169,31 +20294,163 @@
 	    minmus_transfer_low_minmus_orbit: newEdge({ deltav: 160, name: 'minmus_transfer-low_minmus_orbit' }),
 	    low_minmus_orbit_minmus_landing: newEdge({ deltav: 180, name: 'low_minmus_orbit-minmus_landing' }),
 
-	    low_kerbin_orbit_earth_transfer: newEdge({ deltav: 950, name: 'low_earth_orbit-earth_transfer' })
+	    low_kerbin_orbit_kerbin_transfer: newEdge({ deltav: 950, name: 'low_kerbin_orbit-kerbin_transfer' })
 
+	    // earth_transfer_venus_transfer: newEdge({ deltav: 640, name: 'earth_transfer-venus_transfer' }),
+	    // venus_transfer_low_venus_orbit: newEdge({ deltav: 2940, name: 'venus_transfer-low_venus_orbit' }),
+	    // low_venus_orbit_venus_landing: newEdge({ deltav: 2000, name: 'low_venus_orbit-venus_landing' }),
+
+	    // earth_transfer_mercury_transfer: newEdge({ deltav: 2340, name: 'earth_transfer-mercury_transfer' }),
+	    // mercury_transfer_low_mercury_orbit: newEdge({ deltav: 7530, name: 'mercury_transfer-low_mercury_orbit' }),
+	    // low_mercury_orbit_mercury_landing: newEdge({ deltav: 3060, name: 'low_mercury_orbit-mercury_landing' }),
+
+	    // earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' }),
+	    // mars_transfer_low_mars_orbit: newEdge({ deltav: 1440, name: 'mars_transfer-low_mars_orbit' }),
+	    // low_mars_orbit_mars_landing: newEdge({ deltav: 2000, name: 'low_mars_orbit-mars_landing' }),
+
+	    // mars_transfer_deimos_transfer: newEdge({ deltav: 340, name: 'mars_transfer-deimos_transfer' }),
+	    // deimos_transfer_low_deimos_orbit: newEdge({ deltav: 652, name: 'deimos_transfer-low_deimos_orbit' }),
+	    // low_deimos_orbit_deimos_landing: newEdge({ deltav: 4, name: 'low_deimos_orbit-deimos_landing' }),
+
+	    // mars_transfer_phobos_transfer: newEdge({ deltav: 740, name: 'mars_transfer-phobos_transfer'}),
+	    // phobos_transfer_low_phobos_orbit: newEdge({ deltav: 543, name: 'mars_transfer-phobos_transfer'}),
+	    // low_phobos_orbit_phobos_landing: newEdge({ deltav: 8, name: 'low_phobos_orbit-phobos_landing'}),
+
+	    // earth_transfer_jupiter_transfer: newEdge({ deltav: 3360, name: 'earth_transfer-jupiter_transfer' }),
+	    // jupiter_transfer_low_jupiter_orbit: newEdge({ deltav: 17200, name: 'jupiter_transfer-low_jupiter_orbit' }),
+
+	    // jupiter_transfer_callisto_transfer: newEdge({ deltav: 5140, name: 'jupiter_transfer-callisto_transfer' }),
+	    // callisto_transfer_low_callisto_orbit: newEdge({ deltav: 700, name: 'callisto_transfer-low_callisto_orbit' }),
+	    // low_callisto_orbit_callisto_landing: newEdge({ deltav: 1760, name: 'low_callisto_orbit-callisto_landing' }),
+
+	    // jupiter_transfer_ganymede_transfer: newEdge({ deltav: 6700, name: 'jupiter_transfer-ganymede_transfer' }),
+	    // ganymede_transfer_low_ganymede_orbit: newEdge({ deltav: 790, name: 'ganymede_transfer-low_ganymede_orbit' }),
+	    // low_ganymede_orbit_ganymede_landing: newEdge({ deltav: 1970, name: 'low_ganymede_orbit-ganymede_landing' }),
+
+	    // jupiter_transfer_europa_transfer: newEdge({ deltav: 8890, name: 'jupiter_transfer-europa_transfer' }),
+	    // europa_transfer_low_europa_orbit: newEdge({ deltav: 580, name: 'europa_transfer-low_europa_orbit' }),
+	    // low_europa_orbit_europa_landing: newEdge({ deltav: 1480, name: 'low_europa_orbit-europa_landing' }),
+
+	    // jupiter_transfer_io_transfer: newEdge({ deltav: 10320, name: 'jupiter_transfer-io_transfer' }),
+	    // io_transfer_low_io_orbit: newEdge({ deltav: 730, name: 'io_transfer-low_io_orbit' }),
+	    // low_io_orbit_io_landing: newEdge({ deltav: 1850, name: 'low_io_orbit-io_landing' }),
+
+	    // earth_transfer_saturn_transfer: newEdge({ deltav: 4500, name: 'earth_transfer-saturn_transfer' }),
+	    // saturn_transfer_low_saturn_orbit: newEdge({ deltav: 10230, name: 'saturn_transfer-low_saturn_orbit' }),
+
+	    // saturn_transfer_titan_transfer: newEdge({ deltav: 3060, name: 'saturn_transfer-titan_transfer' }),
+	    // titan_transfer_low_titan_orbit: newEdge({ deltav: 660, name: 'titan_transfer-low_titan_orbit' }),
+	    // low_titan_orbit_titan_landing: newEdge({ deltav: 7600, name: 'low_titan_orbit-titan_landing' }),
+
+	    // earth_transfer_uranus_transfer: newEdge({ deltav: 5280, name: 'earth_transfer-uranus_transfer' }),
+	    // uranus_transfer_low_uranus_orbit: newEdge({ deltav: 6120, name: 'uranus_transfer-low_uranus_orbit' }),
+
+	    // earth_transfer_neptune_transfer: newEdge({ deltav: 5390, name: 'earth_transfer-neptune_transfer' }),
+	    // neptune_transfer_low_neptune_orbit: newEdge({ deltav: 6750, name: 'neptune_transfer-low_neptune_orbit' }),
+
+	    // earth_transfer_sun_transfer: newEdge({ deltav: 196080, name: 'earth_transfer-sun_transfer' }),
+	    // sun_transfer_low_sun_orbit: newEdge({ deltav: 636080, name: 'sun_transfer-low_sun_orbit' })
 	  };
 	};
 
-	// values taken from http://i.imgur.com/V4FHldK.png
-	// let nodes = {
-	//   kerbin: newNode('Kerbin'),
-	//   low_kerbin_orbit: newNode('Low Kerbin Orbit'),
-	//   keostationary_transfer_orbit: newNode('GTO'),
-	//   mun_transfer: newNode('Mun Transfer')
-	// };
-
-	// let edges = {
-	//   kerbin_lko: newEdge({ deltav: 3800, name: 'kerbin-lko' }),
-	//   lko_gto: newEdge({ deltav: 670, name: 'lko-gto' }),
-	//   lko_mun_transfer: newEdge({ deltav: 190, name: 'lko-mun_transfer' })
-	// };
-
-	// module.exports = {
-	//   nodes, edges
-	// };
-
-
 	exports.default = KerbolSystem;
+	;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _node = __webpack_require__(162);
+
+	var _node2 = _interopRequireDefault(_node);
+
+	var _edge = __webpack_require__(163);
+
+	var _edge2 = _interopRequireDefault(_edge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Graph = function Graph() {
+	  this.edges = [];
+	  this.nodes = [];
+	};
+
+	Graph.prototype = {
+	  addEdge: function addEdge(edge, head_node, tail_node) {
+	    edge.add(head_node, tail_node);
+
+	    this.nodes.push(head_node, tail_node);
+
+	    head_node.addEdge(edge);
+	    tail_node.addEdge(edge);
+
+	    this.edges.push(edge);
+	  },
+
+	  // depth first search
+	  walk: function walk(start_node, destination_node) {
+	    var total_value = 0;
+	    var edges = start_node.edges;
+
+	    start_node.visited = true;
+
+	    for (var i = 0, l = start_node.edges.length; i < l; i++) {
+	      var edge = edges[i];
+	      var node = edge.nodes.tail;
+
+	      if (node.name === destination_node.name) {
+	        // stop walking the graph when a match is found
+	        // TODO: work out a better solution
+	        this.visitNodes();
+
+	        return edge.value;
+	      }
+
+	      if (!node.visited) {
+	        total_value = edge.value;
+
+	        total_value += this.walk(node, destination_node);
+	      }
+	    }
+
+	    return total_value;
+	  },
+
+	  resetNodes: function resetNodes() {
+	    this.nodes.forEach(function (node) {
+	      node.visited = false;
+	    });
+	  },
+
+	  visitNodes: function visitNodes() {
+	    this.nodes.forEach(function (node) {
+	      node.visited = true;
+	    });
+	  },
+
+	  render: function render(start_node, destination_node, renderer) {
+	    start_node.visited = true;
+
+	    start_node.edges.forEach(function (edge, i) {
+	      renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
+
+	      var node = edge.nodes.tail;
+
+	      if (node.name === destination_node.name) {
+	        return;
+	      }
+
+	      if (!node.visited) {
+	        renderer.circle(i, i, 5);
+	        this.render(node, destination_node, renderer);
+	      }
+	    }, this);
+	  }
+	};
+
+	module.exports = Graph;
 
 /***/ }
 /******/ ]);
