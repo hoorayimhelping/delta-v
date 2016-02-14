@@ -6,7 +6,8 @@
   "repository": "https://github.com/hoorayimhelping/delta-v",
   "scripts": {
     "test": "mocha",
-    "build": "webpack --config webpack.config.dev.js"
+    "build": "webpack --config webpack.config.dev.js",
+    "watch": "webpack --config webpack.config.dev.js --progress --colors --watch &"
   },
   "author": "Bucky Schwarz",
   "license": "MIT",
