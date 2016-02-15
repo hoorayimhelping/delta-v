@@ -1,19 +1,21 @@
 import Graph from '../src/js/graph/graph';
 
-import solar_system from '../src/js/maps/solar_system';
+import SolarSystem from '../src/js/maps/solar_system';
 
-describe("one-way trips from earth", function() {
-  let edges = solar_system.edges;
-  let nodes = solar_system.nodes;
+const solarSystem = new SolarSystem();
+
+describe("one-way trips from earth", () => {
+  let edges = solarSystem.edges;
+  let nodes = solarSystem.nodes;
 
   let graph = new Graph();
-  solar_system.buildGraph(graph, edges, nodes);
+  solarSystem.buildGraph(graph, edges, nodes);
 
-  afterEach(function() {
-    solar_system.unwalkNodes();
+  afterEach(() => {
+    solarSystem.unwalkNodes();
   });
 
-  it("calculates the delta-v to geostationary orbit", function() {
+  it("calculates the delta-v to geostationary orbit", () => {
     let total_value = graph.walk(nodes.earth, nodes.geostationary_orbit);
     let expected_value = edges.low_earth_orbit.value +
       edges.low_earth_orbit_geostationary_transfer.value +
@@ -22,26 +24,26 @@ describe("one-way trips from earth", function() {
     expect(total_value).to.equal(expected_value);
   });
 
-  describe("to lunar space", function() {
+  describe("to lunar space", () => {
     let earth_to_low_lunar_orbit_delta_v = edges.low_earth_orbit.value +
       edges.low_earth_orbit_moon_transfer.value +
       edges.moon_transfer_low_moon_orbit.value;
 
-    it("calulates the delta-v to lunar orbit", function() {
+    it("calulates the delta-v to lunar orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_moon_orbit);
 
       expect(total_value).to.equal(earth_to_low_lunar_orbit_delta_v);
     });
 
-    it("calculates the delta-v to a lunar surface landing", function() {
+    it("calculates the delta-v to a lunar surface landing", () => {
       let total_value = graph.walk(nodes.earth, nodes.moon);
 
       expect(total_value).to.equal(earth_to_low_lunar_orbit_delta_v + edges.low_moon_orbit_moon_landing.value);
     });
   });
 
-  describe("to venutian space", function() {
-    it("calculates the delta-v to venus transfer orbit", function() {
+  describe("to venutian space", () => {
+    it("calculates the delta-v to venus transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.venus_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -50,7 +52,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low venus orbit", function() {
+    it("calculates the delta-v to low venus orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_venus_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -60,7 +62,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to a venus landing", function() {
+    it("calculates the delta-v to a venus landing", () => {
       let total_value = graph.walk(nodes.earth, nodes.venus);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -72,8 +74,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to mercurian space", function() {
-    it("calculates the delta-v to mercury transfer orbit", function() {
+  describe("to mercurian space", () => {
+    it("calculates the delta-v to mercury transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.mercury_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -82,7 +84,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low mercury orbit", function() {
+    it("calculates the delta-v to low mercury orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_mercury_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -92,7 +94,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to a mercury landing", function() {
+    it("calculates the delta-v to a mercury landing", () => {
       let total_value = graph.walk(nodes.earth, nodes.mercury);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -104,8 +106,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to martian space", function() {
-    it("calculates the delta-v to mars transfer orbit", function() {
+  describe("to martian space", () => {
+    it("calculates the delta-v to mars transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.mars_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -114,7 +116,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low mars orbit", function() {
+    it("calculates the delta-v to low mars orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_mars_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -124,7 +126,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to a mars landing", function() {
+    it("calculates the delta-v to a mars landing", () => {
       let total_value = graph.walk(nodes.earth, nodes.mars);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -135,8 +137,8 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    describe("to deimos space", function() {
-      it("calculates the delta-v to low deimos orbit", function() {
+    describe("to deimos space", () => {
+      it("calculates the delta-v to low deimos orbit", () => {
         let total_value = graph.walk(nodes.earth, nodes.low_deimos_orbit);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -148,7 +150,7 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      it("calculates the delta-v to a deimos landing", function() {
+      it("calculates the delta-v to a deimos landing", () => {
         let total_value = graph.walk(nodes.earth, nodes.deimos);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -161,8 +163,8 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      describe("to phobos space", function() {
-        it("calculates the delta-v to low phobos orbit", function() {
+      describe("to phobos space", () => {
+        it("calculates the delta-v to low phobos orbit", () => {
           let total_value = graph.walk(nodes.earth, nodes.low_phobos_orbit);
 
           let expected_value = edges.low_earth_orbit.value +
@@ -174,7 +176,7 @@ describe("one-way trips from earth", function() {
           expect(total_value).to.equal(expected_value);
         });
 
-        it("calculates the delta-v to a phobos landing", function() {
+        it("calculates the delta-v to a phobos landing", () => {
           let total_value = graph.walk(nodes.earth, nodes.phobos);
 
           let expected_value = edges.low_earth_orbit.value +
@@ -190,8 +192,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to jovian space", function() {
-    it("calculates the delta-v to jupiter transfer orbit", function() {
+  describe("to jovian space", () => {
+    it("calculates the delta-v to jupiter transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.jupiter_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -200,7 +202,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low jupiter orbit", function() {
+    it("calculates the delta-v to low jupiter orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_jupiter_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -210,8 +212,8 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    describe("to callisto space", function() {
-      it("calculates the delta-v to low callisto orbit", function() {
+    describe("to callisto space", () => {
+      it("calculates the delta-v to low callisto orbit", () => {
         let total_value = graph.walk(nodes.earth, nodes.low_callisto_orbit);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -223,7 +225,7 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      it("calculates the delta-v to a callisto landing", function() {
+      it("calculates the delta-v to a callisto landing", () => {
         let total_value = graph.walk(nodes.earth, nodes.callisto);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -237,8 +239,8 @@ describe("one-way trips from earth", function() {
       });
     });
 
-    describe("to ganymede space", function() {
-      it("calculates the delta-v to low ganymede orbit", function() {
+    describe("to ganymede space", () => {
+      it("calculates the delta-v to low ganymede orbit", () => {
         let total_value = graph.walk(nodes.earth, nodes.low_ganymede_orbit);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -250,7 +252,7 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      it("calculates the delta-v to a ganymede landing", function() {
+      it("calculates the delta-v to a ganymede landing", () => {
         let total_value = graph.walk(nodes.earth, nodes.ganymede);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -264,8 +266,8 @@ describe("one-way trips from earth", function() {
       });
     });
 
-    describe("to europa space", function() {
-      it("calculates the delta-v to low europa orbit", function() {
+    describe("to europa space", () => {
+      it("calculates the delta-v to low europa orbit", () => {
         let total_value = graph.walk(nodes.earth, nodes.low_europa_orbit);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -277,7 +279,7 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      it("calculates the delta-v to a europa landing", function() {
+      it("calculates the delta-v to a europa landing", () => {
         let total_value = graph.walk(nodes.earth, nodes.europa);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -291,8 +293,8 @@ describe("one-way trips from earth", function() {
       });
     });
 
-    describe("to io space", function() {
-      it("calculates the delta-v to low io orbit", function() {
+    describe("to io space", () => {
+      it("calculates the delta-v to low io orbit", () => {
         let total_value = graph.walk(nodes.earth, nodes.low_io_orbit);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -304,7 +306,7 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      it("calculates the delta-v to a io landing", function() {
+      it("calculates the delta-v to a io landing", () => {
         let total_value = graph.walk(nodes.earth, nodes.io);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -319,8 +321,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to saturn space", function() {
-    it("calculates the delta-v to saturn transfer orbit", function() {
+  describe("to saturn space", () => {
+    it("calculates the delta-v to saturn transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.saturn_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -329,7 +331,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low saturn orbit", function() {
+    it("calculates the delta-v to low saturn orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_saturn_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -339,8 +341,8 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    describe("to titan space", function() {
-      it("calculates the delta-v to low titan orbit", function() {
+    describe("to titan space", () => {
+      it("calculates the delta-v to low titan orbit", () => {
         let total_value = graph.walk(nodes.earth, nodes.low_titan_orbit);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -352,7 +354,7 @@ describe("one-way trips from earth", function() {
         expect(total_value).to.equal(expected_value);
       });
 
-      it("calculates the delta-v to a titan landing", function() {
+      it("calculates the delta-v to a titan landing", () => {
         let total_value = graph.walk(nodes.earth, nodes.titan);
 
         let expected_value = edges.low_earth_orbit.value +
@@ -367,8 +369,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to uranus space", function() {
-    it("calculates the delta-v to uranus transfer orbit", function() {
+  describe("to uranus space", () => {
+    it("calculates the delta-v to uranus transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.uranus_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -377,7 +379,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low uranus orbit", function() {
+    it("calculates the delta-v to low uranus orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_uranus_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -388,8 +390,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to neptonian space", function() {
-    it("calculates the delta-v to neptune transfer orbit", function() {
+  describe("to neptonian space", () => {
+    it("calculates the delta-v to neptune transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.neptune_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -398,7 +400,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low neptune orbit", function() {
+    it("calculates the delta-v to low neptune orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_neptune_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -409,8 +411,8 @@ describe("one-way trips from earth", function() {
     });
   });
 
-  describe("to solar space", function() {
-    it("calculates the delta-v to sun transfer orbit", function() {
+  describe("to solar space", () => {
+    it("calculates the delta-v to sun transfer orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.sun_transfer);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
@@ -419,7 +421,7 @@ describe("one-way trips from earth", function() {
       expect(total_value).to.equal(expected_value);
     });
 
-    it("calculates the delta-v to low sun orbit", function() {
+    it("calculates the delta-v to low sun orbit", () => {
       let total_value = graph.walk(nodes.earth, nodes.low_sun_orbit);
       let expected_value = edges.low_earth_orbit.value +
         edges.low_earth_orbit_earth_transfer.value +
