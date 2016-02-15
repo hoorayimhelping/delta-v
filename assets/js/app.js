@@ -19687,11 +19687,11 @@
 
 	var _solar_system2 = _interopRequireDefault(_solar_system);
 
-	var _graph = __webpack_require__(165);
+	var _graph = __webpack_require__(164);
 
 	var _graph2 = _interopRequireDefault(_graph);
 
-	var _kerbol_system = __webpack_require__(164);
+	var _kerbol_system = __webpack_require__(165);
 
 	var _kerbol_system2 = _interopRequireDefault(_kerbol_system);
 
@@ -19739,19 +19739,23 @@
 	      _this.setState(newState);
 	      console.log('set state:', newState);
 
-	      _this.state.solarSystem.unwalkNodes();
+	      _this.state.system.unwalkNodes();
 	    };
 
 	    var graph = new _graph2.default();
+
+	    var kerbolSystem = new _kerbol_system2.default();
 	    var solarSystem = new _solar_system2.default();
 
-	    solarSystem.buildGraph(graph, solarSystem.edges, solarSystem.nodes);
+	    var system = kerbolSystem;
+
+	    system.buildGraph(graph, system.edges, system.nodes);
 
 	    _this.state = {
-	      startNodeCurrentValue: "Low Earth Orbit",
-	      endNodeCurrentValue: "Moon",
+	      startNodeCurrentValue: system.defaultStartNode,
+	      endNodeCurrentValue: system.defaultEndNode,
 	      graph: graph,
-	      solarSystem: solarSystem
+	      system: system
 	    };
 	    return _this;
 	  }
@@ -19761,17 +19765,17 @@
 	    value: function calculateDeltaV() {
 	      var underscoredStartNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
 	      var underscoredEndNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
-	      var solarSystem = this.state.solarSystem;
+	      var system = this.state.system;
 
-	      console.log('walking:', underscoredStartNode, underscoredEndNode, solarSystem.nodes[underscoredStartNode]);
+	      console.log('walking:', underscoredStartNode, underscoredEndNode, system.nodes[underscoredStartNode]);
 
-	      return this.state.graph.walk(solarSystem.nodes[underscoredStartNode], solarSystem.nodes[underscoredEndNode]);
+	      return this.state.graph.walk(system.nodes[underscoredStartNode], system.nodes[underscoredEndNode]);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var totalDeltaV = this.calculateDeltaV();
-	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('form', { onSubmit: this.handleSubmit }, _react2.default.createElement(_node_selector2.default, { id: START_NODE_ID, onChange: this.handleChange, nodes: this.state.solarSystem.nodes, defaultValue: this.state.startNodeCurrentValue }), _react2.default.createElement(_node_selector2.default, { id: END_NODE_ID, onChange: this.handleChange, nodes: this.state.solarSystem.nodes, defaultValue: this.state.endNodeCurrentValue })), _react2.default.createElement('div', null, _react2.default.createElement('h3', null, 'Total Delta V Cost'), totalDeltaV));
+	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('form', { onSubmit: this.handleSubmit }, _react2.default.createElement(_node_selector2.default, { id: START_NODE_ID, onChange: this.handleChange, nodes: this.state.system.nodes, defaultValue: this.state.startNodeCurrentValue }), _react2.default.createElement(_node_selector2.default, { id: END_NODE_ID, onChange: this.handleChange, nodes: this.state.system.nodes, defaultValue: this.state.endNodeCurrentValue })), _react2.default.createElement('div', null, _react2.default.createElement('h3', null, 'Total Delta V Cost'), totalDeltaV));
 	    }
 	  }]);
 
@@ -19957,6 +19961,9 @@
 	      _this.nodes[node].visited = false;
 	    }
 	  };
+
+	  this.defaultStartNode = "Low Earth Orbit";
+	  this.defaultEndNode = "Moon";
 
 	  this.nodes = {
 	    earth: new _node2.default('Earth'),
@@ -20160,6 +20167,92 @@
 
 /***/ },
 /* 164 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	var Graph = function Graph() {
+	  this.edges = [];
+	  this.nodes = [];
+	};
+
+	Graph.prototype = {
+	  addEdge: function addEdge(edge, head_node, tail_node) {
+	    edge.add(head_node, tail_node);
+
+	    this.nodes.push(head_node, tail_node);
+
+	    head_node.addEdge(edge);
+	    tail_node.addEdge(edge);
+
+	    this.edges.push(edge);
+	  },
+
+	  // depth first search
+	  walk: function walk(start_node, destination_node) {
+	    var total_value = 0;
+	    var edges = start_node.edges;
+
+	    start_node.visited = true;
+
+	    for (var i = 0, l = start_node.edges.length; i < l; i++) {
+	      var edge = edges[i];
+	      var node = edge.nodes.tail;
+
+	      if (node.name === destination_node.name) {
+	        // stop walking the graph when a match is found
+	        // TODO: work out a better solution
+	        this.visitNodes();
+
+	        return edge.value;
+	      }
+
+	      if (!node.visited) {
+	        total_value = edge.value;
+
+	        total_value += this.walk(node, destination_node);
+	      }
+	    }
+
+	    return total_value;
+	  },
+
+	  resetNodes: function resetNodes() {
+	    this.nodes.forEach(function (node) {
+	      node.visited = false;
+	    });
+	  },
+
+	  visitNodes: function visitNodes() {
+	    this.nodes.forEach(function (node) {
+	      node.visited = true;
+	    });
+	  },
+
+	  render: function render(start_node, destination_node, renderer) {
+	    start_node.visited = true;
+
+	    start_node.edges.forEach(function (edge, i) {
+	      renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
+
+	      var node = edge.nodes.tail;
+
+	      if (node.name === destination_node.name) {
+	        return;
+	      }
+
+	      if (!node.visited) {
+	        renderer.circle(i, i, 5);
+	        this.render(node, destination_node, renderer);
+	      }
+	    }, this);
+	  }
+	};
+
+	module.exports = Graph;
+
+/***/ },
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20180,12 +20273,6 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var newNode = function newNode(id) {
-	  var node = new _node2.default(id);
-
-	  return node;
-	};
-
 	var newEdge = function newEdge(options) {
 	  return new _edge2.default(options.deltav, options.name);
 	};
@@ -20196,7 +20283,7 @@
 	  _classCallCheck(this, KerbolSystem);
 
 	  this.buildGraph = function (graph, edges, nodes) {
-	    // earth
+	    // kerbin
 	    graph.addEdge(edges.low_kerbin_orbit, nodes.kerbin, nodes.low_kerbin_orbit);
 
 	    graph.addEdge(edges.low_kerbin_orbit_keostationary_transfer, nodes.low_kerbin_orbit, nodes.keostationary_transfer);
@@ -20214,6 +20301,9 @@
 	      _this.nodes[node].visited = false;
 	    }
 	  };
+
+	  this.defaultStartNode = "Low Kerbin Orbit";
+	  this.defaultEndNode = "Mun";
 
 	  this.nodes = {
 	    kerbin: new _node2.default('Kerbin'),
@@ -20303,21 +20393,42 @@
 	    low_mun_orbit_mun_landing: newEdge({ deltav: 580, name: 'low_mun_orbit-mun_landing' }),
 
 	    low_kerbin_orbit_minmus_transfer: newEdge({ deltav: 930, name: 'low_kerbin_orbit-minmus_transfer' }),
-	    low_kerbin_orbit_minmus_transfer_plane_change: newEdge({ deltav: 340, name: 'low_kerbin_orbit-minmus_transfer' }),
+	    low_kerbin_orbit_minmus_transfer_plane_change: newEdge({ deltav: 340, name: 'low_kerbin_orbit-minmus_transfer-plane_change' }),
 	    minmus_transfer_low_minmus_orbit: newEdge({ deltav: 160, name: 'minmus_transfer-low_minmus_orbit' }),
 	    low_minmus_orbit_minmus_landing: newEdge({ deltav: 180, name: 'low_minmus_orbit-minmus_landing' }),
 
-	    low_kerbin_orbit_kerbin_transfer: newEdge({ deltav: 950, name: 'low_kerbin_orbit-kerbin_transfer' })
+	    low_kerbin_orbit_kerbin_transfer: newEdge({ deltav: 950, name: 'low_kerbin_orbit-kerbin_transfer' }),
 
-	    // earth_transfer_venus_transfer: newEdge({ deltav: 640, name: 'earth_transfer-venus_transfer' }),
-	    // venus_transfer_low_venus_orbit: newEdge({ deltav: 2940, name: 'venus_transfer-low_venus_orbit' }),
-	    // low_venus_orbit_venus_landing: newEdge({ deltav: 2000, name: 'low_venus_orbit-venus_landing' }),
+	    kerbin_transfer_moho_transfer: newEdge({ deltav: 1710, name: 'kerbin_transfer-moho_transfer' }),
+	    low_kerbin_orbit_moho_transfer_plane_change: newEdge({ deltav: 2520, name: 'low_kerbin_orbit-moho_transfer-plane_change' }),
+	    moho_transfer_low_moho_orbit: newEdge({ deltav: 2410, name: 'moho_transfer-low_moho_orbit' }),
+	    low_moho_orbit_moho_landing: newEdge({ deltav: 870, name: 'low_moho_orbit-moho_landing' }),
 
-	    // earth_transfer_mercury_transfer: newEdge({ deltav: 2340, name: 'earth_transfer-mercury_transfer' }),
+	    kerbin_transfer_eve_transfer: newEdge({ deltav: 1040, name: 'kerbin_transfer-eve_transfer' }),
+	    low_kerbin_orbit_eve_transfer_plane_change: newEdge({ deltav: 430, name: 'low_kerbin_orbit-eve_transfer-plane_change' }),
+	    eve_transfer_low_eve_orbit: newEdge({ deltav: 1410, name: 'eve_transfer-low_eve_orbit' }),
+	    low_eve_orbit_eve_landing: newEdge({ deltav: 150, name: 'low_eve_orbit-eve_landing' }),
+
+	    eve_transfer_gilly_transfer: newEdge({ deltav: 140, name: 'eve_transfer-gilly_transfer' }),
+	    eve_transfer_gilly_transfer_plane_change: newEdge({ deltav: 930, name: 'eve_transfer-gilly_transfer-plane_change' }),
+	    gilly_transfer_low_gilly_orbit: newEdge({ deltav: 410, name: 'gilly_transfer-low_gilly_orbit' }),
+	    low_gilly_orbit_gilly_landing: newEdge({ deltav: 30, name: 'low_gilly_orbit-gilly_landing' }),
+
+	    kerbin_transfer_duna_transfer: newEdge({ deltav: 1080, name: 'kerbin_transfer-duna_transfer' }),
+	    low_kerbin_orbit_duna_transfer_plane_change: newEdge({ deltav: 10, name: 'low_kerbin_orbit-duna_transfer-plane_change' }),
+	    duna_transfer_low_duna_orbit: newEdge({ deltav: 610, name: 'duna_transfer-low_duna_orbit' }),
+	    low_duna_orbit_duna_landing: newEdge({ deltav: 400, name: 'low_duna_orbit-duna_landing' }),
+
+	    duna_transfer_ike_transfer: newEdge({ deltav: 280, name: 'duna_transfer-ike_transfer' }),
+	    duna_transfer_ike_transfer_plane_change: newEdge({ deltav: 0, name: 'duna_transfer-ike_transfer-plane_change' }),
+	    ike_transfer_low_ike_orbit: newEdge({ deltav: 180, name: 'ike_transfer-low_ike_orbit' }),
+	    low_ike_orbit_ike_landing: newEdge({ deltav: 390, name: 'low_ike_orbit-ike_landing' })
+
+	    // kerbin_transfer_mercury_transfer: newEdge({ deltav: 2340, name: 'kerbin_transfer-mercury_transfer' }),
 	    // mercury_transfer_low_mercury_orbit: newEdge({ deltav: 7530, name: 'mercury_transfer-low_mercury_orbit' }),
 	    // low_mercury_orbit_mercury_landing: newEdge({ deltav: 3060, name: 'low_mercury_orbit-mercury_landing' }),
 
-	    // earth_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'earth_transfer-mars_transfer' }),
+	    // kerbin_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'kerbin_transfer-mars_transfer' }),
 	    // mars_transfer_low_mars_orbit: newEdge({ deltav: 1440, name: 'mars_transfer-low_mars_orbit' }),
 	    // low_mars_orbit_mars_landing: newEdge({ deltav: 2000, name: 'low_mars_orbit-mars_landing' }),
 
@@ -20329,7 +20440,7 @@
 	    // phobos_transfer_low_phobos_orbit: newEdge({ deltav: 543, name: 'mars_transfer-phobos_transfer'}),
 	    // low_phobos_orbit_phobos_landing: newEdge({ deltav: 8, name: 'low_phobos_orbit-phobos_landing'}),
 
-	    // earth_transfer_jupiter_transfer: newEdge({ deltav: 3360, name: 'earth_transfer-jupiter_transfer' }),
+	    // kerbin_transfer_jupiter_transfer: newEdge({ deltav: 3360, name: 'kerbin_transfer-jupiter_transfer' }),
 	    // jupiter_transfer_low_jupiter_orbit: newEdge({ deltav: 17200, name: 'jupiter_transfer-low_jupiter_orbit' }),
 
 	    // jupiter_transfer_callisto_transfer: newEdge({ deltav: 5140, name: 'jupiter_transfer-callisto_transfer' }),
@@ -20348,122 +20459,26 @@
 	    // io_transfer_low_io_orbit: newEdge({ deltav: 730, name: 'io_transfer-low_io_orbit' }),
 	    // low_io_orbit_io_landing: newEdge({ deltav: 1850, name: 'low_io_orbit-io_landing' }),
 
-	    // earth_transfer_saturn_transfer: newEdge({ deltav: 4500, name: 'earth_transfer-saturn_transfer' }),
+	    // kerbin_transfer_saturn_transfer: newEdge({ deltav: 4500, name: 'kerbin_transfer-saturn_transfer' }),
 	    // saturn_transfer_low_saturn_orbit: newEdge({ deltav: 10230, name: 'saturn_transfer-low_saturn_orbit' }),
 
 	    // saturn_transfer_titan_transfer: newEdge({ deltav: 3060, name: 'saturn_transfer-titan_transfer' }),
 	    // titan_transfer_low_titan_orbit: newEdge({ deltav: 660, name: 'titan_transfer-low_titan_orbit' }),
 	    // low_titan_orbit_titan_landing: newEdge({ deltav: 7600, name: 'low_titan_orbit-titan_landing' }),
 
-	    // earth_transfer_uranus_transfer: newEdge({ deltav: 5280, name: 'earth_transfer-uranus_transfer' }),
+	    // kerbin_transfer_uranus_transfer: newEdge({ deltav: 5280, name: 'kerbin_transfer-uranus_transfer' }),
 	    // uranus_transfer_low_uranus_orbit: newEdge({ deltav: 6120, name: 'uranus_transfer-low_uranus_orbit' }),
 
-	    // earth_transfer_neptune_transfer: newEdge({ deltav: 5390, name: 'earth_transfer-neptune_transfer' }),
+	    // kerbin_transfer_neptune_transfer: newEdge({ deltav: 5390, name: 'kerbin_transfer-neptune_transfer' }),
 	    // neptune_transfer_low_neptune_orbit: newEdge({ deltav: 6750, name: 'neptune_transfer-low_neptune_orbit' }),
 
-	    // earth_transfer_sun_transfer: newEdge({ deltav: 196080, name: 'earth_transfer-sun_transfer' }),
+	    // kerbin_transfer_sun_transfer: newEdge({ deltav: 196080, name: 'kerbin_transfer-sun_transfer' }),
 	    // sun_transfer_low_sun_orbit: newEdge({ deltav: 636080, name: 'sun_transfer-low_sun_orbit' })
 	  };
 	};
 
 	exports.default = KerbolSystem;
 	;
-
-/***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _node = __webpack_require__(162);
-
-	var _node2 = _interopRequireDefault(_node);
-
-	var _edge = __webpack_require__(163);
-
-	var _edge2 = _interopRequireDefault(_edge);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Graph = function Graph() {
-	  this.edges = [];
-	  this.nodes = [];
-	};
-
-	Graph.prototype = {
-	  addEdge: function addEdge(edge, head_node, tail_node) {
-	    edge.add(head_node, tail_node);
-
-	    this.nodes.push(head_node, tail_node);
-
-	    head_node.addEdge(edge);
-	    tail_node.addEdge(edge);
-
-	    this.edges.push(edge);
-	  },
-
-	  // depth first search
-	  walk: function walk(start_node, destination_node) {
-	    var total_value = 0;
-	    var edges = start_node.edges;
-
-	    start_node.visited = true;
-
-	    for (var i = 0, l = start_node.edges.length; i < l; i++) {
-	      var edge = edges[i];
-	      var node = edge.nodes.tail;
-
-	      if (node.name === destination_node.name) {
-	        // stop walking the graph when a match is found
-	        // TODO: work out a better solution
-	        this.visitNodes();
-
-	        return edge.value;
-	      }
-
-	      if (!node.visited) {
-	        total_value = edge.value;
-
-	        total_value += this.walk(node, destination_node);
-	      }
-	    }
-
-	    return total_value;
-	  },
-
-	  resetNodes: function resetNodes() {
-	    this.nodes.forEach(function (node) {
-	      node.visited = false;
-	    });
-	  },
-
-	  visitNodes: function visitNodes() {
-	    this.nodes.forEach(function (node) {
-	      node.visited = true;
-	    });
-	  },
-
-	  render: function render(start_node, destination_node, renderer) {
-	    start_node.visited = true;
-
-	    start_node.edges.forEach(function (edge, i) {
-	      renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
-
-	      var node = edge.nodes.tail;
-
-	      if (node.name === destination_node.name) {
-	        return;
-	      }
-
-	      if (!node.visited) {
-	        renderer.circle(i, i, 5);
-	        this.render(node, destination_node, renderer);
-	      }
-	    }, this);
-	  }
-	};
-
-	module.exports = Graph;
 
 /***/ }
 /******/ ]);

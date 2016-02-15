@@ -13,26 +13,30 @@ export default class Container extends React.Component {
   constructor() {
     super();
     const graph = new Graph();
+
+    const kerbolSystem = new KerbolSystem();
     const solarSystem = new SolarSystem();
 
-    solarSystem.buildGraph(graph, solarSystem.edges, solarSystem.nodes);
+    const system = kerbolSystem;
+
+    system.buildGraph(graph, system.edges, system.nodes);
 
     this.state = {
-      startNodeCurrentValue: "Low Earth Orbit",
-      endNodeCurrentValue: "Moon",
+      startNodeCurrentValue: system.defaultStartNode,
+      endNodeCurrentValue: system.defaultEndNode,
       graph,
-      solarSystem
+      system
     };
   }
 
   calculateDeltaV() {
     const underscoredStartNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
     const underscoredEndNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
-    const solarSystem = this.state.solarSystem;
+    const system = this.state.system;
 
-    console.log('walking:', underscoredStartNode, underscoredEndNode, solarSystem.nodes[underscoredStartNode])
+    console.log('walking:', underscoredStartNode, underscoredEndNode, system.nodes[underscoredStartNode])
 
-    return this.state.graph.walk(solarSystem.nodes[underscoredStartNode], solarSystem.nodes[underscoredEndNode]);
+    return this.state.graph.walk(system.nodes[underscoredStartNode], system.nodes[underscoredEndNode]);
   }
 
   handleChange = (event) => {
@@ -46,7 +50,7 @@ export default class Container extends React.Component {
     this.setState(newState);
     console.log('set state:', newState);
 
-    this.state.solarSystem.unwalkNodes();
+    this.state.system.unwalkNodes();
   };
 
   render() {
@@ -55,8 +59,8 @@ export default class Container extends React.Component {
       <div>
         <h1>Hello, world!</h1>
         <form onSubmit={this.handleSubmit}>
-          <NodeSelector id={START_NODE_ID} onChange={this.handleChange} nodes={this.state.solarSystem.nodes} defaultValue={this.state.startNodeCurrentValue} />
-          <NodeSelector id={END_NODE_ID} onChange={this.handleChange} nodes={this.state.solarSystem.nodes} defaultValue={this.state.endNodeCurrentValue} />
+          <NodeSelector id={START_NODE_ID} onChange={this.handleChange} nodes={this.state.system.nodes} defaultValue={this.state.startNodeCurrentValue} />
+          <NodeSelector id={END_NODE_ID} onChange={this.handleChange} nodes={this.state.system.nodes} defaultValue={this.state.endNodeCurrentValue} />
         </form>
         <div>
           <h3>Total Delta V Cost</h3>

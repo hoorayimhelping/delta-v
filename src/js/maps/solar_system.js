@@ -9,6 +9,9 @@ let newEdge = function(options) {
 
 export default class SolarSystem {
   constructor() {
+    this.defaultStartNode = "Low Earth Orbit";
+    this.defaultEndNode = "Moon";
+
     this.nodes = {
       earth: new Node('Earth'),
       low_earth_orbit: new Node('Low Earth Orbit'),
