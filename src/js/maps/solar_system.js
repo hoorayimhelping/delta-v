@@ -151,12 +151,6 @@ export default class SolarSystem {
     };
   }
 
-  unwalkNodes = () => {
-    for (let node in this.nodes) {
-      this.nodes[node].visited = false;
-    }
-  };
-
   buildGraph = (graph, edges, nodes) => {
     // earth
     graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.low_earth_orbit);
@@ -232,5 +226,11 @@ export default class SolarSystem {
     // sun
     graph.addEdge(edges.earth_transfer_sun_transfer, nodes.earth_transfer, nodes.sun_transfer);
     graph.addEdge(edges.sun_transfer_low_sun_orbit, nodes.sun_transfer, nodes.low_sun_orbit);
+  };
+
+  unwalkNodes = () => {
+    for (let node in this.nodes) {
+      this.nodes[node].visited = false;
+    }
   };
 };

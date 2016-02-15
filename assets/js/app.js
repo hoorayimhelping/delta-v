@@ -19738,16 +19738,20 @@
 
 	      _this.setState(newState);
 	      console.log('set state:', newState);
+
+	      _this.state.solarSystem.unwalkNodes();
 	    };
 
 	    var graph = new _graph2.default();
-	    _solar_system2.default.buildGraph(graph, _solar_system2.default.edges, _solar_system2.default.nodes);
+	    var solarSystem = new _solar_system2.default();
+
+	    solarSystem.buildGraph(graph, solarSystem.edges, solarSystem.nodes);
 
 	    _this.state = {
 	      startNodeCurrentValue: "Low Earth Orbit",
 	      endNodeCurrentValue: "Moon",
 	      graph: graph,
-	      solarSystem: _solar_system2.default
+	      solarSystem: solarSystem
 	    };
 	    return _this;
 	  }
@@ -19767,7 +19771,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var totalDeltaV = this.calculateDeltaV();
-	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('form', { onSubmit: this.handleSubmit }, _react2.default.createElement(_node_selector2.default, { id: START_NODE_ID, onChange: this.handleChange, nodes: _solar_system2.default.nodes, defaultValue: this.state.startNodeCurrentValue }), _react2.default.createElement(_node_selector2.default, { id: END_NODE_ID, onChange: this.handleChange, nodes: _solar_system2.default.nodes, defaultValue: this.state.endNodeCurrentValue })), _react2.default.createElement('div', null, _react2.default.createElement('h3', null, 'Total Delta V Cost'), totalDeltaV));
+	      return _react2.default.createElement('div', null, _react2.default.createElement('h1', null, 'Hello, world!'), _react2.default.createElement('form', { onSubmit: this.handleSubmit }, _react2.default.createElement(_node_selector2.default, { id: START_NODE_ID, onChange: this.handleChange, nodes: this.state.solarSystem.nodes, defaultValue: this.state.startNodeCurrentValue }), _react2.default.createElement(_node_selector2.default, { id: END_NODE_ID, onChange: this.handleChange, nodes: this.state.solarSystem.nodes, defaultValue: this.state.endNodeCurrentValue })), _react2.default.createElement('div', null, _react2.default.createElement('h3', null, 'Total Delta V Cost'), totalDeltaV));
 	    }
 	  }]);
 
@@ -19844,6 +19848,10 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
 	var _node = __webpack_require__(162);
 
 	var _node2 = _interopRequireDefault(_node);
@@ -19854,6 +19862,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 	var newEdge = function newEdge(options) {
 	  return new _edge2.default(options.deltav, options.name);
 	};
@@ -19861,6 +19871,93 @@
 	// values taken from http://i.imgur.com/SqdzxzF.png
 
 	var SolarSystem = function SolarSystem() {
+	  var _this = this;
+
+	  _classCallCheck(this, SolarSystem);
+
+	  this.buildGraph = function (graph, edges, nodes) {
+	    // earth
+	    graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.low_earth_orbit);
+
+	    graph.addEdge(edges.low_earth_orbit_geostationary_transfer, nodes.low_earth_orbit, nodes.geostationary_transfer);
+	    graph.addEdge(edges.geostationary_transfer_geo_orbit, nodes.geostationary_transfer, nodes.geostationary_orbit);
+
+	    graph.addEdge(edges.low_earth_orbit_moon_transfer, nodes.low_earth_orbit, nodes.moon_transfer);
+	    graph.addEdge(edges.moon_transfer_low_moon_orbit, nodes.moon_transfer, nodes.low_moon_orbit);
+	    graph.addEdge(edges.low_moon_orbit_moon_landing, nodes.low_moon_orbit, nodes.moon);
+
+	    graph.addEdge(edges.low_earth_orbit_earth_transfer, nodes.low_earth_orbit, nodes.earth_transfer);
+
+	    // venus
+	    graph.addEdge(edges.earth_transfer_venus_transfer, nodes.earth_transfer, nodes.venus_transfer);
+	    graph.addEdge(edges.venus_transfer_low_venus_orbit, nodes.venus_transfer, nodes.low_venus_orbit);
+	    graph.addEdge(edges.low_venus_orbit_venus_landing, nodes.low_venus_orbit, nodes.venus);
+
+	    // mercury
+	    graph.addEdge(edges.earth_transfer_mercury_transfer, nodes.earth_transfer, nodes.mercury_transfer);
+	    graph.addEdge(edges.mercury_transfer_low_mercury_orbit, nodes.mercury_transfer, nodes.low_mercury_orbit);
+	    graph.addEdge(edges.low_mercury_orbit_mercury_landing, nodes.low_mercury_orbit, nodes.mercury);
+
+	    // mars
+	    graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
+	    graph.addEdge(edges.mars_transfer_low_mars_orbit, nodes.mars_transfer, nodes.low_mars_orbit);
+	    graph.addEdge(edges.low_mars_orbit_mars_landing, nodes.low_mars_orbit, nodes.mars);
+
+	    graph.addEdge(edges.mars_transfer_deimos_transfer, nodes.mars_transfer, nodes.deimos_transfer);
+	    graph.addEdge(edges.deimos_transfer_low_deimos_orbit, nodes.deimos_transfer, nodes.low_deimos_orbit);
+	    graph.addEdge(edges.low_deimos_orbit_deimos_landing, nodes.low_deimos_orbit, nodes.deimos);
+
+	    graph.addEdge(edges.mars_transfer_phobos_transfer, nodes.mars_transfer, nodes.phobos_transfer);
+	    graph.addEdge(edges.phobos_transfer_low_phobos_orbit, nodes.phobos_transfer, nodes.low_phobos_orbit);
+	    graph.addEdge(edges.low_phobos_orbit_phobos_landing, nodes.low_phobos_orbit, nodes.phobos);
+
+	    // jupiter
+	    graph.addEdge(edges.earth_transfer_jupiter_transfer, nodes.earth_transfer, nodes.jupiter_transfer);
+	    graph.addEdge(edges.jupiter_transfer_low_jupiter_orbit, nodes.jupiter_transfer, nodes.low_jupiter_orbit);
+
+	    graph.addEdge(edges.jupiter_transfer_callisto_transfer, nodes.jupiter_transfer, nodes.callisto_transfer);
+	    graph.addEdge(edges.callisto_transfer_low_callisto_orbit, nodes.callisto_transfer, nodes.low_callisto_orbit);
+	    graph.addEdge(edges.low_callisto_orbit_callisto_landing, nodes.low_callisto_orbit, nodes.callisto);
+
+	    graph.addEdge(edges.jupiter_transfer_ganymede_transfer, nodes.jupiter_transfer, nodes.ganymede_transfer);
+	    graph.addEdge(edges.ganymede_transfer_low_ganymede_orbit, nodes.ganymede_transfer, nodes.low_ganymede_orbit);
+	    graph.addEdge(edges.low_ganymede_orbit_ganymede_landing, nodes.low_ganymede_orbit, nodes.ganymede);
+
+	    graph.addEdge(edges.jupiter_transfer_europa_transfer, nodes.jupiter_transfer, nodes.europa_transfer);
+	    graph.addEdge(edges.europa_transfer_low_europa_orbit, nodes.europa_transfer, nodes.low_europa_orbit);
+	    graph.addEdge(edges.low_europa_orbit_europa_landing, nodes.low_europa_orbit, nodes.europa);
+
+	    graph.addEdge(edges.jupiter_transfer_io_transfer, nodes.jupiter_transfer, nodes.io_transfer);
+	    graph.addEdge(edges.io_transfer_low_io_orbit, nodes.io_transfer, nodes.low_io_orbit);
+	    graph.addEdge(edges.low_io_orbit_io_landing, nodes.low_io_orbit, nodes.io);
+
+	    // saturn
+	    graph.addEdge(edges.earth_transfer_saturn_transfer, nodes.earth_transfer, nodes.saturn_transfer);
+	    graph.addEdge(edges.saturn_transfer_low_saturn_orbit, nodes.saturn_transfer, nodes.low_saturn_orbit);
+
+	    graph.addEdge(edges.saturn_transfer_titan_transfer, nodes.saturn_transfer, nodes.titan_transfer);
+	    graph.addEdge(edges.titan_transfer_low_titan_orbit, nodes.titan_transfer, nodes.low_titan_orbit);
+	    graph.addEdge(edges.low_titan_orbit_titan_landing, nodes.low_titan_orbit, nodes.titan);
+
+	    // uranus
+	    graph.addEdge(edges.earth_transfer_uranus_transfer, nodes.earth_transfer, nodes.uranus_transfer);
+	    graph.addEdge(edges.uranus_transfer_low_uranus_orbit, nodes.uranus_transfer, nodes.low_uranus_orbit);
+
+	    // neptune
+	    graph.addEdge(edges.earth_transfer_neptune_transfer, nodes.earth_transfer, nodes.neptune_transfer);
+	    graph.addEdge(edges.neptune_transfer_low_neptune_orbit, nodes.neptune_transfer, nodes.low_neptune_orbit);
+
+	    // sun
+	    graph.addEdge(edges.earth_transfer_sun_transfer, nodes.earth_transfer, nodes.sun_transfer);
+	    graph.addEdge(edges.sun_transfer_low_sun_orbit, nodes.sun_transfer, nodes.low_sun_orbit);
+	  };
+
+	  this.unwalkNodes = function () {
+	    for (var node in _this.nodes) {
+	      _this.nodes[node].visited = false;
+	    }
+	  };
+
 	  this.nodes = {
 	    earth: new _node2.default('Earth'),
 	    low_earth_orbit: new _node2.default('Low Earth Orbit'),
@@ -20003,92 +20100,8 @@
 	  };
 	};
 
-	SolarSystem.prototype = {
-	  unwalkNodes: function unwalkNodes() {
-	    for (var node in this.nodes) {
-	      this.nodes[node].visited = false;
-	    }
-	  },
-
-	  buildGraph: function buildGraph(graph, edges, nodes) {
-	    // earth
-	    graph.addEdge(edges.low_earth_orbit, nodes.earth, nodes.low_earth_orbit);
-
-	    graph.addEdge(edges.low_earth_orbit_geostationary_transfer, nodes.low_earth_orbit, nodes.geostationary_transfer);
-	    graph.addEdge(edges.geostationary_transfer_geo_orbit, nodes.geostationary_transfer, nodes.geostationary_orbit);
-
-	    graph.addEdge(edges.low_earth_orbit_moon_transfer, nodes.low_earth_orbit, nodes.moon_transfer);
-	    graph.addEdge(edges.moon_transfer_low_moon_orbit, nodes.moon_transfer, nodes.low_moon_orbit);
-	    graph.addEdge(edges.low_moon_orbit_moon_landing, nodes.low_moon_orbit, nodes.moon);
-
-	    graph.addEdge(edges.low_earth_orbit_earth_transfer, nodes.low_earth_orbit, nodes.earth_transfer);
-
-	    // venus
-	    graph.addEdge(edges.earth_transfer_venus_transfer, nodes.earth_transfer, nodes.venus_transfer);
-	    graph.addEdge(edges.venus_transfer_low_venus_orbit, nodes.venus_transfer, nodes.low_venus_orbit);
-	    graph.addEdge(edges.low_venus_orbit_venus_landing, nodes.low_venus_orbit, nodes.venus);
-
-	    // mercury
-	    graph.addEdge(edges.earth_transfer_mercury_transfer, nodes.earth_transfer, nodes.mercury_transfer);
-	    graph.addEdge(edges.mercury_transfer_low_mercury_orbit, nodes.mercury_transfer, nodes.low_mercury_orbit);
-	    graph.addEdge(edges.low_mercury_orbit_mercury_landing, nodes.low_mercury_orbit, nodes.mercury);
-
-	    // mars
-	    graph.addEdge(edges.earth_transfer_mars_transfer, nodes.earth_transfer, nodes.mars_transfer);
-	    graph.addEdge(edges.mars_transfer_low_mars_orbit, nodes.mars_transfer, nodes.low_mars_orbit);
-	    graph.addEdge(edges.low_mars_orbit_mars_landing, nodes.low_mars_orbit, nodes.mars);
-
-	    graph.addEdge(edges.mars_transfer_deimos_transfer, nodes.mars_transfer, nodes.deimos_transfer);
-	    graph.addEdge(edges.deimos_transfer_low_deimos_orbit, nodes.deimos_transfer, nodes.low_deimos_orbit);
-	    graph.addEdge(edges.low_deimos_orbit_deimos_landing, nodes.low_deimos_orbit, nodes.deimos);
-
-	    graph.addEdge(edges.mars_transfer_phobos_transfer, nodes.mars_transfer, nodes.phobos_transfer);
-	    graph.addEdge(edges.phobos_transfer_low_phobos_orbit, nodes.phobos_transfer, nodes.low_phobos_orbit);
-	    graph.addEdge(edges.low_phobos_orbit_phobos_landing, nodes.low_phobos_orbit, nodes.phobos);
-
-	    // jupiter
-	    graph.addEdge(edges.earth_transfer_jupiter_transfer, nodes.earth_transfer, nodes.jupiter_transfer);
-	    graph.addEdge(edges.jupiter_transfer_low_jupiter_orbit, nodes.jupiter_transfer, nodes.low_jupiter_orbit);
-
-	    graph.addEdge(edges.jupiter_transfer_callisto_transfer, nodes.jupiter_transfer, nodes.callisto_transfer);
-	    graph.addEdge(edges.callisto_transfer_low_callisto_orbit, nodes.callisto_transfer, nodes.low_callisto_orbit);
-	    graph.addEdge(edges.low_callisto_orbit_callisto_landing, nodes.low_callisto_orbit, nodes.callisto);
-
-	    graph.addEdge(edges.jupiter_transfer_ganymede_transfer, nodes.jupiter_transfer, nodes.ganymede_transfer);
-	    graph.addEdge(edges.ganymede_transfer_low_ganymede_orbit, nodes.ganymede_transfer, nodes.low_ganymede_orbit);
-	    graph.addEdge(edges.low_ganymede_orbit_ganymede_landing, nodes.low_ganymede_orbit, nodes.ganymede);
-
-	    graph.addEdge(edges.jupiter_transfer_europa_transfer, nodes.jupiter_transfer, nodes.europa_transfer);
-	    graph.addEdge(edges.europa_transfer_low_europa_orbit, nodes.europa_transfer, nodes.low_europa_orbit);
-	    graph.addEdge(edges.low_europa_orbit_europa_landing, nodes.low_europa_orbit, nodes.europa);
-
-	    graph.addEdge(edges.jupiter_transfer_io_transfer, nodes.jupiter_transfer, nodes.io_transfer);
-	    graph.addEdge(edges.io_transfer_low_io_orbit, nodes.io_transfer, nodes.low_io_orbit);
-	    graph.addEdge(edges.low_io_orbit_io_landing, nodes.low_io_orbit, nodes.io);
-
-	    // saturn
-	    graph.addEdge(edges.earth_transfer_saturn_transfer, nodes.earth_transfer, nodes.saturn_transfer);
-	    graph.addEdge(edges.saturn_transfer_low_saturn_orbit, nodes.saturn_transfer, nodes.low_saturn_orbit);
-
-	    graph.addEdge(edges.saturn_transfer_titan_transfer, nodes.saturn_transfer, nodes.titan_transfer);
-	    graph.addEdge(edges.titan_transfer_low_titan_orbit, nodes.titan_transfer, nodes.low_titan_orbit);
-	    graph.addEdge(edges.low_titan_orbit_titan_landing, nodes.low_titan_orbit, nodes.titan);
-
-	    // uranus
-	    graph.addEdge(edges.earth_transfer_uranus_transfer, nodes.earth_transfer, nodes.uranus_transfer);
-	    graph.addEdge(edges.uranus_transfer_low_uranus_orbit, nodes.uranus_transfer, nodes.low_uranus_orbit);
-
-	    // neptune
-	    graph.addEdge(edges.earth_transfer_neptune_transfer, nodes.earth_transfer, nodes.neptune_transfer);
-	    graph.addEdge(edges.neptune_transfer_low_neptune_orbit, nodes.neptune_transfer, nodes.low_neptune_orbit);
-
-	    // sun
-	    graph.addEdge(edges.earth_transfer_sun_transfer, nodes.earth_transfer, nodes.sun_transfer);
-	    graph.addEdge(edges.sun_transfer_low_sun_orbit, nodes.sun_transfer, nodes.low_sun_orbit);
-	  }
-	};
-
-	module.exports = new SolarSystem();
+	exports.default = SolarSystem;
+	;
 
 /***/ },
 /* 162 */

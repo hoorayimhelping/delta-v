@@ -2,7 +2,7 @@ import React from 'react';
 
 import NodeSelector from './node_selector';
 
-import solarSystem from '../maps/solar_system';
+import SolarSystem from '../maps/solar_system';
 import Graph from '../graph/graph';
 import KerbolSystem from '../maps/kerbol_system';
 
@@ -13,6 +13,8 @@ export default class Container extends React.Component {
   constructor() {
     super();
     const graph = new Graph();
+    const solarSystem = new SolarSystem();
+
     solarSystem.buildGraph(graph, solarSystem.edges, solarSystem.nodes);
 
     this.state = {
@@ -43,6 +45,8 @@ export default class Container extends React.Component {
 
     this.setState(newState);
     console.log('set state:', newState);
+
+    this.state.solarSystem.unwalkNodes();
   };
 
   render() {
@@ -51,8 +55,8 @@ export default class Container extends React.Component {
       <div>
         <h1>Hello, world!</h1>
         <form onSubmit={this.handleSubmit}>
-          <NodeSelector id={START_NODE_ID} onChange={this.handleChange} nodes={solarSystem.nodes} defaultValue={this.state.startNodeCurrentValue} />
-          <NodeSelector id={END_NODE_ID} onChange={this.handleChange} nodes={solarSystem.nodes} defaultValue={this.state.endNodeCurrentValue} />
+          <NodeSelector id={START_NODE_ID} onChange={this.handleChange} nodes={this.state.solarSystem.nodes} defaultValue={this.state.startNodeCurrentValue} />
+          <NodeSelector id={END_NODE_ID} onChange={this.handleChange} nodes={this.state.solarSystem.nodes} defaultValue={this.state.endNodeCurrentValue} />
         </form>
         <div>
           <h3>Total Delta V Cost</h3>
