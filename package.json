@@ -7,7 +7,7 @@
   "scripts": {
     "test": "mocha",
     "build": "webpack --config webpack.config.dev.js",
-    "watch": "webpack --config webpack.config.dev.js --progress --colors --watch &"
+    "watch": "webpack --config webpack.config.dev.js --progress --colors --watch"
   },
   "author": "Bucky Schwarz",
   "license": "MIT",
