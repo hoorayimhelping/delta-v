@@ -30,13 +30,13 @@ export default class Container extends React.Component {
   }
 
   calculateDeltaV() {
-    const underscoredStartNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
-    const underscoredEndNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
+    const startNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
+    const endNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
     const system = this.state.system;
 
-    console.log('walking:', underscoredStartNode, underscoredEndNode, system.nodes[underscoredStartNode])
+    console.log('walking:', startNode, endNode, system.nodes[startNode])
 
-    return this.state.graph.walk(system.nodes[underscoredStartNode], system.nodes[underscoredEndNode]);
+    return this.state.graph.walk(system.nodes[startNode], system.nodes[endNode]);
   }
 
   handleChange = (event) => {
@@ -48,8 +48,6 @@ export default class Container extends React.Component {
     newState[objectKey] = target.value;
 
     this.setState(newState);
-    console.log('set state:', newState);
-
     this.state.system.unwalkNodes();
   };
 
@@ -57,7 +55,6 @@ export default class Container extends React.Component {
     const totalDeltaV = this.calculateDeltaV();
     return (
       <div>
-        <h1>Hello, world!</h1>
         <form onSubmit={this.handleSubmit}>
           <NodeSelector id={START_NODE_ID} onChange={this.handleChange} nodes={this.state.system.nodes} defaultValue={this.state.startNodeCurrentValue} />
           <NodeSelector id={END_NODE_ID} onChange={this.handleChange} nodes={this.state.system.nodes} defaultValue={this.state.endNodeCurrentValue} />
