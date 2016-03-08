@@ -15,6 +15,7 @@ export default class KerbolSystem {
       low_kerbin_orbit: new Node('Low Kerbin Orbit'),
       keostationary_transfer: new Node('Keostationary Transfer'),
       keostationary_orbit: new Node('Keostationary Orbit'),
+      kerbin_transfer: new Node('Kerbin Transfer'),
 
       mun_transfer: new Node('Mun Transfer'),
       mun_plane_change: new Node('Mun Plane Change'),
@@ -27,8 +28,6 @@ export default class KerbolSystem {
       minmus_capture: new Node('Minmus Capture'),
       low_minmus_orbit: new Node('Low Minmus Orbit'),
       minmus: new Node('Minmus'),
-
-      kerbin_transfer: new Node('Kerbin Transfer'),
 
       moho_transfer: new Node('Moho Transfer'),
       moho_plane_change: new Node('Moho Plane Change'),
@@ -112,7 +111,9 @@ export default class KerbolSystem {
       kerbol_plane_change: new Node('Kerbol Plane Change'),
       kerbol_capture: new Node('Kerbol Capture'),
       low_kerbol_orbit: new Node('Low Kerbol Orbit'),
-      kerbol: new Node('Kerbol')
+      kerbol: new Node('Kerbol'),
+
+      kerbol_escape: new Node('Kerbol Escape')
     };
 
     this.edges = {
@@ -179,60 +180,47 @@ export default class KerbolSystem {
 
       jool_transfer_pol_transfer: newEdge({ deltav: 280, name: 'jool_transfer-pol_transfer' }),
       pol_transfer_plane_change: newEdge({ deltav: 700, name: 'pol_transfer-plane_change' }),
-      pol_transfer_pol_capture: newEdge({ deltav: 160, name: 'pol_transfer-pol_capture' }),
-      pol_capture_low_pol_orbit: newEdge({ deltav: 2810, name: 'pol_capture-low_pol_orbit' }),
-      low_pol_orbit_pol_landing: newEdge({ deltav: 390, name: 'low_pol_orbit-pol_landing' })
+      pol_transfer_pol_capture: newEdge({ deltav: 770, name: 'pol_transfer-pol_capture' }),
+      pol_capture_low_pol_orbit: newEdge({ deltav: 50, name: 'pol_capture-low_pol_orbit' }),
+      low_pol_orbit_pol_landing: newEdge({ deltav: 130, name: 'low_pol_orbit-pol_landing' }),
 
-      // kerbin_transfer_mercury_transfer: newEdge({ deltav: 2340, name: 'kerbin_transfer-mercury_transfer' }),
-      // mercury_transfer_low_mercury_orbit: newEdge({ deltav: 7530, name: 'mercury_transfer-low_mercury_orbit' }),
-      // low_mercury_orbit_mercury_landing: newEdge({ deltav: 3060, name: 'low_mercury_orbit-mercury_landing' }),
+      jool_transfer_bop_transfer: newEdge({ deltav: 380, name: 'jool_transfer-bop_transfer' }),
+      bop_transfer_plane_change: newEdge({ deltav: 2440, name: 'bop_transfer-plane_change' }),
+      bop_transfer_bop_capture: newEdge({ deltav: 830, name: 'bop_transfer-bop_capture' }),
+      bop_capture_low_bop_orbit: newEdge({ deltav: 70, name: 'bop_capture-low_bop_orbit' }),
+      low_bop_orbit_bop_landing: newEdge({ deltav: 220, name: 'low_bop_orbit-bop_landing' }),
 
-      // kerbin_transfer_mars_transfer: newEdge({ deltav: 1060, name: 'kerbin_transfer-mars_transfer' }),
-      // mars_transfer_low_mars_orbit: newEdge({ deltav: 1440, name: 'mars_transfer-low_mars_orbit' }),
-      // low_mars_orbit_mars_landing: newEdge({ deltav: 2000, name: 'low_mars_orbit-mars_landing' }),
+      jool_transfer_tylo_transfer: newEdge({ deltav: 540, name: 'jool_transfer-tylo_transfer' }),
+      tylo_transfer_plane_change: newEdge({ deltav: 0, name: 'tylo_transfer-plane_change' }),
+      tylo_transfer_tylo_capture: newEdge({ deltav: 240, name: 'tylo_transfer-tylo_capture' }),
+      tylo_capture_low_tylo_orbit: newEdge({ deltav: 860, name: 'tylo_capture-low_tylo_orbit' }),
+      low_tylo_orbit_tylo_landing: newEdge({ deltav: 2800, name: 'low_tylo_orbit-tylo_landing' }),
 
-      // mars_transfer_deimos_transfer: newEdge({ deltav: 340, name: 'mars_transfer-deimos_transfer' }),
-      // deimos_transfer_low_deimos_orbit: newEdge({ deltav: 652, name: 'deimos_transfer-low_deimos_orbit' }),
-      // low_deimos_orbit_deimos_landing: newEdge({ deltav: 4, name: 'low_deimos_orbit-deimos_landing' }),
+      jool_transfer_vall_transfer: newEdge({ deltav: 780, name: 'jool_transfer-vall_transfer' }),
+      vall_transfer_plane_change: newEdge({ deltav: 0, name: 'vall_transfer-plane_change' }),
+      vall_transfer_vall_capture: newEdge({ deltav: 580, name: 'vall_transfer-vall_capture' }),
+      vall_capture_low_vall_orbit: newEdge({ deltav: 330, name: 'vall_capture-low_vall_orbit' }),
+      low_vall_orbit_vall_landing: newEdge({ deltav: 860, name: 'low_vall_orbit-vall_landing' }),
 
-      // mars_transfer_phobos_transfer: newEdge({ deltav: 740, name: 'mars_transfer-phobos_transfer'}),
-      // phobos_transfer_low_phobos_orbit: newEdge({ deltav: 543, name: 'mars_transfer-phobos_transfer'}),
-      // low_phobos_orbit_phobos_landing: newEdge({ deltav: 8, name: 'low_phobos_orbit-phobos_landing'}),
+      jool_transfer_laythe_transfer: newEdge({ deltav: 1090, name: 'jool_transfer-laythe_transfer' }),
+      laythe_transfer_plane_change: newEdge({ deltav: 0, name: 'laythe_transfer-plane_change' }),
+      laythe_transfer_laythe_capture: newEdge({ deltav: 290, name: 'laythe_transfer-laythe_capture' }),
+      laythe_capture_low_laythe_orbit: newEdge({ deltav: 780, name: 'laythe_capture-low_laythe_orbit' }),
+      low_laythe_orbit_laythe_landing: newEdge({ deltav: 2900, name: 'low_laythe_orbit-laythe_landing' }),
 
-      // kerbin_transfer_jupiter_transfer: newEdge({ deltav: 3360, name: 'kerbin_transfer-jupiter_transfer' }),
-      // jupiter_transfer_low_jupiter_orbit: newEdge({ deltav: 17200, name: 'jupiter_transfer-low_jupiter_orbit' }),
+      kerbin_transfer_eeloo_transfer: newEdge({ deltav: 1140, name: 'kerbin_transfer-eeloo_transfer' }),
+      eeloo_transfer_plane_change: newEdge({ deltav: 1330, name: 'eeloo_transfer-plane_change' }),
+      eeloo_transfer_eeloo_capture: newEdge({ deltav: 1130, name: 'eeloo_transfer-eeloo_capture' }),
+      eeloo_capture_low_eeloo_orbit: newEdge({ deltav: 240, name: 'eeloo_capture-low_eeloo_orbit' }),
+      low_eeloo_orbit_eeloo_landing: newEdge({ deltav: 620, name: 'low_eeloo_orbit-eeloo_landing' }),
 
-      // jupiter_transfer_callisto_transfer: newEdge({ deltav: 5140, name: 'jupiter_transfer-callisto_transfer' }),
-      // callisto_transfer_low_callisto_orbit: newEdge({ deltav: 700, name: 'callisto_transfer-low_callisto_orbit' }),
-      // low_callisto_orbit_callisto_landing: newEdge({ deltav: 1760, name: 'low_callisto_orbit-callisto_landing' }),
+      kerbin_transfer_kerbol_transfer: newEdge({ deltav: 5910, name: 'kerbin_transfer-kerbol_transfer' }),
+      kerbol_transfer_plane_change: newEdge({ deltav: 0, name: 'kerbol_transfer-plane_change' }),
+      kerbol_transfer_kerbol_capture: newEdge({ deltav: 26820, name: 'kerbol_transfer-kerbol_capture' }),
+      kerbol_capture_low_kerbol_orbit: newEdge({ deltav: 67000, name: 'kerbol_capture-low_kerbol_orbit' }),
+      low_kerbol_orbit_kerbol_landing: newEdge({ deltav: 0, name: 'low_kerbol_orbit-kerbol_landing' }),
 
-      // jupiter_transfer_ganymede_transfer: newEdge({ deltav: 6700, name: 'jupiter_transfer-ganymede_transfer' }),
-      // ganymede_transfer_low_ganymede_orbit: newEdge({ deltav: 790, name: 'ganymede_transfer-low_ganymede_orbit' }),
-      // low_ganymede_orbit_ganymede_landing: newEdge({ deltav: 1970, name: 'low_ganymede_orbit-ganymede_landing' }),
-
-      // jupiter_transfer_europa_transfer: newEdge({ deltav: 8890, name: 'jupiter_transfer-europa_transfer' }),
-      // europa_transfer_low_europa_orbit: newEdge({ deltav: 580, name: 'europa_transfer-low_europa_orbit' }),
-      // low_europa_orbit_europa_landing: newEdge({ deltav: 1480, name: 'low_europa_orbit-europa_landing' }),
-
-      // jupiter_transfer_io_transfer: newEdge({ deltav: 10320, name: 'jupiter_transfer-io_transfer' }),
-      // io_transfer_low_io_orbit: newEdge({ deltav: 730, name: 'io_transfer-low_io_orbit' }),
-      // low_io_orbit_io_landing: newEdge({ deltav: 1850, name: 'low_io_orbit-io_landing' }),
-
-      // kerbin_transfer_saturn_transfer: newEdge({ deltav: 4500, name: 'kerbin_transfer-saturn_transfer' }),
-      // saturn_transfer_low_saturn_orbit: newEdge({ deltav: 10230, name: 'saturn_transfer-low_saturn_orbit' }),
-
-      // saturn_transfer_titan_transfer: newEdge({ deltav: 3060, name: 'saturn_transfer-titan_transfer' }),
-      // titan_transfer_low_titan_orbit: newEdge({ deltav: 660, name: 'titan_transfer-low_titan_orbit' }),
-      // low_titan_orbit_titan_landing: newEdge({ deltav: 7600, name: 'low_titan_orbit-titan_landing' }),
-
-      // kerbin_transfer_uranus_transfer: newEdge({ deltav: 5280, name: 'kerbin_transfer-uranus_transfer' }),
-      // uranus_transfer_low_uranus_orbit: newEdge({ deltav: 6120, name: 'uranus_transfer-low_uranus_orbit' }),
-
-      // kerbin_transfer_neptune_transfer: newEdge({ deltav: 5390, name: 'kerbin_transfer-neptune_transfer' }),
-      // neptune_transfer_low_neptune_orbit: newEdge({ deltav: 6750, name: 'neptune_transfer-low_neptune_orbit' }),
-
-      // kerbin_transfer_sun_transfer: newEdge({ deltav: 196080, name: 'kerbin_transfer-sun_transfer' }),
-      // sun_transfer_low_sun_orbit: newEdge({ deltav: 636080, name: 'sun_transfer-low_sun_orbit' })
+      kerbin_transfer_kerbol_escape: newEdge({ deltav: 1790, name: 'kerbin_transfer-kerbol_escape' })
     };
   }
 
@@ -256,6 +244,74 @@ export default class KerbolSystem {
     graph.addEdge(edges.low_minmus_orbit_minmus_landing, nodes.low_minmus_orbit, nodes.minmus);
 
     graph.addEdge(edges.low_kerbin_orbit_kerbin_transfer, nodes.low_kerbin_orbit, nodes.kerbin_transfer);
+
+    graph.addEdge(edges.kerbin_transfer_duna_transfer, nodes.kerbin_transfer, nodes.duna_transfer);
+    graph.addEdge(edges.duna_transfer_plane_change, nodes.duna_transfer, nodes.duna_plane_change);
+    graph.addEdge(edges.duna_transfer_duna_capture, nodes.duna_transfer, nodes.duna_capture);
+    graph.addEdge(edges.duna_capture_low_duna_orbit, nodes.duna_capture, nodes.low_duna_orbit);
+    graph.addEdge(edges.low_duna_orbit_duna_landing, nodes.low_duna_orbit, nodes.duna);
+
+    graph.addEdge(edges.duna_transfer_ike_transfer, nodes.duna_transfer, nodes.ike_transfer);
+    graph.addEdge(edges.ike_transfer_plane_change, nodes.ike_transfer, nodes.ike_plane_change);
+    graph.addEdge(edges.ike_transfer_ike_capture, nodes.ike_transfer, nodes.ike_capture);
+    graph.addEdge(edges.ike_capture_low_ike_orbit, nodes.ike_capture, nodes.low_ike_orbit);
+    graph.addEdge(edges.low_ike_orbit_ike_landing, nodes.low_ike_orbit, nodes.ike);
+
+    graph.addEdge(edges.kerbin_transfer_dres_transfer, nodes.kerbin_transfer, nodes.dres_transfer);
+    graph.addEdge(edges.dres_transfer_plane_change, nodes.dres_transfer, nodes.dres_plane_change);
+    graph.addEdge(edges.dres_transfer_dres_capture, nodes.dres_transfer, nodes.dres_capture);
+    graph.addEdge(edges.dres_capture_low_dres_orbit, nodes.dres_capture, nodes.low_dres_orbit);
+    graph.addEdge(edges.low_dres_orbit_dres_landing, nodes.low_dres_orbit, nodes.dres);
+
+    graph.addEdge(edges.kerbin_transfer_jool_transfer, nodes.kerbin_transfer, nodes.jool_transfer);
+    graph.addEdge(edges.jool_transfer_plane_change, nodes.jool_transfer, nodes.jool_plane_change);
+    graph.addEdge(edges.jool_transfer_jool_capture, nodes.jool_transfer, nodes.jool_capture);
+    graph.addEdge(edges.jool_capture_low_jool_orbit, nodes.jool_capture, nodes.low_jool_orbit);
+    graph.addEdge(edges.low_jool_orbit_jool_landing, nodes.low_jool_orbit, nodes.jool);
+
+    graph.addEdge(edges.jool_transfer_pol_transfer, nodes.jool_transfer, nodes.pol_transfer);
+    graph.addEdge(edges.pol_transfer_plane_change, nodes.pol_transfer, nodes.pol_plane_change);
+    graph.addEdge(edges.pol_transfer_pol_capture, nodes.pol_transfer, nodes.pol_capture);
+    graph.addEdge(edges.pol_capture_low_pol_orbit, nodes.pol_capture, nodes.low_pol_orbit);
+    graph.addEdge(edges.low_pol_orbit_pol_landing, nodes.low_pol_orbit, nodes.pol);
+
+    graph.addEdge(edges.jool_transfer_bop_transfer, nodes.jool_transfer, nodes.bop_transfer);
+    graph.addEdge(edges.bop_transfer_plane_change, nodes.bop_transfer, nodes.bop_plane_change);
+    graph.addEdge(edges.bop_transfer_bop_capture, nodes.bop_transfer, nodes.bop_capture);
+    graph.addEdge(edges.bop_capture_low_bop_orbit, nodes.bop_capture, nodes.low_bop_orbit);
+    graph.addEdge(edges.low_bop_orbit_bop_landing, nodes.low_bop_orbit, nodes.bop);
+
+    graph.addEdge(edges.jool_transfer_tylo_transfer, nodes.jool_transfer, nodes.tylo_transfer);
+    graph.addEdge(edges.tylo_transfer_plane_change, nodes.tylo_transfer, nodes.tylo_plane_change);
+    graph.addEdge(edges.tylo_transfer_tylo_capture, nodes.tylo_transfer, nodes.tylo_capture);
+    graph.addEdge(edges.tylo_capture_low_tylo_orbit, nodes.tylo_capture, nodes.low_tylo_orbit);
+    graph.addEdge(edges.low_tylo_orbit_tylo_landing, nodes.low_tylo_orbit, nodes.tylo);
+
+    graph.addEdge(edges.jool_transfer_vall_transfer, nodes.jool_transfer, nodes.vall_transfer);
+    graph.addEdge(edges.vall_transfer_plane_change, nodes.vall_transfer, nodes.vall_plane_change);
+    graph.addEdge(edges.vall_transfer_vall_capture, nodes.vall_transfer, nodes.vall_capture);
+    graph.addEdge(edges.vall_capture_low_vall_orbit, nodes.vall_capture, nodes.low_vall_orbit);
+    graph.addEdge(edges.low_vall_orbit_vall_landing, nodes.low_vall_orbit, nodes.vall);
+
+    graph.addEdge(edges.jool_transfer_laythe_transfer, nodes.jool_transfer, nodes.laythe_transfer);
+    graph.addEdge(edges.laythe_transfer_plane_change, nodes.laythe_transfer, nodes.laythe_plane_change);
+    graph.addEdge(edges.laythe_transfer_laythe_capture, nodes.laythe_transfer, nodes.laythe_capture);
+    graph.addEdge(edges.laythe_capture_low_laythe_orbit, nodes.laythe_capture, nodes.low_laythe_orbit);
+    graph.addEdge(edges.low_laythe_orbit_laythe_landing, nodes.low_laythe_orbit, nodes.laythe);
+
+    graph.addEdge(edges.kerbin_transfer_eeloo_transfer, nodes.kerbin_transfer, nodes.eeloo_transfer);
+    graph.addEdge(edges.eeloo_transfer_plane_change, nodes.eeloo_transfer, nodes.eeloo_plane_change);
+    graph.addEdge(edges.eeloo_transfer_eeloo_capture, nodes.eeloo_transfer, nodes.eeloo_capture);
+    graph.addEdge(edges.eeloo_capture_low_eeloo_orbit, nodes.eeloo_capture, nodes.low_eeloo_orbit);
+    graph.addEdge(edges.low_eeloo_orbit_eeloo_landing, nodes.low_eeloo_orbit, nodes.eeloo);
+
+    graph.addEdge(edges.kerbin_transfer_kerbol_transfer, nodes.kerbin_transfer, nodes.kerbol_transfer);
+    graph.addEdge(edges.kerbol_transfer_plane_change, nodes.kerbol_transfer, nodes.kerbol_plane_change);
+    graph.addEdge(edges.kerbol_transfer_kerbol_capture, nodes.kerbol_transfer, nodes.kerbol_capture);
+    graph.addEdge(edges.kerbol_capture_low_kerbol_orbit, nodes.kerbol_capture, nodes.low_kerbol_orbit);
+    graph.addEdge(edges.low_kerbol_orbit_kerbol_landing, nodes.low_kerbol_orbit, nodes.kerbol);
+
+    graph.addEdge(edges.kerbin_transfer_kerbol_escape, nodes.kerbin_transfer, nodes.kerbol_escape);
   };
 
   unwalkNodes = () => {

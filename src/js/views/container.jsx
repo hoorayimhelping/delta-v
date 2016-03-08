@@ -34,8 +34,6 @@ export default class Container extends React.Component {
     const endNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
     const system = this.state.system;
 
-    console.log('walking:', startNode, endNode, system.nodes[startNode])
-
     return this.state.graph.walk(system.nodes[startNode], system.nodes[endNode]);
   }
 
