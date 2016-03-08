@@ -20145,7 +20145,26 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
 	var Edge = function Edge(value, name) {
+	  var _this = this;
+	
+	  _classCallCheck(this, Edge);
+	
+	  this.add = function (source, destination) {
+	    _this.nodes = {};
+	
+	    _this.nodes = {
+	      head: source,
+	      tail: destination
+	    };
+	  };
+	
 	  this.value = value;
 	  this.name = name;
 	
@@ -20153,18 +20172,8 @@
 	  this.nodes = {};
 	};
 	
-	Edge.prototype = {
-	  add: function add(source, destination) {
-	    this.nodes = {};
-	
-	    this.nodes = {
-	      head: source,
-	      tail: destination
-	    };
-	  }
-	};
-	
-	module.exports = Edge;
+	exports.default = Edge;
+	;
 
 /***/ },
 /* 164 */
