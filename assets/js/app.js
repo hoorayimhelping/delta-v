@@ -19728,17 +19728,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Container).call(this));
 	
-	    _this.handleChange = function (event) {
-	      var target = event.target;
-	
-	      var objectKey = target.id === START_NODE_ID ? 'startNodeCurrentValue' : 'endNodeCurrentValue';
-	      var newState = {};
-	
-	      newState[objectKey] = target.value;
-	
-	      _this.setState(newState);
-	      _this.state.system.unwalkNodes();
-	    };
+	    _initialiseProps.call(_this);
 	
 	    var graph = new _graph2.default();
 	
@@ -19759,15 +19749,6 @@
 	  }
 	
 	  _createClass(Container, [{
-	    key: 'calculateDeltaV',
-	    value: function calculateDeltaV() {
-	      var startNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
-	      var endNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
-	      var system = this.state.system;
-	
-	      return this.state.graph.walk(system.nodes[startNode], system.nodes[endNode]);
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var totalDeltaV = this.calculateDeltaV();
@@ -19777,6 +19758,30 @@
 	
 	  return Container;
 	}(_react2.default.Component);
+	
+	var _initialiseProps = function _initialiseProps() {
+	  var _this2 = this;
+	
+	  this.calculateDeltaV = function () {
+	    var startNode = _this2.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
+	    var endNode = _this2.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
+	    var system = _this2.state.system;
+	
+	    return _this2.state.graph.walk(system.nodes[startNode], system.nodes[endNode]);
+	  };
+	
+	  this.handleChange = function (event) {
+	    var target = event.target;
+	
+	    var objectKey = target.id === START_NODE_ID ? 'startNodeCurrentValue' : 'endNodeCurrentValue';
+	    var newState = {};
+	
+	    newState[objectKey] = target.value;
+	
+	    _this2.setState(newState);
+	    _this2.state.system.unwalkNodes();
+	  };
+	};
 	
 	exports.default = Container;
 	;
@@ -20167,85 +20172,93 @@
 
 	"use strict";
 	
-	var Graph = function Graph() {
-	  this.edges = [];
-	  this.nodes = [];
-	};
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
-	Graph.prototype = {
-	  addEdge: function addEdge(edge, head_node, tail_node) {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Graph = function Graph() {
+	  var _this = this;
+	
+	  _classCallCheck(this, Graph);
+	
+	  this.addEdge = function (edge, head_node, tail_node) {
 	    edge.add(head_node, tail_node);
 	
-	    this.nodes.push(head_node, tail_node);
+	    _this.nodes.push(head_node, tail_node);
 	
 	    head_node.addEdge(edge);
 	    tail_node.addEdge(edge);
 	
-	    this.edges.push(edge);
-	  },
+	    _this.edges.push(edge);
+	  };
 	
-	  // depth first search
-	  walk: function walk(start_node, destination_node) {
-	    var total_value = 0;
-	    var edges = start_node.edges;
+	  this.walk = function (startNode, destinationNode) {
+	    var totalValue = 0;
+	    var edges = startNode.edges;
 	
-	    start_node.visited = true;
+	    startNode.visited = true;
 	
-	    for (var i = 0, l = start_node.edges.length; i < l; i++) {
+	    for (var i = 0, l = startNode.edges.length; i < l; i++) {
 	      var edge = edges[i];
 	      var node = edge.nodes.tail;
 	
-	      if (node.name === destination_node.name) {
+	      if (node.name === destinationNode.name) {
 	        // stop walking the graph when a match is found
 	        // TODO: work out a better solution
-	        this.visitNodes();
+	        _this.visitNodes();
 	
 	        return edge.value;
 	      }
 	
 	      if (!node.visited) {
-	        total_value = edge.value;
+	        totalValue = edge.value;
 	
-	        total_value += this.walk(node, destination_node);
+	        totalValue += _this.walk(node, destinationNode);
 	      }
 	    }
 	
-	    return total_value;
-	  },
+	    return totalValue;
+	  };
 	
-	  resetNodes: function resetNodes() {
-	    this.nodes.forEach(function (node) {
+	  this.resetNodes = function () {
+	    _this.nodes.forEach(function (node) {
 	      node.visited = false;
 	    });
-	  },
+	  };
 	
-	  visitNodes: function visitNodes() {
-	    this.nodes.forEach(function (node) {
+	  this.visitNodes = function () {
+	    _this.nodes.forEach(function (node) {
 	      node.visited = true;
 	    });
-	  },
+	  };
 	
-	  render: function render(start_node, destination_node, renderer) {
-	    start_node.visited = true;
+	  this.render = function (startNode, destinatinNode, renderer) {
+	    startNode.visited = true;
 	
-	    start_node.edges.forEach(function (edge, i) {
+	    startNode.edges.forEach(function (edge, i) {
 	      renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
 	
 	      var node = edge.nodes.tail;
 	
-	      if (node.name === destination_node.name) {
+	      if (node.name === destinatinNode.name) {
 	        return;
 	      }
 	
 	      if (!node.visited) {
 	        renderer.circle(i, i, 5);
-	        this.render(node, destination_node, renderer);
+	        _this.render(node, destinatinNode, renderer);
 	      }
-	    }, this);
-	  }
+	    }, _this);
+	  };
+	
+	  this.edges = [];
+	  this.nodes = [];
 	};
 	
-	module.exports = Graph;
+	exports.default = Graph;
+	;
 
 /***/ },
 /* 165 */

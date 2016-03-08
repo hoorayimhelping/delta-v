@@ -1,10 +1,10 @@
-let Graph = function() {
-  this.edges = [];
-  this.nodes = [];
-};
+export default class Graph {
+  constructor() {
+    this.edges = [];
+    this.nodes = [];
+  }
 
-Graph.prototype = {
-  addEdge: function(edge, head_node, tail_node) {
+  addEdge = (edge, head_node, tail_node) => {
     edge.add(head_node, tail_node);
 
     this.nodes.push(head_node, tail_node);
@@ -13,20 +13,19 @@ Graph.prototype = {
     tail_node.addEdge(edge);
 
     this.edges.push(edge);
-  },
+  };
 
-  // depth first search
-  walk: function(start_node, destination_node) {
-    let total_value = 0;
-    let edges = start_node.edges;
+  walk = (startNode, destinationNode) => {
+    let totalValue = 0;
+    let edges = startNode.edges;
 
-    start_node.visited = true;
+    startNode.visited = true;
 
-    for (let i = 0, l = start_node.edges.length; i < l; i++) {
+    for (let i = 0, l = startNode.edges.length; i < l; i++) {
       let edge = edges[i];
       let node = edge.nodes.tail;
 
-      if (node.name === destination_node.name) {
+      if (node.name === destinationNode.name) {
         // stop walking the graph when a match is found
         // TODO: work out a better solution
         this.visitNodes();
@@ -35,45 +34,43 @@ Graph.prototype = {
       }
 
       if (!node.visited) {
-        total_value = edge.value;
+        totalValue = edge.value;
 
-        total_value += this.walk(node, destination_node);
+        totalValue += this.walk(node, destinationNode);
       }
     }
 
-    return total_value;
-  },
+    return totalValue;
+  };
 
-  resetNodes: function() {
-    this.nodes.forEach(function(node) {
+  resetNodes = () => {
+    this.nodes.forEach(node => {
       node.visited = false;
     });
-  },
+  };
 
-  visitNodes: function() {
-    this.nodes.forEach(function(node) {
+  visitNodes = () => {
+    this.nodes.forEach(node => {
       node.visited = true;
     });
-  },
+  };
 
-  render: function(start_node, destination_node, renderer) {
-    start_node.visited = true;
+  render = (startNode, destinatinNode, renderer) => {
+    startNode.visited = true;
 
-    start_node.edges.forEach(function(edge, i) {
+    startNode.edges.forEach((edge, i) => {
       renderer.line(10 * i, 10 * i, (20 + i) * i, (20 + i) * i);
 
       let node = edge.nodes.tail;
 
-      if (node.name === destination_node.name) {
+      if (node.name === destinatinNode.name) {
         return;
       }
 
       if (!node.visited) {
         renderer.circle(i, i, 5);
-        this.render(node, destination_node, renderer);
+        this.render(node, destinatinNode, renderer);
       }
     }, this);
-  }
+  };
 };
-
-module.exports = Graph;

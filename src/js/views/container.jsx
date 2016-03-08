@@ -29,13 +29,13 @@ export default class Container extends React.Component {
     };
   }
 
-  calculateDeltaV() {
+  calculateDeltaV = () => {
     const startNode = this.state.startNodeCurrentValue.toLowerCase().replace(/ /g, '_');
     const endNode = this.state.endNodeCurrentValue.toLowerCase().replace(/ /g, '_');
     const system = this.state.system;
 
     return this.state.graph.walk(system.nodes[startNode], system.nodes[endNode]);
-  }
+  };
 
   handleChange = (event) => {
     const target = event.target;
