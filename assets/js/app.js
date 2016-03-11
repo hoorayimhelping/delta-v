@@ -20308,13 +20308,13 @@
 	    graph.addEdge(edges.keostationary_transfer_keo_orbit, nodes.keostationary_transfer, nodes.keostationary_orbit);
 	
 	    graph.addEdge(edges.low_kerbin_orbit_mun_transfer, nodes.low_kerbin_orbit, nodes.mun_transfer);
-	    graph.addEdge(edges.mun_transfer_plane_change, nodes.mun_transfer, nodes.mun_plane_change);
+	    graph.addEdge(edges.mun_transfer_plane_change, nodes.mun_transfer, nodes.mun_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.mun_transfer_mun_capture, nodes.mun_transfer, nodes.mun_capture);
 	    graph.addEdge(edges.mun_capture_low_mun_orbit, nodes.mun_capture, nodes.low_mun_orbit);
 	    graph.addEdge(edges.low_mun_orbit_mun_landing, nodes.low_mun_orbit, nodes.mun);
 	
 	    graph.addEdge(edges.low_kerbin_orbit_minmus_transfer, nodes.low_kerbin_orbit, nodes.minmus_transfer);
-	    graph.addEdge(edges.minmus_transfer_plane_change, nodes.minmus_transfer, nodes.minmus_plane_change);
+	    graph.addEdge(edges.minmus_transfer_plane_change, nodes.minmus_transfer, nodes.minmus_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.minmus_transfer_minmus_capture, nodes.minmus_transfer, nodes.minmus_capture);
 	    graph.addEdge(edges.minmus_capture_low_minmus_orbit, nodes.minmus_capture, nodes.low_minmus_orbit);
 	    graph.addEdge(edges.low_minmus_orbit_minmus_landing, nodes.low_minmus_orbit, nodes.minmus);
@@ -20322,67 +20322,85 @@
 	    graph.addEdge(edges.low_kerbin_orbit_kerbin_transfer, nodes.low_kerbin_orbit, nodes.kerbin_transfer);
 	
 	    graph.addEdge(edges.kerbin_transfer_duna_transfer, nodes.kerbin_transfer, nodes.duna_transfer);
-	    graph.addEdge(edges.duna_transfer_plane_change, nodes.duna_transfer, nodes.duna_plane_change);
+	    graph.addEdge(edges.duna_transfer_plane_change, nodes.duna_transfer, nodes.duna_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.duna_transfer_duna_capture, nodes.duna_transfer, nodes.duna_capture);
 	    graph.addEdge(edges.duna_capture_low_duna_orbit, nodes.duna_capture, nodes.low_duna_orbit);
 	    graph.addEdge(edges.low_duna_orbit_duna_landing, nodes.low_duna_orbit, nodes.duna);
 	
 	    graph.addEdge(edges.duna_transfer_ike_transfer, nodes.duna_transfer, nodes.ike_transfer);
-	    graph.addEdge(edges.ike_transfer_plane_change, nodes.ike_transfer, nodes.ike_plane_change);
+	    graph.addEdge(edges.ike_transfer_plane_change, nodes.ike_transfer, nodes.ike_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.ike_transfer_ike_capture, nodes.ike_transfer, nodes.ike_capture);
 	    graph.addEdge(edges.ike_capture_low_ike_orbit, nodes.ike_capture, nodes.low_ike_orbit);
 	    graph.addEdge(edges.low_ike_orbit_ike_landing, nodes.low_ike_orbit, nodes.ike);
 	
 	    graph.addEdge(edges.kerbin_transfer_dres_transfer, nodes.kerbin_transfer, nodes.dres_transfer);
-	    graph.addEdge(edges.dres_transfer_plane_change, nodes.dres_transfer, nodes.dres_plane_change);
+	    graph.addEdge(edges.dres_transfer_plane_change, nodes.dres_transfer, nodes.dres_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.dres_transfer_dres_capture, nodes.dres_transfer, nodes.dres_capture);
 	    graph.addEdge(edges.dres_capture_low_dres_orbit, nodes.dres_capture, nodes.low_dres_orbit);
 	    graph.addEdge(edges.low_dres_orbit_dres_landing, nodes.low_dres_orbit, nodes.dres);
 	
 	    graph.addEdge(edges.kerbin_transfer_jool_transfer, nodes.kerbin_transfer, nodes.jool_transfer);
-	    graph.addEdge(edges.jool_transfer_plane_change, nodes.jool_transfer, nodes.jool_plane_change);
+	    graph.addEdge(edges.jool_transfer_plane_change, nodes.jool_transfer, nodes.jool_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.jool_transfer_jool_capture, nodes.jool_transfer, nodes.jool_capture);
 	    graph.addEdge(edges.jool_capture_low_jool_orbit, nodes.jool_capture, nodes.low_jool_orbit);
 	    graph.addEdge(edges.low_jool_orbit_jool_landing, nodes.low_jool_orbit, nodes.jool);
 	
 	    graph.addEdge(edges.jool_transfer_pol_transfer, nodes.jool_transfer, nodes.pol_transfer);
-	    graph.addEdge(edges.pol_transfer_plane_change, nodes.pol_transfer, nodes.pol_plane_change);
+	    graph.addEdge(edges.pol_transfer_plane_change, nodes.pol_transfer, nodes.pol_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.pol_transfer_pol_capture, nodes.pol_transfer, nodes.pol_capture);
 	    graph.addEdge(edges.pol_capture_low_pol_orbit, nodes.pol_capture, nodes.low_pol_orbit);
 	    graph.addEdge(edges.low_pol_orbit_pol_landing, nodes.low_pol_orbit, nodes.pol);
 	
 	    graph.addEdge(edges.jool_transfer_bop_transfer, nodes.jool_transfer, nodes.bop_transfer);
-	    graph.addEdge(edges.bop_transfer_plane_change, nodes.bop_transfer, nodes.bop_plane_change);
+	    graph.addEdge(edges.bop_transfer_plane_change, nodes.bop_transfer, nodes.bop_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.bop_transfer_bop_capture, nodes.bop_transfer, nodes.bop_capture);
 	    graph.addEdge(edges.bop_capture_low_bop_orbit, nodes.bop_capture, nodes.low_bop_orbit);
 	    graph.addEdge(edges.low_bop_orbit_bop_landing, nodes.low_bop_orbit, nodes.bop);
 	
 	    graph.addEdge(edges.jool_transfer_tylo_transfer, nodes.jool_transfer, nodes.tylo_transfer);
-	    graph.addEdge(edges.tylo_transfer_plane_change, nodes.tylo_transfer, nodes.tylo_plane_change);
+	    graph.addEdge(edges.tylo_transfer_plane_change, nodes.tylo_transfer, nodes.tylo_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.tylo_transfer_tylo_capture, nodes.tylo_transfer, nodes.tylo_capture);
 	    graph.addEdge(edges.tylo_capture_low_tylo_orbit, nodes.tylo_capture, nodes.low_tylo_orbit);
 	    graph.addEdge(edges.low_tylo_orbit_tylo_landing, nodes.low_tylo_orbit, nodes.tylo);
 	
 	    graph.addEdge(edges.jool_transfer_vall_transfer, nodes.jool_transfer, nodes.vall_transfer);
-	    graph.addEdge(edges.vall_transfer_plane_change, nodes.vall_transfer, nodes.vall_plane_change);
+	    graph.addEdge(edges.vall_transfer_plane_change, nodes.vall_transfer, nodes.vall_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.vall_transfer_vall_capture, nodes.vall_transfer, nodes.vall_capture);
 	    graph.addEdge(edges.vall_capture_low_vall_orbit, nodes.vall_capture, nodes.low_vall_orbit);
 	    graph.addEdge(edges.low_vall_orbit_vall_landing, nodes.low_vall_orbit, nodes.vall);
 	
 	    graph.addEdge(edges.jool_transfer_laythe_transfer, nodes.jool_transfer, nodes.laythe_transfer);
-	    graph.addEdge(edges.laythe_transfer_plane_change, nodes.laythe_transfer, nodes.laythe_plane_change);
+	    graph.addEdge(edges.laythe_transfer_plane_change, nodes.laythe_transfer, nodes.laythe_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.laythe_transfer_laythe_capture, nodes.laythe_transfer, nodes.laythe_capture);
 	    graph.addEdge(edges.laythe_capture_low_laythe_orbit, nodes.laythe_capture, nodes.low_laythe_orbit);
 	    graph.addEdge(edges.low_laythe_orbit_laythe_landing, nodes.low_laythe_orbit, nodes.laythe);
 	
 	    graph.addEdge(edges.kerbin_transfer_eeloo_transfer, nodes.kerbin_transfer, nodes.eeloo_transfer);
-	    graph.addEdge(edges.eeloo_transfer_plane_change, nodes.eeloo_transfer, nodes.eeloo_plane_change);
+	    graph.addEdge(edges.eeloo_transfer_plane_change, nodes.eeloo_transfer, nodes.eeloo_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.eeloo_transfer_eeloo_capture, nodes.eeloo_transfer, nodes.eeloo_capture);
 	    graph.addEdge(edges.eeloo_capture_low_eeloo_orbit, nodes.eeloo_capture, nodes.low_eeloo_orbit);
 	    graph.addEdge(edges.low_eeloo_orbit_eeloo_landing, nodes.low_eeloo_orbit, nodes.eeloo);
 	
+	    graph.addEdge(edges.kerbin_transfer_eve_transfer, nodes.kerbin_transfer, nodes.eve_transfer);
+	    graph.addEdge(edges.eve_transfer_plane_change, nodes.eve_transfer, nodes.eve_plane_change.addMeta({ isPlaneChange: true }));
+	    graph.addEdge(edges.eve_transfer_eve_capture, nodes.eve_transfer, nodes.eve_capture);
+	    graph.addEdge(edges.eve_capture_low_eve_orbit, nodes.eve_capture, nodes.low_eve_orbit);
+	    graph.addEdge(edges.low_eve_orbit_eve_landing, nodes.low_eve_orbit, nodes.eve);
+	
+	    graph.addEdge(edges.eve_transfer_gilly_transfer, nodes.eve_transfer, nodes.gilly_transfer);
+	    graph.addEdge(edges.gilly_transfer_plane_change, nodes.gilly_transfer, nodes.gilly_plane_change.addMeta({ isPlaneChange: true }));
+	    graph.addEdge(edges.gilly_transfer_gilly_capture, nodes.gilly_transfer, nodes.gilly_capture);
+	    graph.addEdge(edges.gilly_capture_low_gilly_orbit, nodes.gilly_capture, nodes.low_gilly_orbit);
+	    graph.addEdge(edges.low_gilly_orbit_gilly_landing, nodes.low_gilly_orbit, nodes.gilly);
+	
+	    graph.addEdge(edges.kerbin_transfer_moho_transfer, nodes.kerbin_transfer, nodes.moho_transfer);
+	    graph.addEdge(edges.moho_transfer_plane_change, nodes.moho_transfer, nodes.moho_plane_change.addMeta({ isPlaneChange: true }));
+	    graph.addEdge(edges.moho_transfer_moho_capture, nodes.moho_transfer, nodes.moho_capture);
+	    graph.addEdge(edges.moho_capture_low_moho_orbit, nodes.moho_capture, nodes.low_moho_orbit);
+	    graph.addEdge(edges.low_moho_orbit_moho_landing, nodes.low_moho_orbit, nodes.moho);
+	
 	    graph.addEdge(edges.kerbin_transfer_kerbol_transfer, nodes.kerbin_transfer, nodes.kerbol_transfer);
-	    graph.addEdge(edges.kerbol_transfer_plane_change, nodes.kerbol_transfer, nodes.kerbol_plane_change);
+	    graph.addEdge(edges.kerbol_transfer_plane_change, nodes.kerbol_transfer, nodes.kerbol_plane_change.addMeta({ isPlaneChange: true }));
 	    graph.addEdge(edges.kerbol_transfer_kerbol_capture, nodes.kerbol_transfer, nodes.kerbol_capture);
 	    graph.addEdge(edges.kerbol_capture_low_kerbol_orbit, nodes.kerbol_capture, nodes.low_kerbol_orbit);
 	    graph.addEdge(edges.low_kerbol_orbit_kerbol_landing, nodes.low_kerbol_orbit, nodes.kerbol);
@@ -20396,8 +20414,8 @@
 	    }
 	  };
 	
-	  this.defaultStartNode = "Low Kerbin Orbit";
-	  this.defaultEndNode = "Mun";
+	  this.defaultStartNode = "Kerbin";
+	  this.defaultEndNode = "Keostationary Orbit";
 	
 	  this.nodes = {
 	    kerbin: new _node2.default('Kerbin'),
