@@ -29,7 +29,8 @@ describe("one-way trips from kerbin", () => {
   describe("to munar space", () => {
     let kerbin_to_low_munar_orbit_delta_v = edges.low_kerbin_orbit.value +
       edges.low_kerbin_orbit_mun_transfer.value +
-      edges.mun_transfer_low_mun_orbit.value;
+      edges.mun_transfer_mun_capture.value +
+      edges.mun_capture_low_mun_orbit.value;
 
     it("calulates the delta-v to munar orbit", () => {
       let totalValue = graph.walk(nodes.kerbin, nodes.low_mun_orbit);
