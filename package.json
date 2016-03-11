@@ -6,6 +6,7 @@
   "repository": "https://github.com/hoorayimhelping/delta-v",
   "scripts": {
     "test": "mocha",
+    "lint": "eslint src/*.js src/**/*.js",
     "build": "webpack --config webpack.config.dev.js",
     "watch": "webpack --config webpack.config.dev.js --progress --colors --watch"
   },
@@ -14,12 +15,13 @@
   "devDependencies": {
     "babel": "^6.5.1",
     "babel-core": "^6.5.1",
+    "babel-eslint": "^5.0.0",
     "babel-loader": "^6.2.2",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.4.1",
-    "git-guppy": "^1.0.0",
+    "eslint": "~2.2.0",
     "jstransform": "^11.0.3",
     "jsx-loader": "^0.13.2",
     "loader-utils": "^0.2.12",
